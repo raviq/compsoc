@@ -10,9 +10,9 @@ Toolkit to benchmark social mechanisms. The toolkit supports the definition of v
 - profile.py: All voting rules are defined and extended in class Profile.
 - utils.py :  Rendering utils.
 
-### Example
+### Usage
 ```
-python3.9 run.py
+python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations voters_model
 ```
 
 ## Requirements
