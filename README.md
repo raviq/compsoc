@@ -3,7 +3,7 @@
 
 ## Description
 
-This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. The whole flow is illustrated below.
+This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
 
 ![Overview](./figures/Overview.png)
 
