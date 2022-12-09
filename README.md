@@ -2,11 +2,12 @@
 # Computational Social Choice Toolkit [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
-Toolkit to run and and benchmark social choice rules. The toolkit supports the definition of voting rules as well as the generation of different populations of voters.
+
+This is a Python toolkit for the study and benchmarking voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit supports the definition of voting rules as well as the generation of different populations of voters.
 
 ## Files
 
-
+The main files of the package are:
 
 | File | Description |
 | ---- | --- |
@@ -21,11 +22,11 @@ python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations voters_model
 ```
 ### Examples
 
-In order to run 10 trials for Dowdall, Simpson, Copeland, and Borda rules for 5 candidates and 100 voters generated with random ballots run the command
+To run 10 trials with `Dowdall`, `Simpson`, `Copeland`, and `Borda` rules for 5 candidates and 100 voters with random votes, run the command:
 ```
 python3.9 run.py 5 100 10 "random"
 ```
-The visual result is genrated in `figures/scores_random.png`
+The visual result is generated in `figures/scores_random.png`
 
 ![RandRule](figures/scores_random.png)
  
