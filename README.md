@@ -38,8 +38,8 @@ generate_random_votes(number_voters, number_candidates)
 generate_gaussian_votes(mu, stdv, number_voters, number_candidates)
 ```
 
-3. Dirichlet-Multinomial, implemented in 
-```pythoh
+3. Dirichlet-Multinomial distribution of the votes, implemented in 
+```python
 generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
 ```
 
