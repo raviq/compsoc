@@ -67,6 +67,8 @@ The visual result is generated in `figures/scores_random.png`
 
 <img src="./figures/scores_random.png" style="height:60%; width:60%"/>
 
+Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
+
 ```
 python3.9 run.py 5 100 10 "multinomial_dirichlet"
 ```
