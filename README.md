@@ -5,7 +5,7 @@
 
 This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
 
-<img src="./figures/Overview.png" style="height:70%; width:70%"/>
+<img src="./figures/Overview.png" style="height:80%; width:80%"/>
 
 
 ### Voting rules
@@ -65,7 +65,7 @@ python3.9 run.py 5 100 10 "random"
 ```
 The visual result is generated in `figures/scores_random.png`
 
-<img src="./figures/scores_random.png" style="height:70%; width:70%"/>
+<img src="./figures/scores_random.png" style="height:80%; width:80%"/>
 
 ## Dependencies
 * Python3.9
