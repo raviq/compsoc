@@ -1,7 +1,7 @@
 """
 Voting Models
-Generatation of the ballots of the voters according to different generative models.
-Results are probaiblity distributions over votes
+Definition of the ballots of the voters according to different generative models.
+Results are probabilisty distributions over votes.
 """
 
 import random

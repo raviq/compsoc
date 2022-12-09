@@ -3,13 +3,13 @@
 
 ## Description
 
-This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
+This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
 
 <img src="./figures/Overview.png" style="height:70%; width:70%"/>
 
 
 ### Voting rules
-Our voting rules are defined in terms of socres. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented as following.
+Our voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented as following.
 
 ```python
 def borda(self, candidate):
@@ -23,10 +23,11 @@ def borda(self, candidate):
 Scores could be defined in `profile.py`.
 
 ### Voter Models
-In general, voters rank the candidates according to ordinal preferences that are often defined as permutations over the set of candidates. Such preference could be defined in different ways. In the following we defined them according to 3 methods.
+In general, voters rank the candidates according to ordinal preferences that are often defined as permutations over the set of candidates. Such preference could be defined in different ways. In the following we define the distribution of the votes according to 3 methods.
+
 1. Random Preferences: each voter is assigned a random permutation over the set of candidates.
 2. Gaussian distribution of the votes: the votes of the voters are normally distributed
-3. Dirichlet-Multinomial distribution of the votes 
+3. Dirichlet-Multinomial distribution of the votes
 
 ## Files
 
@@ -51,7 +52,7 @@ python3.9 run.py 5 100 10 "random"
 The visual result is generated in `figures/scores_random.png`
 
 <img src="./figures/scores_random.png" style="height:70%; width:70%"/>
- 
+
 ## Dependencies
 * Python3.9
 * Numpy

@@ -1,5 +1,5 @@
 """
-Voting rules
+Add voting rules to the Profile class.
 """
 
 import sys
