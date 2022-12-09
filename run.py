@@ -1,5 +1,6 @@
 """
 Entry point of the voting tournament.
+
 Rafik Hadfi <rafik.hadfi@gmail.com>
 """
 
@@ -61,7 +62,7 @@ def evaluate_voting_rules(num_candidates, num_voters, voters_model="random", ver
         elected_candidates = list(map(lambda x: x[0], ranking))
 
         print ("Ranking based on '{}' gives {} with winners {}".format(rule_name, ranking, elected_candidates))
-        print ("=====================================================================================")
+        print ("======================================================================")
 
         U, Un = 0., 0.
         print ("Counts \t Ballot \t Utility of first")
@@ -80,7 +81,8 @@ def main():
     parser.add_argument("num_candidates", type=int, help="Number of candidates")
     parser.add_argument("num_voters", type=int, help="Number of voters")
     parser.add_argument("num_iterations", type=int, help="Number of iterations")
-    parser.add_argument("voters_model", type=str, help="Model for the generation of voters, either \"random\" or \"multinomial_dirichlet\"")
+    parser.add_argument("voters_model", type=str, help="Model for the generation of voters,"
+                        "either \"random\" or \"multinomial_dirichlet\"")
     parser.add_argument("-v", "--verbose", action="store_true", help="Increases output verbosity")
     args = parser.parse_args()
 

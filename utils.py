@@ -1,5 +1,8 @@
 """
-Utils to plot the final results, and other.
+Utils
+----------------
+- Plotting scores
+- Converters
 """
 
 import pandas as pd
@@ -25,7 +28,8 @@ def plot_final_results(name, results, num_voters, num_candidates, number_iterati
     plt.title("{} voters voting for {} {}-candidates\n {} iterations".format(num_voters, num_candidates, name, number_iterations))
     plt.savefig("figures/scores_{}.png".format(name), format='png', dpi=500)
 
-# int str converters
+# int-str converters
+
 def int_list_to_str(l):
     return ','.join(map(str, l))
 
