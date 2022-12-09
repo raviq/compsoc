@@ -5,10 +5,15 @@
 Toolkit to run and and benchmark social choice rules. The toolkit supports the definition of voting rules as well as the generation of different populations of voters.
 
 ## Files
-- run.py: This is the main entry point. Takes the `num_candidates`, `num_voters`, `number_iterations`, voters_models arguments in main().
-- models.py: Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Dirichlet models.
-- profile.py: All voting rules are defined and extended in the `Profile` class.
-- utils.py :  Rendering utils.
+
+
+
+| File | Description |
+| ---- | --- |
+| [**run.py**](./run.py) | This is the main entry point. Takes the `num_candidates`, `num_voters`, `number_iterations`, voters_models arguments in main()  |
+| [**models.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Dirichlet models. |
+| [**profile.py**](./profile.py) | All voting rules are defined and extended in the `Profile` class. |
+| [**utils.py**](./utils.py) |  Rendering utils. |
 
 ### Usage
 ```
@@ -24,14 +29,12 @@ The visual result is genrated in `figures/scores_random.png`
 
 ![RandRule](figures/scores_random.png)
  
-## Requirements
-```
-Python3.9
-Numpy
-Matplotlib
-tqdm
-pandas
-```
+## Dependencies
+* Python3.9
+* Numpy
+* Matplotlib
+* Pandas
+* [Tqdm](https://github.com/tqdm/tqdm)
 
 ## Licence & Copyright
 This software was developed in the hope that it would be of some use to the agent research community, and is freely available for redistribution and/or modification under the terms of the GNU General Public Licence. It is distributed WITHOUT WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the [GNU General Public License](https://github.com/raviq/Genon/blob/master/LICENCE.md) for more details.
