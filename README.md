@@ -39,7 +39,8 @@ generate_gaussian_votes(mu, stdv, number_voters, number_candidates)
 ```
 
 3. Dirichlet-Multinomial, implemented in 
-```pythoh generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
+```pythoh
+generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
 ```
 
 ## Files
