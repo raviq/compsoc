@@ -2,7 +2,7 @@
 # Computational Social Choice Toolkit [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
-Toolkit to benchmark social mechanisms. The toolkit supports the definition of voting rules as well as the generation of different voter populations.
+Toolkit to benchmark social choice rules. The toolkit supports the definition of voting rules as well as the generation voter populations.
 
 ## Code
 - run.py:     Entry point. Run after setting up the num_candidates, num_voters, number_iterations, voters_models in main().
