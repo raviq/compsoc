@@ -10,7 +10,7 @@ Toolkit to run and and benchmark social choice rules. The toolkit supports the d
 
 | File | Description |
 | ---- | --- |
-| [**run.py**](./run.py) | This is the main entry point. Takes the `num_candidates`, `num_voters`, `number_iterations`, voters_models arguments in main()  |
+| [**run.py**](./run.py) | This is the main entry point. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, and the model `voters_model` to generate the voters' population. |
 | [**models.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Dirichlet models. |
 | [**profile.py**](./profile.py) | All voting rules are defined and extended in the `Profile` class. |
 | [**utils.py**](./utils.py) |  Rendering utils. |
