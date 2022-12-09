@@ -3,7 +3,9 @@
 
 ## Description
 
-This is a Python toolkit for the study and benchmarking of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programatically define the voting rules as well as the distributions of the voters.
+This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. The whole flow is illustrated below.
+
+[Overview](./figures/Overview.png)
 
 ### Voting rules
 Our voting rules are defined in terms of socres. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented as following.
