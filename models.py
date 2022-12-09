@@ -1,7 +1,9 @@
 """
-Voting Models
+Voter models
+----------------
+
 Definition of the ballots of the voters according to different generative models.
-Results are probabilisty distributions over votes.
+Results are probabilistic distributions over votes.
 """
 
 import random
