@@ -12,13 +12,13 @@ This is a Python toolkit for the study of voting rules used in [computational so
 Our voting rules are defined in terms of socres. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented as following.
 
 ```python
-    def borda(self, candidate):
-        # Max score to be applied with borda count
-        top_score = len(self.candidates) - 1
-        # Get pairwise scores
-        scores = [n_votes * (top_score - ballot.index(candidate)) for n_votes, ballot in self.pairs]
-        # Return the total score
-        return sum(scores)
+def borda(self, candidate):
+    # Max score to be applied with borda count
+    top_score = len(self.candidates) - 1
+    # Get pairwise scores
+    scores = [n_votes * (top_score - ballot.index(candidate)) for n_votes, ballot in self.pairs]
+    # Return the total score
+    return sum(scores)
 ```
 Scores could be defined in `profile.py`.
 
