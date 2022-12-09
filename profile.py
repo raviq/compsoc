@@ -103,16 +103,10 @@ class Profile():
         return sum(scores)
 
     def my_new_borda(self, candidate):
-        # symmetric borda
-        """
-        Symmetric borda score for a candidate
-        Arguments:
-        candidate -- base candidate for scoring
-        """
-        # Get pairwise scores
-        scores = [self.net_preference(candidate, m) for m in self.candidates]
-        # Return the total score
-        return sum(scores)
+
+        # TODO
+
+        return 0
 
     def borda(self, candidate):
         """
