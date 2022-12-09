@@ -35,7 +35,7 @@ def evaluate_voting_rules(num_candidates, num_voters, voters_model="random", ver
         alpha = (1.1, 2.5, 3.8, 2.1, 1.3)
         ballots = generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
     elif voters_model == "gaussian":
-        mu, stdv = 4, 10 # Depends on 'num_voters'
+        mu, stdv = 2, 1 # Depends on 'num_voters'
         ballots = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
     elif voters_model == "random":
         ballots = generate_random_votes(num_voters, num_candidates)
@@ -51,7 +51,7 @@ def evaluate_voting_rules(num_candidates, num_voters, voters_model="random", ver
                 profile.simpson,
                 profile.copeland,
                 profile.borda,
-                profile.my_new_borda
+                #profile.my_new_borda
             ]
     # Generating results
     result = {}
@@ -60,27 +60,28 @@ def evaluate_voting_rules(num_candidates, num_voters, voters_model="random", ver
         ranking = profile.ranking(rule)
         elected_candidates = list(map(lambda x: x[0], ranking))
 
-        print ("Ranking based on '{}': {}, yielding: {}".format(rule_name, ranking, elected_candidates))
-        print ("======================================================================================================")
+        print ("Ranking based on '{}' gives {} with winners {}".format(rule_name, ranking, elected_candidates))
+        print ("=====================================================================================")
 
-        U, UU = 0., 0.
+        U, Un = 0., 0.
+        print ("Counts \t Ballot \t Utility of first")
         for counts, ballot in profile.pairs:
             # Utility of the ballot given elected_candidates, multipled by its counts
-            u, uu = voter_subjective_utility_for_elected_candidate(elected_candidates, ballot)
-            print (counts, ballot, u)
+            u, un = voter_subjective_utility_for_elected_candidate(elected_candidates, ballot)
+            print ("%s \t %s \t %s" % (counts, ballot, u))
             U += counts * u
-            UU += counts * uu
+            Un += counts * un
         print ("Total : ", U)
-        result[rule.__name__] = {'top' : U, 'topn' : UU}
+        result[rule.__name__] = {'top' : U, 'topn' : Un}
     return result
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("num_candidates", type=int, help="number of candidates")
-    parser.add_argument("num_voters", type=int, help="number of voters")
-    parser.add_argument("num_iterations", type=int, help="number of iterations")
-    parser.add_argument("voters_model", type=str, help="models for the generation of voters, either \"random\" or \"multinomial_dirichlet\"")
-    parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
+    parser.add_argument("num_candidates", type=int, help="Number of candidates")
+    parser.add_argument("num_voters", type=int, help="Number of voters")
+    parser.add_argument("num_iterations", type=int, help="Number of iterations")
+    parser.add_argument("voters_model", type=str, help="Model for the generation of voters, either \"random\" or \"multinomial_dirichlet\"")
+    parser.add_argument("-v", "--verbose", action="store_true", help="Increases output verbosity")
     args = parser.parse_args()
 
     results = {}

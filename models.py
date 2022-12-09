@@ -1,6 +1,7 @@
 """
 Voting Models
 Generatation of the ballots of the voters according to different generative models.
+Results are probaiblity distributions over votes
 """
 
 import random
@@ -40,8 +41,17 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
     prob /= prob.sum()
     dist = number_voters * prob
     dist = np.array(list(map(int, dist)))
+
     # Remove rankings with 0 occurence
     ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
+
+    print ("> ", dist)
+    print ("number_candidates = ", number_candidates)
+
+    print ("ballots:\n", ballots)
+    exit()
+
+
     if plot_save:
         fig, ax = plt.subplots()
         dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
