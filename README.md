@@ -28,9 +28,19 @@ In general, voters rank the candidates according to preferences that are often d
 
 Another way to define the voter models is to assume that the votes follow particular distributions. In the following, we define the distribution of the votes according to 3 methods.
 
-1. Random distribution of the votes, implemented in ```python generate_random_votes(number_voters, number_candidates)```
-2. Gaussian distribution of the votes, implemented in ```python generate_gaussian_votes(mu, stdv, number_voters, number_candidates)```
-3. Dirichlet-Multinomial, implemented in ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)```
+1. Random distribution of the votes, implemented in 
+```python
+generate_random_votes(number_voters, number_candidates)
+```
+
+2. Gaussian distribution of the votes, implemented in 
+```python
+generate_gaussian_votes(mu, stdv, number_voters, number_candidates)
+```
+
+3. Dirichlet-Multinomial, implemented in 
+```pythoh generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
+```
 
 ## Files
 
