@@ -52,7 +52,7 @@ def evaluate_voting_rules(num_candidates, num_voters, voters_model="random", ver
                 profile.simpson,
                 profile.copeland,
                 profile.borda,
-                #profile.my_new_borda
+                profile.my_new_borda
             ]
     # Generating results
     result = {}
