@@ -20,7 +20,7 @@ Our voting rules are defined in terms of socres. That is, the rule takes a candi
         # Return the total score
         return sum(scores)
 ```
-Other scores are defined in 'profile.py'.
+Scores could be defined in `profile.py`.
 
 ### Voter Models
 In general, voters rank the candidates according to ordinal preferences that are often defined as permutations over the set of candidates. Such preference could be defined in different ways. In the following we defined them according to 3 methods.
