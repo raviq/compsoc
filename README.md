@@ -88,4 +88,4 @@ This software was developed in the hope that it would be of some use to the agen
 
 If you find this code to be of any use, please let me know. I would also welcome any feedback.
 
-Copyright (c) 2022 Rafik Hadfi, rafik.hadfi [at] gmail [dot] com
+Copyright (c) 2022 Rafik Hadfi, rafik [dot] hadfi [at] gmail [dot] com
