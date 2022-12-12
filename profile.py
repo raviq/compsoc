@@ -102,7 +102,7 @@ class Profile():
         # Return the total score
         return sum(scores)
 
-    def my_new_rule(self, candidate):
+    def XXX_rule(self, candidate):
 
         # TODO
 
