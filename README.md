@@ -15,7 +15,8 @@ def borda(self, candidate):
     # Max score to be applied with borda count
     top_score = len(self.candidates) - 1
     # Get pairwise scores
-    scores = [n_votes * (top_score - ballot.index(candidate)) for n_votes, ballot in self.pairs]
+    scores = [n_votes * (top_score - ballot.index(candidate))
+                for n_votes, ballot in self.pairs]
     # Return the total score
     return sum(scores)
 ```
