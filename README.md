@@ -1,9 +1,9 @@
 <a  name="_"></a>
-# Computational Social Choice Toolkit [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+# Computational Social Choice Competition (COMPSOC) Toolkit [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
 
-This is a Python toolkit for the study of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
+This is a Python toolkit for the study and benchmarking of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
 
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
 
