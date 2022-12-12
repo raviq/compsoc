@@ -7,7 +7,6 @@ This is a Python toolkit for the benchmarking of voting rules used in [computati
 
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
 
-
 ### Voting rules
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented in `profile.py` as following.
 
@@ -24,21 +23,21 @@ def borda(self, candidate):
 Other scores could be re-defined in `profile.py`.
 
 ### Voter Models
-In general, voters rank the candidates according to preferences that are often defined as permutations over the set of candidates. Such preferences could be defined in different ways. 
+In general, voters rank the candidates according to preferences that are often defined as permutations over the set of candidates. Such preferences could be defined in different ways.
 
 Another way to define the voter models is to assume that the votes follow particular distributions. In the following, we define the distribution of the votes according to 3 methods.
 
-1. Random distribution of the votes, implemented in 
+1. Random distribution of the votes, implemented in
 ```python
 generate_random_votes(number_voters, number_candidates)
 ```
 
-2. Gaussian distribution of the votes, implemented in 
+2. Gaussian distribution of the votes, implemented in
 ```python
 generate_gaussian_votes(mu, stdv, number_voters, number_candidates)
 ```
 
-3. Dirichlet-Multinomial distribution of the votes, implemented in 
+3. Dirichlet-Multinomial distribution of the votes, implemented in
 ```python
 generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
 ```
