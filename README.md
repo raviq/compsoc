@@ -84,7 +84,7 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 * [Tqdm](https://github.com/tqdm/tqdm)
 
 ## Licence & Copyright
-This software was developed in the hope that it would be of some use to the agent research community, and is freely available for redistribution and/or modification under the terms of the GNU General Public Licence. It is distributed WITHOUT WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the [GNU General Public License](https://github.com/raviq/Genon/blob/master/LICENCE.md) for more details.
+This software was developed in the hope that it would be of some use to the AI research community, and is freely available for redistribution and/or modification under the terms of the GNU General Public Licence. It is distributed WITHOUT WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the [GNU General Public License](https://github.com/raviq/Genon/blob/master/LICENCE.md) for more details.
 
 If you find this code to be of any use, please let me know. I would also welcome any feedback.
 
