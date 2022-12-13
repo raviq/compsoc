@@ -10,9 +10,11 @@
 
 ## Description
 
-This is a Python toolkit for the benchmarking of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The rules apply to populations of intelligent agents possessing parametric preference profiles. The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
+This is a Python toolkit for the benchmarking of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). We particularly look at how voting rules would aggregate the collective decisions of populations of intelligent agents possessing parametric preferences and distributions. The toolkit allows you to programmatically define the `voting rules` as well as the distributions of the voters, defined as `voter models`. This is illustrated below.
 
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
+
+The competitors would implement voting rules using the Python API (1). Given the chosen domain and axioms of the competition, we generate the population of the voters using voter models that specify how the voters' preferences are defined and how the voters are distributed. Once the voters and the rules are set, we run several trials and generate the results of the votes. Finally, We evaluate the voting rules based on the social welfare they provide to the voters.
 
 ### Voting rules
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented in `profile.py` as following.
