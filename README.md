@@ -1,10 +1,12 @@
 <a  name="_"></a>
 
-<p align="center">
+<center>
+<p>
   <a href="https://github.com/raviq/compsoc">
     <img alt="compsoc" src="./figures/Logo.png" style="height:30%; width:30%">
   </a>
 </p>
+</center>
 
 # Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -74,7 +76,9 @@ python3.9 run.py 5 100 10 "random"
 ```
 The visual result is generated in `figures/scores_random.png`
 
+<center>
 <img src="./figures/scores_random.png" style="height:60%; width:60%"/>
+</center>
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
@@ -83,7 +87,9 @@ python3.9 run.py 5 100 10 "multinomial_dirichlet"
 ```
 The result is generated in `figures/scores_multinomial_dirichlet.png`
 
+<center>
 <img src="./figures/scores_multinomial_dirichlet.png" style="height:60%; width:60%"/>
+</center>
 
 ## Dependencies
 * Python3.9
