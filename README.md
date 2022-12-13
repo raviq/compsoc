@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/raviq/compsoc">
-    <img alt="simultra" src="./figures/compsoc.png" width="200">
+    <img alt="compsoc" src="./figures/compsoc.png" width="200">
   </a>
 </p>
 
