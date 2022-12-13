@@ -33,7 +33,7 @@ def borda(self, candidate):
 Other scores could be re-defined in `profile.py`.
 
 ### Voter Models
-In general, voters rank the candidates according to preferences that are often defined as permutations over the set of candidates. Such preferences could be defined in different [ways] (https://github.com/raviq/Genon).
+In general, voters rank the candidates according to preferences that are often defined as permutations over the set of candidates. Such preferences could be defined in different [ways](https://github.com/raviq/Genon).
 
 Another way to define the voter models is to assume that the votes follow particular distributions. In the following, we define the distribution of the votes according to 3 methods.
 
