@@ -1,4 +1,11 @@
 <a  name="_"></a>
+
+<p align="center">
+  <a href="https://github.com/raviq/compsoc">
+    <img alt="simultra" src="./figures/compsoc.png" width="200">
+  </a>
+</p>
+
 # Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
