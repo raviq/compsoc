@@ -10,7 +10,7 @@
 
 ## Description
 
-This is a Python toolkit for the benchmarking of voting rules used in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). We particularly look at how voting rules would aggregate the collective decisions of populations of intelligent agents possessing parametric preferences and distributions. The toolkit allows you to programmatically define the [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) as well as the distributions of the voters, defined as [voter models](https://en.wikipedia.org/wiki/Voter_model). This is illustrated below.
+This is a Python toolkit for the benchmarking of the voting rules studied in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). We particularly look at how voting rules would aggregate the collective decisions of populations of intelligent agents possessing parametric preferences and distributions. The toolkit allows you to programmatically define the [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) as well as the distributions of the voters, defined as [voter models](https://en.wikipedia.org/wiki/Voter_model). This is illustrated below.
 
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
 
