@@ -16,7 +16,7 @@ This is a Python toolkit for the benchmarking of the voting rules studied in [co
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
 </p>
 
-First, the competitors implement their voting rules using the Python API (1). Given the chosen domain and axioms of the competition, we generate the population of the voters using voter models that specify how the preferences of the voters are defined and how the sub-populations of the voters are distributed (2). Once the voters and the rules are set, we run several trials and generate the results of the votes (3). Finally, We evaluate the voting rules (4) based on metrics such as social welfare or distortion (Procaccia and Rosenschein 2006, Caragiannis and Procaccia 2011, Boutillier 2012).
+First, the competitors implement their voting rules using the Python SDK (1). Given the chosen domain and axioms of the competition, we generate the population of the voters using voter models that specify how the preferences of the voters are defined and how the sub-populations of the voters are distributed (2). Once the voters and the rules are set, we run several trials and generate the results of the votes (3). Finally, We evaluate the voting rules (4) based on metrics such as social welfare or distortion (Procaccia and Rosenschein 2006, Caragiannis and Procaccia 2011, Boutillier 2012).
 
 ### Voting rules
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented in `profile.py` as following.
