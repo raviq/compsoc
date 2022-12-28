@@ -65,6 +65,8 @@ The main files of the package are:
 | [**utils.py**](./utils.py) |  Rendering utils. |
 
 ### Usage
+
+Run on the terminal the command 
 ```
 python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations voters_model
 ```
