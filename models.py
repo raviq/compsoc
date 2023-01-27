@@ -47,13 +47,6 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
     # Remove rankings with 0 occurence
     ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
 
-    print ("> ", dist)
-    print ("number_candidates = ", number_candidates)
-
-    print ("ballots:\n", ballots)
-    exit()
-
-
     if plot_save:
         fig, ax = plt.subplots()
         dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
