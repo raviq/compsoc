@@ -1,23 +1,18 @@
 """
-Voting rules
-----------------
-
-Add voting rules to the Profile class.
+Voting profiles
 """
 
 import sys
-import math
-import copy
-import numpy
-from itertools import combinations, permutations
+import numpy as np
+from itertools import combinations
 
 sys.setrecursionlimit(1000000)
 
 class Profile():
     """
-    We define a profile as tuple (number of votes, ballot) with the
-    number of times the vote occurs and the corresponding ballot
-    defined as some ordering of the candidates.
+    Profile is a tuple (number of votes, ballot) with the umber
+    of times the vote occurs and the corresponding ballot defined
+    as some ordering of the candidates.
     For instance:
         votes = Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
     means 17 people like candidate 1 the most, then candidate 3 in the second
@@ -84,67 +79,6 @@ class Profile():
         # Apply AND in all elements
         return all(preferred)
 
-    #---------------------------------------------
-    # Voting rules
-    #---------------------------------------------
-
-    def copeland(self, candidate):
-        """
-        Computes the Copeland score for a candidate.
-        Arguments:
-        candidate -- base candidate for scoring
-        """
-        # Get pairwise scores
-        scores = list()
-        for m in self.candidates:
-            preference = self.net_preference(candidate, m)      # preference over m
-            scores.append(numpy.sign(preference))               # win or not
-        # Return the total score
-        return sum(scores)
-
-    def XXX_rule(self, candidate):
-
-        # TODO
-
-        return 0
-
-    def borda(self, candidate):
-        """
-        Computes the Borda score for a candidate.
-        Arguments:
-        candidate -- base candidate for scoring
-        """
-        # Max score to be applied with borda count
-        top_score = len(self.candidates) - 1
-        # Get pairwise scores
-        scores = [n_votes * (top_score - ballot.index(candidate)) for n_votes, ballot in self.pairs]
-        # Return the total score
-        return sum(scores)
-
-    def dowdall(self, candidate):
-        """
-        Computes the Dowdall score for a candidate.
-        Arguments:
-        candidate -- base candidate for scoring
-        """
-        # Max score to be applied with borda count
-        top_score = len(self.candidates) - 1
-        # Get pairwise scores
-        scores = [n_votes * ((top_score - ballot.index(candidate)) / (ballot.index(candidate) + 1)) for n_votes, ballot in self.pairs]
-        # Return the total score
-        return sum(scores)
-
-    def simpson(self, candidate):
-        """
-        Computes the Simpson score for a candidate.
-        Arguments:
-        candidate -- base candidate for scoring
-        """
-        # Get pairwise scores
-        scores = [self.net_preference(candidate, m) for m in self.candidates - {candidate}]
-        # Return the minimum score in scores
-        return min(scores)
-
     def ranking(self, scorer):
         """
         Returns a set of candidate winners according to some score function
@@ -200,7 +134,7 @@ class Profile():
         if n == 0:
             return 0
         # Preference is n_votes * n / abs(n)
-        return n_votes * numpy.sign(n)
+        return n_votes * np.sign(n)
 
     def __calc_net_preference(self):
         """ Create a Net Preference Graph. """
@@ -324,12 +258,12 @@ class Profile():
         for n_votes, ballot in self.pairs:
             for i in range(n_votes):
                 ranks.append(list(ballot))
-        ranks = numpy.array(ranks)
-        edge_weights = numpy.zeros((n_candidates, n_candidates))
+        ranks = np.array(ranks)
+        edge_weights = np.zeros((n_candidates, n_candidates))
         for i, j in combinations(range(n_candidates), 2):
             preference = ranks[:, i] - ranks[:, j]
-            h_ij = numpy.sum(preference < 0)  # prefers i to j
-            h_ji = numpy.sum(preference > 0)  # prefers j to i
+            h_ij = np.sum(preference < 0)  # prefers i to j
+            h_ji = np.sum(preference > 0)  # prefers j to i
             if h_ij > h_ji:
                 edge_weights[i, j] = h_ij - h_ji
             elif h_ij < h_ji:

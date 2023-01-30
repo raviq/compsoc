@@ -64,26 +64,26 @@ The main files of the package are:
 
 ### Usage
 ```
-python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations voters_model
+python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
 ```
 ### Examples
 
 To run 10 trials with `Dowdall`, `Simpson`, `Copeland`, and `Borda` rules for 5 candidates and 100 voters with random votes, run the command:
 ```
-python3.9 run.py 5 100 10 "random"
+python3.9 run.py 5 100 20 2 "random"
 ```
 The visual result is generated in `figures/scores_random.png`
 
-<img src="./figures/scores_random.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_random_20.png" style="height:60%; width:60%"/>
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
 ```
-python3.9 run.py 5 100 10 "multinomial_dirichlet"
+python3.9 run.py 5 100 10 3 "multinomial_dirichlet"
 ```
 The result is generated in `figures/scores_multinomial_dirichlet.png`
 
-<img src="./figures/scores_multinomial_dirichlet.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 
 ## Dependencies
 * Python3.9
@@ -97,4 +97,4 @@ This software was developed in the hope that it would be of some use to the AI r
 
 If you find this code to be of any use, please let me know. I would also welcome any feedback.
 
-Copyright (c) 2022 Rafik Hadfi, rafik [dot] hadfi [at] gmail [dot] com
+Copyright (c) 2023 Rafik Hadfi, rafik [dot] hadfi [at] gmail [dot] com

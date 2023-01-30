@@ -1,7 +1,5 @@
 """
 Voter models
-----------------
-
 Definition of the ballots of the voters according to different generative models.
 Results are probabilistic distributions over votes.
 """
@@ -19,19 +17,10 @@ from utils import *
 def generate_random_votes(number_voters, number_candidates):
     # Random generation of votes over candidates
     L = list(range(number_candidates))
-    votes = []
-    for vi in range(number_voters):
-        random.seed()
-        L = random.sample(L, number_candidates)
-        votes.append(L)
-    d = {}
-    for v in votes:
-        sv = int_list_to_str(v)
-        d[sv] = (d[sv] + 1) if sv in d else 1
-    ballots = []
-    for k, v in d.items():
-        kl = list(map(int, k.split(",")))
-        ballots.append((v, kl))
+    votes = [random.sample(L, number_candidates) for vi in range(number_voters)]
+    vote_strs = [int_list_to_str(vote) for vote in votes]
+    vote_counts = Counter(vote_strs)
+    ballots = [(count, list(map(int, vote.split(",")))) for vote, count in vote_counts.items()]
     return ballots
 
 def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_save=True):
@@ -43,17 +32,8 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
     prob /= prob.sum()
     dist = number_voters * prob
     dist = np.array(list(map(int, dist)))
-
     # Remove rankings with 0 occurence
     ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
-
-    print ("> ", dist)
-    print ("number_candidates = ", number_candidates)
-
-    print ("ballots:\n", ballots)
-    exit()
-
-
     if plot_save:
         fig, ax = plt.subplots()
         dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
@@ -65,7 +45,7 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
         ax.set_xticklabels(map(int_list_to_str, V))
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         plt.title(r"{} voters, {} candidates, $\mu={}, \sigma={}$".format(number_voters, number_candidates, mu, stdv))
-        plt.savefig('figures/Votes_gaussian_distrib.png', format='png', dpi=500)
+        plt.savefig('figures/Votes_gaussian_distribution.png', format='png', dpi=500)
     return ballots
 
 def generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates):
@@ -100,6 +80,3 @@ def test_dirichlet():
     num_candidates = len(alpha_candidates)
     ballots = generate_multinomial_dirichlet_votes(alpha_candidates, num_voters, num_candidates)
     pprint(ballots)
-
-# test_gaussian()
-# test_dirichlet()
