@@ -78,13 +78,9 @@ python3.9 run.py 5 100 20 2 "random"
 ```
 The visual result is generated in `figures/scores_random.png`
 
-<<<<<<< HEAD
-<img src="./figures/scores_5_100_random_20.png" style="height:60%; width:60%"/>
-=======
 <p align="center">
-<img src="./figures/scores_random.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_random_20.png" style="height:60%; width:60%"/>
 </p>
->>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
@@ -93,13 +89,9 @@ python3.9 run.py 5 100 10 3 "multinomial_dirichlet"
 ```
 The result is generated in `figures/scores_multinomial_dirichlet.png`
 
-<<<<<<< HEAD
-<img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
-=======
 <p align="center">
-<img src="./figures/scores_multinomial_dirichlet.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 </p>
->>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8
 
 ## Dependencies
 * Python3.9
