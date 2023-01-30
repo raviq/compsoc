@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/raviq/compsoc">
-    <img alt="compsoc" src="./figures/Logo.png" style="height:30%; width:30%">
+    <img alt="compsoc" src="./figures/misc/Logo.png" style="height:30%; width:30%">
   </a>
 </p>
   
