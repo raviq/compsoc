@@ -5,16 +5,18 @@
     <img alt="compsoc" src="./figures/Logo.png" style="height:30%; width:30%">
   </a>
 </p>
-
+  
 # Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
 
-This is a Python toolkit for the benchmarking of the voting rules studied in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). We particularly look at how voting rules would aggregate the collective decisions of populations of intelligent agents possessing parametric preferences and distributions. The toolkit allows you to programmatically define the [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) as well as the distributions of the voters, defined as [voter models](https://en.wikipedia.org/wiki/Voter_model). This is illustrated below.
+This is a Python toolkit for the benchmarking of the voting rules studied in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice). The question here is on how voting rules would aggregate the collective decisions of populations of intelligent agents possessing parametric preferences and distributions. The toolkit allows you to programmatically define the [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) as well as the distributions of the voters, defined as [voter models](https://en.wikipedia.org/wiki/Voter_model). This is illustrated below.
 
+<p align="center">
 <img src="./figures/Overview.png" style="height:80%; width:80%"/>
+</p>
 
-First, the competitors implement their voting rules using the Python API (1). Given the chosen domain and axioms of the competition, we generate the population of the voters using voter models that specify how the preferences of the voters are defined and how the sub-populations of the voters are distributed (2). Once the voters and the rules are set, we run several trials and generate the results of the votes (3). Finally, We evaluate the voting rules (4) based on metrics such as social welfare or distortion (Procaccia and Rosenschein 2006, Caragiannis and Procaccia 2011, Boutillier 2012).
+First, the competitors implement their voting rules using the Python SDK (1). Given the chosen domain and axioms of the competition, we generate the population of the voters using voter models that specify how the preferences of the voters are defined and how the sub-populations of the voters are distributed (2). Once the voters and the rules are set, we run several trials and generate the results of the votes (3). Finally, We evaluate the voting rules (4) based on metrics such as social welfare or distortion (Procaccia and Rosenschein 2006, Caragiannis and Procaccia 2011, Boutillier 2012).
 
 ### Voting rules
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented in `profile.py` as following.
@@ -63,6 +65,8 @@ The main files of the package are:
 | [**utils.py**](./utils.py) |  Rendering utils. |
 
 ### Usage
+
+Run on the terminal the command 
 ```
 python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
 ```
@@ -74,7 +78,13 @@ python3.9 run.py 5 100 20 2 "random"
 ```
 The visual result is generated in `figures/scores_random.png`
 
+<<<<<<< HEAD
 <img src="./figures/scores_5_100_random_20.png" style="height:60%; width:60%"/>
+=======
+<p align="center">
+<img src="./figures/scores_random.png" style="height:60%; width:60%"/>
+</p>
+>>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
@@ -83,7 +93,13 @@ python3.9 run.py 5 100 10 3 "multinomial_dirichlet"
 ```
 The result is generated in `figures/scores_multinomial_dirichlet.png`
 
+<<<<<<< HEAD
 <img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
+=======
+<p align="center">
+<img src="./figures/scores_multinomial_dirichlet.png" style="height:60%; width:60%"/>
+</p>
+>>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8
 
 ## Dependencies
 * Python3.9

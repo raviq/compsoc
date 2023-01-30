@@ -34,6 +34,10 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
     dist = np.array(list(map(int, dist)))
     # Remove rankings with 0 occurence
     ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
+<<<<<<< HEAD:voter_model.py
+=======
+
+>>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8:models.py
     if plot_save:
         fig, ax = plt.subplots()
         dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
