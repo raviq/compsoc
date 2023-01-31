@@ -22,12 +22,15 @@ First, the competitors implement their voting rules using the Python SDK (1). Gi
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its score. The obtained scores for all of the candidates could then be used to determine the winner(s). For instance, the `Borda` score is implemented in `profile.py` as following.
 
 ```python
-def borda(self, candidate):
+def borda_rule(candidate: int) -> int:
+    """
+    Parameters: candidate (base candidate for scoring)
+    """
     # Max score to be applied with borda count
-    top_score = len(self.candidates) - 1
+    top_score = len(profile.candidates) - 1
     # Get pairwise scores
-    scores = [n_votes * (top_score - ballot.index(candidate))
-                for n_votes, ballot in self.pairs]
+    scores = [n_votes * (top_score - ballot.index(candidate)) 
+                for n_votes, ballot in profile.pairs]
     # Return the total score
     return sum(scores)
 ```
