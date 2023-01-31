@@ -5,17 +5,18 @@ Results are probabilistic distributions over votes.
 """
 
 import random
-from pprint import pprint
 import numpy as np
 import scipy.stats as ss
 import matplotlib.pylab as plt
+from pprint import pprint
 from itertools import permutations, chain
 from collections import Counter
 from matplotlib.ticker import MaxNLocator
+from typing import List, Tuple, Optional
 from utils import *
 
-def generate_random_votes(number_voters, number_candidates):
-    # Random generation of votes over candidates
+def generate_random_votes(  number_voters: int, 
+                            number_candidates: int) -> List[Tuple[int, List[int]]]:
     L = list(range(number_candidates))
     votes = [random.sample(L, number_candidates) for vi in range(number_voters)]
     vote_strs = [int_list_to_str(vote) for vote in votes]
@@ -23,7 +24,11 @@ def generate_random_votes(number_voters, number_candidates):
     ballots = [(count, list(map(int, vote.split(",")))) for vote, count in vote_counts.items()]
     return ballots
 
-def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_save=True):
+def generate_gaussian_votes(mu: float,
+                            stdv: float,
+                            number_voters: int,
+                            number_candidates: int,
+                            plot_save: Optional[bool]=True) -> List[Tuple[int, List[int]]]:
     # Gaussian generation of votes over candidates
     V = list(permutations(range(number_candidates)))
     x = np.arange(-len(V)/2., len(V)/2.)
@@ -34,10 +39,6 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
     dist = np.array(list(map(int, dist)))
     # Remove rankings with 0 occurence
     ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
-<<<<<<< HEAD:voter_model.py
-=======
-
->>>>>>> 7a9021bb361a4e43779531538b0331dd4ca05db8:models.py
     if plot_save:
         fig, ax = plt.subplots()
         dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
@@ -52,7 +53,9 @@ def generate_gaussian_votes(mu, stdv, number_voters, number_candidates, plot_sav
         plt.savefig('figures/Votes_gaussian_distribution.png', format='png', dpi=500)
     return ballots
 
-def generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates):
+def generate_multinomial_dirichlet_votes(   alpha: List[float],
+                                            num_voters: int,
+                                            num_candidates: int) -> List[Tuple[int, List[int]]]:
     # Dirichlet Multinomial generation of votes over candidates
     candidates = list(range(1, num_candidates+1))
     P =  np.random.dirichlet(alpha, size = 1).tolist()[0]
