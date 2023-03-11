@@ -4,12 +4,10 @@ Voting profiles
 
 import sys
 from itertools import combinations
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
-
-from schemas import Pair
 
 sys.setrecursionlimit(1000000)
 
@@ -19,34 +17,31 @@ class Profile:
     VotingProfile is a set of tuples, {(no. of occurences, ballot),...},
     wherein the ballot is defined as some ordering of the candidates.
     For instance:
-        votes = VotingProfile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
+        votes = VotingProfile([(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
     means 17 people like candidate 1 the most, then candidate 3 in the second
     position, then candidate 2 in the third position, and so on.
 
     Properties:
-        pairs -- set of (number of votes, ballot)
-        candidates -- candidates in ballots
+        pairs -- set of pairs e.g. (number of votes, ballot)
+        candidates -- set of candidates in ballots
         total_votes -- total number of votes
         net_preference_graph -- represents the preference net
         votes_per_candidate -- total votes for each candidate
     """
 
-    def __init__(self, pairs: List[Pair], num_candidates: None | int = None):
+    def __init__(self, pairs: List[Tuple[int, Tuple[int, ...]]], num_candidates: None | int = None):
         self.pairs = pairs
-        if num_candidates is not None:
-            # Get set of candidates from num_candidates
-            self.candidates = set(range(1, num_candidates + 1))
-        else:
-            # Get set of candidates from first ballot
-            self.candidates = set(pairs[0].ballot)
-        self.total_votes = sum(p.frequency for p in pairs)
+        # num_candidates might be passed when a file with voting data is parsed
+        # otherwise get candidates from ballot of first pair
+        self.candidates = set(range(1, num_candidates + 1)) if num_candidates else set(pairs[0][1])
+        # Sum the frequencies of all the pairs
+        self.total_votes = sum(pair[0] for pair in pairs)
         # Create a Net Preference Graph
         self.__calc_net_preference()
         # Set votes_per_candidate for Plurality
         self.__calc_votes_per_candidate()
         # Initialize a Path Preference Graph
-        self.path_preference_graph = {candidate: {} for candidate in
-                                      self.candidates}
+        self.path_preference_graph = {candidate: {} for candidate in self.candidates}
 
     # ---------------------------------------------
     # Comparison routines
@@ -72,7 +67,7 @@ class Profile:
         """
         # A boolean list as candidate1 preferred
         preferred = [
-            pair.ballot.index(candidate1) < pair.ballot.index(candidate2) for
+            pair[1].index(candidate1) < pair[1].index(candidate2) for
             pair in
             self.pairs]
         # Apply AND on all elements in list
@@ -158,11 +153,11 @@ class Profile:
                 preferences = []
                 # For each pair of voting
                 for pair in self.pairs:
-                    if candidate1 in pair.ballot and candidate2 in pair.ballot:
-                        candidate1_index = pair.ballot.index(candidate1)
-                        candidate2_index = pair.ballot.index(candidate2)
+                    if candidate1 in pair[1] and candidate2 in pair[1]:
+                        candidate1_index = pair[1].index(candidate1)
+                        candidate2_index = pair[1].index(candidate2)
 
-                        pref = self.__preference(pair.frequency,
+                        pref = self.__preference(pair[0],
                                                  candidate2_index,
                                                  candidate1_index)
                         preferences.append(pref)  # save preference
@@ -186,7 +181,7 @@ class Profile:
                 {candidate: 0 for candidate in self.candidates})
             # For each ballot's candidate, add votes
             for pair in self.pairs:
-                self.votes_per_candidate[i][pair.ballot[i]] += pair.frequency
+                self.votes_per_candidate[i][pair[1][i]] += pair[0]
 
     def __calc_path_preference(self):
         """Computes paths' strengths for Schulze method."""
@@ -267,8 +262,8 @@ class Profile:
         n_candidates = len(self.candidates)
         ranks = []
         for pair in self.pairs:
-            for i in range(pair.frequency):
-                ranks.append(list(pair.ballot))
+            for i in range(pair[0]):
+                ranks.append(list(pair[1]))
         ranks = np.array(ranks)
         edge_weights = np.zeros((n_candidates, n_candidates))
         for i, j in combinations(range(n_candidates), 2):
@@ -296,7 +291,7 @@ class Profile:
                 else:
                     num_voters, order = line.split(":")
                     ballot = tuple(order.strip().split(","))
-                    pair = Pair(frequency=num_voters, ballot=ballot)
+                    pair = (num_voters, ballot)
                     pairs.append(pair)
         if not set:
             print("No votes found in file")
@@ -334,13 +329,12 @@ class Profile:
         # Pairs -> [(ballot, number of votes)...]
         pairs = list(ballots.items())
         # Transform -> [(number of votes, ballot)...]
-        pairs = list(map(lambda x: Pair(frequency=x[1], ballot=x[0]), pairs))
         # Cast to set and return as a VotingProfile
         return cls(pairs)
 
     def __str__(self):
         ballot_distribution = "Ballots:\n" + "\n".join(
-            [f"\t{pair.frequency} instances of ballot {pair.ballot}" for pair in
+            [f"\t{pair[0]} instances of ballot {pair[1]}" for pair in
              self.pairs])
         candidates = "Candidates:\n\t" + str(self.candidates)
         total_votes = "Total number of votes:\n\t" + str(self.total_votes)
