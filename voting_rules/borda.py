@@ -1,20 +1,20 @@
 """
 Computes the Borda score for a candidate.
 """
-from typing import Callable, Set
+from decorators import rename
 
-def create_rule(profile: Set[int]) -> Callable[[int], int]:
-    def borda_rule(candidate: int) -> int:
-        """
-        Parameters: candidate (base candidate for scoring)
-        """
-        # Max score to be applied with borda count
-        top_score = len(profile.candidates) - 1
 
-        # Get pairwise scores
-        scores = [n_votes * (top_score - ballot.index(candidate)) for n_votes, ballot in profile.pairs]
+@rename("Borda")
+def borda_rule(profile, candidate: int) -> int:
+    """
+    Parameters: candidate (base candidate for scoring)
+    """
+    # Max score to be applied with borda count
+    top_score = len(profile.candidates) - 1
 
-        # Return the total score
-        return sum(scores)
-    borda_rule.__name__ = 'borda'
-    return borda_rule
+    # Get pairwise scores
+    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
+              pair in profile.pairs]
+
+    # Return the total score
+    return sum(scores)

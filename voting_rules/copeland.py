@@ -1,19 +1,18 @@
 """
 Computes the Copeland score for a candidate.
 """
-from typing import Callable, Set
 import numpy as np
+from decorators import rename
 
-def create_rule(profile: Set[int]) -> Callable[[int], int]:
-    def copeland_rule(candidate: int) -> int:
-        """
-        Parameters: candidate (base candidate for scoring)
-        """
-        scores = list()
-        for m in profile.candidates:
-            preference = profile.net_preference(candidate, m) # preference over m
-            scores.append(np.sign(preference))                # win or not
-        # Return the total score
-        return sum(scores)
-    copeland_rule.__name__ = 'copeland'
-    return copeland_rule
+@rename("Copeland")
+def copeland_rule(profile, candidate: int) -> int:
+    """
+    Parameters: candidate (base candidate for scoring)
+    """
+    scores = []
+    for m in profile.candidates:
+        preference = profile.get_net_preference(candidate,
+                                                m)  # preference over m
+        scores.append(np.sign(preference))  # win or not
+    # Return the total score
+    return sum(scores)

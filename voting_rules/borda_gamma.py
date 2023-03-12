@@ -2,15 +2,21 @@
 Variation on Borda, with a decay (gamma).
 Author: Shunsuke O.
 """
-from typing import Callable, Set
+from decorators import rename
+from typing import Callable
 
-def create_rule(profile: tuple, gamma: float = 0.5) -> Callable[[int], float]:
-    def borda_gamma(candidate: int) -> float:
+
+def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
+    @rename(f"Borda Gamma ({gamma})")
+    def borda_gamma(profile, candidate: int) -> float:
         """
+        Variation on Borda, with a decay (gamma).
+        Author: Shunsuke O.
         Parameters: candidate (base candidate for scoring)
         """
-        scores = [n_votes * (gamma ** ballot.index(candidate))
-                    for n_votes, ballot in profile.pairs]
+        scores = [pair[0] * (gamma ** pair[1].index(candidate))
+                  for pair in profile.pairs]
         return sum(scores)
-    borda_gamma.__name__ = f'borda({gamma})'
+
     return borda_gamma
+

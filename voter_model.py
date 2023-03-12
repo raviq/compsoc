@@ -9,59 +9,62 @@ import numpy as np
 import scipy.stats as ss
 import matplotlib.pylab as plt
 from pprint import pprint
-from itertools import permutations, chain
+from itertools import permutations
 from collections import Counter
 from matplotlib.ticker import MaxNLocator
 from typing import List, Tuple, Optional
-from utils import *
+from utils import int_list_to_str
 
-def generate_random_votes(  number_voters: int, 
-                            number_candidates: int) -> List[Tuple[int, List[int]]]:
-    L = list(range(number_candidates))
-    votes = [random.sample(L, number_candidates) for vi in range(number_voters)]
+
+def generate_random_votes(number_voters: int,
+                          number_candidates: int) -> List[Tuple[int, Tuple[int, ...]]]:
+    candidate_list = list(range(number_candidates))
+    votes = [random.sample(candidate_list, number_candidates) for vi in range(number_voters)]
     vote_strs = [int_list_to_str(vote) for vote in votes]
     vote_counts = Counter(vote_strs)
-    ballots = [(count, list(map(int, vote.split(",")))) for vote, count in vote_counts.items()]
+    ballots = [(count, tuple(map(int, vote.split(',')))) for vote, count in vote_counts.items()]
     return ballots
+
 
 def generate_gaussian_votes(mu: float,
                             stdv: float,
-                            number_voters: int,
-                            number_candidates: int,
-                            plot_save: Optional[bool]=True) -> List[Tuple[int, List[int]]]:
+                            num_voters: int,
+                            num_candidates: int,
+                            plot_save: Optional[bool] = True) -> List[Tuple[int, Tuple[int, ...]]]:
     # Gaussian generation of votes over candidates
-    V = list(permutations(range(number_candidates)))
-    x = np.arange(-len(V)/2., len(V)/2.)
-    xU, xL = x + mu, x - mu
-    prob = ss.norm.cdf(xU, scale = stdv) - ss.norm.cdf(xL, scale = stdv) #scale specifies stdev
+    ballot_permutations = list(permutations(range(num_candidates)))
+    x = np.arange(-len(ballot_permutations) / 2., len(ballot_permutations) / 2.)
+    x_u, x_l = x + mu, x - mu
+    prob = ss.norm.cdf(x_u, scale=stdv) - ss.norm.cdf(x_l, scale=stdv)  # scale specifies stdev
     prob /= prob.sum()
-    dist = number_voters * prob
+    dist = num_voters * prob
     dist = np.array(list(map(int, dist)))
     # Remove rankings with 0 occurence
-    ballots = [(dist[i], list(V[i])) for i,_ in enumerate(x) if dist[i]]
+    ballots = [(int(dist[i]), tuple(ballot_permutations[i])) for i, _ in enumerate(x) if dist[i]]
     if plot_save:
-        fig, ax = plt.subplots()
-        dist_non_null_index = np.array([i for i,x in enumerate(dist) if x])
+        _, ax = plt.subplots()
+        dist_non_null_index = np.array([i for i, x in enumerate(dist) if x])
         plt.plot(x[dist_non_null_index], dist[dist_non_null_index], 'b.-', lw=0.4)
         plt.grid(color='gray', linestyle='dashed', linewidth=0.1)
-        plt.xticks(np.arange(min(x), max(x)+1, 1.0), rotation=90, fontsize=5)
-        plt.xlabel("Votes")
-        plt.ylabel("Number of occurences")
-        ax.set_xticklabels(map(int_list_to_str, V))
+        plt.xticks(np.arange(min(x), max(x) + 1, 1.0), rotation=90, fontsize=5)
+        plt.xlabel('Votes')
+        plt.ylabel('Number of occurences')
+        ax.set_xticklabels(map(int_list_to_str, ballot_permutations))
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-        plt.title(r"{} voters, {} candidates, $\mu={}, \sigma={}$".format(number_voters, number_candidates, mu, stdv))
+        plt.title(rf'{num_voters} voters, {num_candidates} candidates, $\mu={mu}, $\sigma={stdv}$')
         plt.savefig('figures/Votes_gaussian_distribution.png', format='png', dpi=500)
     return ballots
 
-def generate_multinomial_dirichlet_votes(   alpha: List[float],
-                                            num_voters: int,
-                                            num_candidates: int) -> List[Tuple[int, List[int]]]:
+
+def generate_multinomial_dirichlet_votes(alpha: List[float],
+                                         num_voters: int,
+                                         num_candidates: int) -> List[Tuple[int, Tuple[int, ...]]]:
     # Dirichlet Multinomial generation of votes over candidates
-    candidates = list(range(1, num_candidates+1))
-    P =  np.random.dirichlet(alpha, size = 1).tolist()[0]
+    candidates = list(range(1, num_candidates + 1))
+    p = np.random.dirichlet(alpha, size=1).tolist()[0]
     votes = []
-    for i in range(num_voters):
-        vote = np.random.choice(candidates, size=num_candidates, replace=False, p=P)
+    for _ in range(num_voters):
+        vote = np.random.choice(candidates, size=num_candidates, replace=False, p=p)
         vote = list(vote)
         votes.append(vote)
     ballots = []
@@ -74,12 +77,14 @@ def generate_multinomial_dirichlet_votes(   alpha: List[float],
             ballots.append((count, list(vote_tuple)))
     return ballots
 
+
 def test_gaussian():
     num_voters = 1000
     num_candidates = 4
     mu, stdv = 3, 10
     ballots = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
     pprint(ballots)
+
 
 def test_dirichlet():
     num_voters = 20
