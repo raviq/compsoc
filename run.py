@@ -84,17 +84,17 @@ def evaluate_voting_rules(num_candidates, num_voters, topn, voters_model):
         elected_candidates = [c[0] for c in ranking]
         print(f"Ranking based on '{rule_name}' gives {ranking} with winners {elected_candidates}")
         print("======================================================================")
-        u, u_n = 0., 0.
+        total_u, total_u_n = 0., 0.
         print("Counts \t Ballot \t Utility of first")
         for pair in profile.pairs:
             # Utility of the ballot given elected_candidates, multipled by its counts
-            u, un = voter_subjective_utility_for_elected_candidate(elected_candidates, pair[1],
-                                                                   topn=topn)
+            u, u_n = voter_subjective_utility_for_elected_candidate(elected_candidates, pair[1],
+                                                                    topn=topn)
             print("%s \t %s \t %s" % (pair[0], pair[1], u))
-            u += pair[0] * u
-            u_n += pair[0] * un
-        print("Total : ", u)
-        result[rule.__name__] = {"top": u, "topn": u_n}
+            total_u += pair[0] * u
+            total_u_n += pair[0] * u_n
+        print("Total : ", total_u)
+        result[rule.__name__] = {"top": total_u, "topn": total_u_n}
     return result
 
 
