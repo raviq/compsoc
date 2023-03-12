@@ -8,7 +8,6 @@ from typing import List, Tuple
 
 import numpy as np
 
-
 sys.setrecursionlimit(1000000)
 
 
@@ -17,7 +16,7 @@ class Profile:
     VotingProfile is a set of tuples, {(no. of occurences, ballot),...},
     wherein the ballot is defined as some ordering of the candidates.
     For instance:
-        votes = VotingProfile([(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
+        votes = Profile([(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
     means 17 people like candidate 1 the most, then candidate 3 in the second
     position, then candidate 2 in the third position, and so on.
 
@@ -152,12 +151,12 @@ class Profile:
                 # Preference list
                 preferences = []
                 # For each pair of voting
-                for pair in self.pairs:
-                    if candidate1 in pair[1] and candidate2 in pair[1]:
-                        candidate1_index = pair[1].index(candidate1)
-                        candidate2_index = pair[1].index(candidate2)
+                for freq, ballot in self.pairs:
+                    if candidate1 in ballot and candidate2 in ballot:
+                        candidate1_index = ballot.index(candidate1)
+                        candidate2_index = ballot.index(candidate2)
 
-                        pref = self.__preference(pair[0],
+                        pref = self.__preference(freq,
                                                  candidate2_index,
                                                  candidate1_index)
                         preferences.append(pref)  # save preference
@@ -180,8 +179,8 @@ class Profile:
             self.votes_per_candidate.append(
                 {candidate: 0 for candidate in self.candidates})
             # For each ballot's candidate, add votes
-            for pair in self.pairs:
-                self.votes_per_candidate[i][pair[1][i]] += pair[0]
+            for freq, ballot in self.pairs:
+                self.votes_per_candidate[i][ballot[i]] += freq
 
     def __calc_path_preference(self):
         """Computes paths' strengths for Schulze method."""
@@ -261,9 +260,9 @@ class Profile:
         """
         n_candidates = len(self.candidates)
         ranks = []
-        for pair in self.pairs:
-            for i in range(pair[0]):
-                ranks.append(list(pair[1]))
+        for freq, ballot in self.pairs:
+            for i in range(freq):
+                ranks.append(list(ballot))
         ranks = np.array(ranks)
         edge_weights = np.zeros((n_candidates, n_candidates))
         for i, j in combinations(range(n_candidates), 2):
