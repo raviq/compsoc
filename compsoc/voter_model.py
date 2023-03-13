@@ -13,7 +13,7 @@ from itertools import permutations
 from collections import Counter
 from matplotlib.ticker import MaxNLocator
 from typing import List, Tuple, Optional
-from utils import int_list_to_str
+from compsoc.utils import int_list_to_str
 
 
 def generate_random_votes(number_voters: int,
