@@ -16,5 +16,5 @@ setup(
         'Bug Tracker': "https://github.com/raviq/compsoc/issues"
     },
     license='GNU',
-    packages=['compsoc']
+    packages=['compsoc', 'compsoc.voting_rules']
 )
