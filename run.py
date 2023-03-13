@@ -11,15 +11,15 @@ import inspect
 from tqdm import trange
 from typing import List, Tuple
 from profile import Profile
-from utils import plot_final_results
-from voter_model import generate_multinomial_dirichlet_votes, generate_random_votes, \
+from compsoc.utils import plot_final_results
+from compsoc.voter_model import generate_multinomial_dirichlet_votes, generate_random_votes, \
     generate_gaussian_votes
 
-from voting_rules.borda import borda_rule
-from voting_rules.borda_gamma import get_borda_gamma
-from voting_rules.copeland import copeland_rule
-from voting_rules.dowdall import dowdall_rule
-from voting_rules.simpson import simpson_rule
+from compsoc.voting_rules.borda import borda_rule
+from compsoc.voting_rules.borda_gamma import get_borda_gamma
+from compsoc.voting_rules.copeland import copeland_rule
+from compsoc.voting_rules.dowdall import dowdall_rule
+from compsoc.voting_rules.simpson import simpson_rule
 
 
 def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tuple[int],
