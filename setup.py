@@ -5,7 +5,6 @@ setup(
     version='0.0.2',
     author='',
     author_email='',
-    py_modules=find_packages(),
     install_requires=[
         'Pandas',
         'Numpy',
