@@ -1,7 +1,7 @@
 """
 Computes the Dowdall score for a candidate.
 """
-from decorators import rename
+from compsoc.decorators import rename
 
 
 @rename("Dowdall")

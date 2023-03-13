@@ -2,7 +2,7 @@
 Variation on Borda, with a decay (gamma).
 Author: Shunsuke O.
 """
-from decorators import rename
+from compsoc.decorators import rename
 from typing import Callable
 
 
@@ -19,4 +19,3 @@ def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
         return sum(scores)
 
     return borda_gamma
-

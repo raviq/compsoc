@@ -2,7 +2,8 @@
 Computes the Copeland score for a candidate.
 """
 import numpy as np
-from decorators import rename
+from compsoc.decorators import rename
+
 
 @rename("Copeland")
 def copeland_rule(profile, candidate: int) -> int:
