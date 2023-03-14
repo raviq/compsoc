@@ -10,22 +10,6 @@ from compsoc.voting_rules.dowdall import dowdall_rule
 from compsoc.voting_rules.simpson import simpson_rule
 
 
-def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tuple[int],
-                                                   topn: int) -> tuple:
-    # Gain, based on original vote (utility) and elected candidate
-    # Given a particular vote structure (ranking), return its utility knowing the elected candidate
-    num_candidates = len(vote)
-    utility_increments = [(num_candidates - i) / (num_candidates * 1.0) for i in
-                          range(num_candidates)]
-    my_best = vote[0]  # utility for the top only
-    utility_for_top = utility_increments[elected.index(my_best)]
-    # Utility for my top n candidate
-    total_utility = 0.0
-    for i in range(topn):
-        total_utility += utility_increments[elected.index(vote[i])]
-    return utility_for_top, total_utility
-
-
 def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
     # Generating the ballots acsoring to some model
     if voters_model == "multinomial_dirichlet":
@@ -48,6 +32,22 @@ def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
     print(profile)
 
     return profile
+
+
+def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tuple[int],
+                                                   topn: int) -> tuple:
+    # Gain, based on original vote (utility) and elected candidate
+    # Given a particular vote structure (ranking), return its utility knowing the elected candidate
+    num_candidates = len(vote)
+    utility_increments = [(num_candidates - i) / (num_candidates * 1.0) for i in
+                          range(num_candidates)]
+    my_best = vote[0]  # utility for the top only
+    utility_for_top = utility_increments[elected.index(my_best)]
+    # Utility for my top n candidate
+    total_utility = 0.0
+    for i in range(topn):
+        total_utility += utility_increments[elected.index(vote[i])]
+    return utility_for_top, total_utility
 
 
 def get_rule_utility(profile: Profile,
