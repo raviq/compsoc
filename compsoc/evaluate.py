@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Any
 
 from compsoc.profile import Profile
 from compsoc.voter_model import generate_gaussian_votes, generate_multinomial_dirichlet_votes, \
@@ -50,7 +50,39 @@ def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
     return profile
 
 
-def evaluate_voting_rules(num_candidates, num_voters, topn, voters_model) -> dict:
+def get_rule_utility(profile, result, rule, topn, verbose=False):
+    rule_name = rule.__name__
+    ranking = profile.ranking(rule)
+    elected_candidates = [c[0] for c in ranking]
+    if verbose:
+        print(f"Ranking based on '{rule_name}' gives {ranking} with winners {elected_candidates}")
+        print("======================================================================")
+    total_u, total_u_n = 0., 0.
+    if verbose:
+        print("Counts \t Ballot \t Utility of first")
+    for pair in profile.pairs:
+        # Utility of the ballot given elected_candidates, multipled by its counts
+        u, u_n = voter_subjective_utility_for_elected_candidate(elected_candidates, pair[1],
+                                                                topn=topn)
+        if verbose:
+            print("%s \t %s \t %s" % (pair[0], pair[1], u))
+        total_u += pair[0] * u
+        total_u_n += pair[0] * u_n
+    if verbose:
+        print("Total : ", total_u)
+    result[rule.__name__] = {"top": total_u, "topn": total_u_n}
+
+
+def evaluate_voting_rules(num_candidates,
+                          num_voters,
+                          topn,
+                          voters_model,
+                          verbose: bool = False
+                          ) -> dict[str, dict[str, float]]:
+    #######################
+    # Loading the profile #
+    #######################
+
     profile = load_voter_model(num_candidates, num_voters, voters_model)
 
     ########################
@@ -69,20 +101,5 @@ def evaluate_voting_rules(num_candidates, num_voters, topn, voters_model) -> dic
 
     result = {}
     for rule in rules:
-        rule_name = rule.__name__
-        ranking = profile.ranking(rule)
-        elected_candidates = [c[0] for c in ranking]
-        print(f"Ranking based on '{rule_name}' gives {ranking} with winners {elected_candidates}")
-        print("======================================================================")
-        total_u, total_u_n = 0., 0.
-        print("Counts \t Ballot \t Utility of first")
-        for pair in profile.pairs:
-            # Utility of the ballot given elected_candidates, multipled by its counts
-            u, u_n = voter_subjective_utility_for_elected_candidate(elected_candidates, pair[1],
-                                                                    topn=topn)
-            print("%s \t %s \t %s" % (pair[0], pair[1], u))
-            total_u += pair[0] * u
-            total_u_n += pair[0] * u_n
-        print("Total : ", total_u)
-        result[rule.__name__] = {"top": total_u, "topn": total_u_n}
+        get_rule_utility(profile, result, rule, topn, verbose)
     return result
