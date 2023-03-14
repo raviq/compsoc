@@ -5,14 +5,15 @@ Results are probabilistic distributions over votes.
 """
 
 import random
+from collections import Counter
+from itertools import permutations
+from pprint import pprint
+from typing import List, Optional, Tuple
+
+import matplotlib.pylab as plt
 import numpy as np
 import scipy.stats as ss
-import matplotlib.pylab as plt
-from pprint import pprint
-from itertools import permutations
-from collections import Counter
 from matplotlib.ticker import MaxNLocator
-from typing import List, Tuple, Optional
 
 from compsoc.profile import Profile
 from compsoc.utils import int_list_to_str
