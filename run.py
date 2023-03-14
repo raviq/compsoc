@@ -11,7 +11,7 @@ import re
 
 from tqdm import trange
 
-from compsoc.utils import plot_final_results
+from compsoc.plot import plot_comparison_results
 from compsoc.evaluate import evaluate_voting_rules
 
 
@@ -46,8 +46,8 @@ def main():
     for i in trange(args.num_iterations):
         results[i] = evaluate_voting_rules(args.num_candidates, args.num_voters, args.num_topn,
                                            args.voters_model)
-    plot_final_results(args.voters_model, results, args.num_voters, args.num_candidates,
-                       args.num_topn, args.num_iterations)
+    plot_comparison_results(args.voters_model, results, args.num_voters, args.num_candidates,
+                            args.num_topn, args.num_iterations, save_figure=True)
 
 
 if __name__ == "__main__":
