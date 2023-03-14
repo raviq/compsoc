@@ -13,6 +13,8 @@ from itertools import permutations
 from collections import Counter
 from matplotlib.ticker import MaxNLocator
 from typing import List, Tuple, Optional
+
+from compsoc.profile import Profile
 from compsoc.utils import int_list_to_str
 
 
@@ -92,3 +94,30 @@ def test_dirichlet():
     num_candidates = len(alpha_candidates)
     ballots = generate_multinomial_dirichlet_votes(alpha_candidates, num_voters, num_candidates)
     pprint(ballots)
+
+
+def get_profile_from_model(num_candidates, num_voters, voters_model, verbose=False) -> Profile:
+    # Generating the ballots acsoring to some model
+    if voters_model == "multinomial_dirichlet":
+        # Random alphas might cause precision problems with the generation of P, when values are
+        # small
+        #   tuple(np.random.rand(1, num_candidates)[0])
+        # Instead, the population hyperparam should be set according the competition goals.
+        alpha = (1.1, 2.5, 3.8, 2.1, 1.3)
+        pairs = generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
+    elif voters_model == "gaussian":
+        mu, stdv = 2, 1  # Depends on 'num_voters'
+        pairs = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
+    elif voters_model == "random":
+        pairs = generate_random_votes(num_voters, num_candidates)
+    else:
+        # Default
+        pairs = generate_random_votes(num_voters, num_candidates)
+
+    # Setting up the profile with the generated ballots
+    profile = Profile(pairs)
+
+    if verbose:
+        print(profile)
+
+    return profile

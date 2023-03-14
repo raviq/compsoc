@@ -1,37 +1,12 @@
-from typing import List, Tuple, Any, Callable
+from typing import List, Tuple, Callable
 
 from compsoc.profile import Profile
-from compsoc.voter_model import generate_gaussian_votes, generate_multinomial_dirichlet_votes, \
-    generate_random_votes
+from compsoc.voter_model import get_profile_from_model
 from compsoc.voting_rules.borda import borda_rule
 from compsoc.voting_rules.borda_gamma import get_borda_gamma
 from compsoc.voting_rules.copeland import copeland_rule
 from compsoc.voting_rules.dowdall import dowdall_rule
 from compsoc.voting_rules.simpson import simpson_rule
-
-
-def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
-    # Generating the ballots acsoring to some model
-    if voters_model == "multinomial_dirichlet":
-        # Random alphas might cause precision problems with the generation of P, when values are
-        # small
-        #   tuple(np.random.rand(1, num_candidates)[0])
-        # Instead, the population hyperparam should be set according the competition goals.
-        alpha = (1.1, 2.5, 3.8, 2.1, 1.3)
-        pairs = generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
-    elif voters_model == "gaussian":
-        mu, stdv = 2, 1  # Depends on 'num_voters'
-        pairs = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
-    elif voters_model == "random":
-        pairs = generate_random_votes(num_voters, num_candidates)
-    else:
-        # Default
-        pairs = generate_random_votes(num_voters, num_candidates)
-    # Setting up the profile with the generated ballots
-    profile = Profile(pairs)
-    print(profile)
-
-    return profile
 
 
 def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tuple[int],
@@ -90,7 +65,7 @@ def evaluate_voting_rules(num_candidates,
     # Loading the profile #
     #######################
 
-    profile = load_voter_model(num_candidates, num_voters, voters_model)
+    profile = get_profile_from_model(num_candidates, num_voters, voters_model)
 
     ########################
     # Generating the rules #
