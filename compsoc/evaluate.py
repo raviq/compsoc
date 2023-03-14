@@ -50,7 +50,7 @@ def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
     return profile
 
 
-def evaluate_voting_rules(num_candidates, num_voters, topn, voters_model):
+def evaluate_voting_rules(num_candidates, num_voters, topn, voters_model) -> dict:
     profile = load_voter_model(num_candidates, num_voters, voters_model)
 
     ########################
