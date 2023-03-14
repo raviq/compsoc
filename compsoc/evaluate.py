@@ -1,4 +1,4 @@
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, Callable
 
 from compsoc.profile import Profile
 from compsoc.voter_model import generate_gaussian_votes, generate_multinomial_dirichlet_votes, \
@@ -50,7 +50,13 @@ def load_voter_model(num_candidates, num_voters, voters_model) -> Profile:
     return profile
 
 
-def get_rule_utility(profile, result, rule, topn, verbose=False):
+def get_rule_utility(profile: Profile,
+                     rule: Callable[[int], int | float],
+                     topn: int,
+                     verbose=False):
+    """
+    Get the total utility and "top n" utility for a given rule,
+    """
     rule_name = rule.__name__
     ranking = profile.ranking(rule)
     elected_candidates = [c[0] for c in ranking]
@@ -70,7 +76,8 @@ def get_rule_utility(profile, result, rule, topn, verbose=False):
         total_u_n += pair[0] * u_n
     if verbose:
         print("Total : ", total_u)
-    result[rule.__name__] = {"top": total_u, "topn": total_u_n}
+
+    return {"top": total_u, "topn": total_u_n}
 
 
 def evaluate_voting_rules(num_candidates,
@@ -101,5 +108,5 @@ def evaluate_voting_rules(num_candidates,
 
     result = {}
     for rule in rules:
-        get_rule_utility(profile, result, rule, topn, verbose)
+        result[rule.__name__] = get_rule_utility(profile, rule, topn, verbose)
     return result

@@ -44,8 +44,11 @@ def main():
     # Results
     results = {}
     for i in trange(args.num_iterations):
-        results[i] = evaluate_voting_rules(args.num_candidates, args.num_voters, args.num_topn,
-                                           args.voters_model)
+        results[i] = evaluate_voting_rules(args.num_candidates,
+                                           args.num_voters,
+                                           args.num_topn,
+                                           args.voters_model,
+                                           verbose=True)
     plot_comparison_results(args.voters_model, results, args.num_voters, args.num_candidates,
                             args.num_topn, args.num_iterations, save_figure=True)
 
