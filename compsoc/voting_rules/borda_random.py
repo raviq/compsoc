@@ -1,5 +1,5 @@
 import random
-from decorators import rename
+from compsoc.decorators import rename
 
 
 @rename("Borda Random Gamma")

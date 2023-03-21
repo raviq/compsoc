@@ -1,12 +1,16 @@
-#
-import os
-import importlib
-import pandas as pd
-import matplotlib.pylab as plt
 import numpy as np
+import pandas as pd
+from matplotlib import pylab as plt
+from matplotlib import use
+from base64 import b64encode
+from io import BytesIO
+
+use("Agg")  # Use non-interactive backend for mpl
 
 
-def plot_final_results(name, results, num_voters, num_candidates, num_topn, number_iterations):
+def plot_comparison_results(voter_model: str, results: dict, num_voters: int, num_candidates: int,
+                            num_topn: int,
+                            number_iterations: int, save_figure: bool = False):
     """
     Plot the mean scores for all voting rules
     name : str
@@ -25,15 +29,15 @@ def plot_final_results(name, results, num_voters, num_candidates, num_topn, numb
     df = pd.DataFrame(results_agg)
     df = df.set_index('rule')
     # Summarize the results using pivot_table
-    df_summary = df.pivot_table(values = ['top', 'topn'],
-                                index = df.index.get_level_values(0),
-                                aggfunc = {'top':  ['mean', 'std'],
+    df_summary = df.pivot_table(values=['top', 'topn'],
+                                index=df.index.get_level_values(0),
+                                aggfunc={'top': ['mean', 'std'],
                                          'topn': ['mean', 'std']})
     df_summary.columns = df_summary.columns.map('_'.join)
     # Plot the scores for all voting rules
     fig, axes = plt.subplots(1, 2, figsize=(10, 5))
     fig.subplots_adjust(bottom=0.25)
-    df_summary.plot(y = "top_mean",  yerr = "top_std",  legend = False,
+    df_summary.plot(y="top_mean", yerr="top_std", legend=False,
                     capsize=2, fmt='o-', color='b',
                     rot=90, ax=axes[0])
     axes[0].set_xticks(np.arange(len(df_summary)))
@@ -42,7 +46,7 @@ def plot_final_results(name, results, num_voters, num_candidates, num_topn, numb
     axes[0].set_ylabel("Mean scores")
     axes[0].set_title('Top mean')
     axes[0].grid(color='gray', linestyle='dashed', linewidth=0.1)
-    df_summary.plot(y = "topn_mean", yerr = "topn_std", legend = False,
+    df_summary.plot(y="topn_mean", yerr="topn_std", legend=False,
                     capsize=2, fmt='o-', color='g',
                     rot=90, ax=axes[1])
     axes[1].set_xticks(np.arange(len(df_summary)))
@@ -51,14 +55,16 @@ def plot_final_results(name, results, num_voters, num_candidates, num_topn, numb
     axes[1].set_ylabel("Mean scores")
     axes[1].set_title('Top{} mean'.format(num_topn))
     axes[1].grid(color='gray', linestyle='dashed', linewidth=0.1)
-    fig.suptitle("{} voters voting for {} {}-candidates\n {} iterations".format(num_voters, num_candidates, name, number_iterations))
-    plt.savefig(f"figures/scores_{num_candidates}_{num_voters}_{name}_{number_iterations}.png", format='png', dpi=500)
+    fig.suptitle(
+        f"{num_voters} voters voting for {num_candidates} {voter_model}-candidates\n "
+        f"{number_iterations} iterations")
+    if save_figure:
+        plt.savefig(
+            f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}.png",
+            format='png', dpi=500)
 
-# int-str converters
-def int_list_to_str(l):
-    return ','.join(map(str, l))
-
-def str_list_to_in(l):
-    return list(map(int, l.split(",")))
-
-#-- print (sorted(str_list_to_in('1,2,5,4,3,0,6')))
+    # Instantiate tmp file
+    tmpfile = BytesIO()
+    plt.savefig(tmpfile, format="png", dpi=300)
+    encoded = b64encode(tmpfile.getvalue()).decode("utf-8")
+    return encoded
