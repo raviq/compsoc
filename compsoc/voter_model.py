@@ -61,7 +61,7 @@ def generate_gaussian_votes(mu: float,
         plt.ylabel('Number of occurences')
         ax.set_xticklabels(map(int_list_to_str, ballot_permutations))
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-        plt.title(rf'{num_voters} voters, {num_candidates} candidates, $\mu={mu}, $\sigma={stdv}$')
+        plt.title(rf'{num_voters} voters, {num_candidates} candidates, $\mu={mu}, \sigma={stdv}$')
         plt.savefig('figures/Votes_gaussian_distribution.png', format='png', dpi=500)
     return ballots
 
@@ -73,7 +73,7 @@ def generate_multinomial_dirichlet_votes(alpha: Tuple[float, ...],
     Generates a list of pairs (count, vote) from a Dirichlet Multinomia model of voters.
     """
     if len(alpha) != num_candidates:
-        raise ValueError(f"Alpha should have {num_candidates} values, but has {len(alpha)}")
+        raise ValueError(f'Alpha should have {num_candidates} values, but has {len(alpha)}')
     candidates = list(range(num_candidates))
     p = np.random.dirichlet(alpha, size=1).tolist()[0]
     votes = [tuple(np.random.choice(candidates, size=num_candidates, replace=False, p=p))
@@ -101,17 +101,17 @@ def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str
     """
     Generates a list of pairs (count, vote) from a model of voters.
     """
-    if voters_model == "multinomial_dirichlet":
+    if voters_model == 'multinomial_dirichlet':
         # The population hyperparam should be set according the competition goals.
         # alpha = (1.1, 2.5, 3.8, 2.1, 1.3)
         # Random alphas might cause precision problems with the generation of P, when values are
         # small
         alpha = tuple(np.random.rand(1, num_candidates)[0])
         pairs = generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
-    elif voters_model == "gaussian":
+    elif voters_model == 'gaussian':
         mu, stdv = 2, 1  # Depends on 'num_voters'
         pairs = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
-    elif voters_model == "random":
+    elif voters_model == 'random':
         pairs = generate_random_votes(num_voters, num_candidates)
     else:
         pairs = generate_random_votes(num_voters, num_candidates)
