@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='compsoc',
-    version='0.3.0',
+    version='0.3.1',
     author='',
     author_email='',
     install_requires=[
