@@ -32,7 +32,7 @@ def generate_gaussian_votes(mu: float,
                             stdv: float,
                             num_voters: int,
                             num_candidates: int,
-                            plot_save: Optional[bool] = True) -> List[Tuple[int, Tuple[int, ...]]]:
+                            plot_save: Optional[bool] = False) -> List[Tuple[int, Tuple[int, ...]]]:
     # Gaussian generation of votes over candidates
     ballot_permutations = list(permutations(range(num_candidates)))
     x = np.arange(-len(ballot_permutations) / 2., len(ballot_permutations) / 2.)
