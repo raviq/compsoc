@@ -3,8 +3,9 @@ Voting profiles
 """
 
 import sys
+from collections import Counter
 from itertools import combinations
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 import numpy as np
 
@@ -16,7 +17,7 @@ class Profile:
     VotingProfile is a set of tuples, {(no. of occurences, ballot),...},
     wherein the ballot is defined as some ordering of the candidates.
     For instance:
-        votes = Profile([(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
+        votes = Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
     means 17 people like candidate 1 the most, then candidate 3 in the second
     position, then candidate 2 in the third position, and so on.
 
@@ -28,11 +29,12 @@ class Profile:
         votes_per_candidate -- total votes for each candidate
     """
 
-    def __init__(self, pairs: List[Tuple[int, Tuple[int, ...]]], num_candidates: None | int = None):
+    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: None | int = None):
         self.pairs = pairs
         # num_candidates might be passed when a file with voting data is parsed
         # otherwise get candidates from ballot of first pair
-        self.candidates = set(range(1, num_candidates + 1)) if num_candidates else set(pairs[0][1])
+        self.candidates = set(range(0, num_candidates)) if num_candidates \
+            else set(list(pairs)[0][1])
         # Sum the frequencies of all the pairs
         self.total_votes = sum(pair[0] for pair in pairs)
         # Create a Net Preference Graph
@@ -74,7 +76,7 @@ class Profile:
 
     def score(self, scorer) -> List[tuple[int, float]]:
         """
-        Returns a set of candidate according to some score function.
+        Returns a set of candidate scores according to some score function.
         Arguments:
         :param scorer: Score function (Borda, Copeland etc.)
         :return: a sorted list of (candidate, score)
@@ -115,58 +117,51 @@ class Profile:
         return set(winners)
 
     @staticmethod
-    def __preference(num_votes, candidate1_index,
-                     candidate2_index) -> int:
+    def __preference(num_votes, candidate_1_index, candidate_2_index) -> int:
         """
         Computes the preference between 2 candidates and returns
         the preference according to the number of votes.
         :param num_votes: Number of votes
-        :param candidate1_index: Index of first candidate
-        :param candidate2_index: Index of second candidate
+        :param candidate_1_index: Index of first candidate
+        :param candidate_2_index: Index of second candidate
         :return: The preference value
         """
-        n = candidate1_index - candidate2_index
+        n = candidate_1_index - candidate_2_index
         # Exception: if n is equal to 0, preference is 0,
-        # i.e, candidates with same index
-        if n == 0:
-            return 0
-        # Preference is num_votes * n / abs(n)
-        return num_votes * np.sign(n)
+        # otherwise preference is num_votes * sign(n)
+        return 0 if n == 0 else num_votes * np.sign(n)
 
     def __calc_net_preference(self):
-        """ Create a Net Preference Graph. """
-        # Create an iterable for candidates
+        """
+        Create a Net Preference Graph.
+        """
         candidates = list(self.candidates)
-        # Number of candidates
         num_candidates = len(candidates)
-        # Initialize graph
-        self.net_preference_graph = {candidate: {} for candidate in
-                                     candidates}
+        self.net_preference_graph = {candidate: {} for candidate in candidates}
         for i in range(num_candidates):
-            # Get candidate1
-            candidate1 = candidates[i]
+            candidate_1 = candidates[i]
             for j in range(i, num_candidates):
-                # Get candidate2
-                candidate2 = candidates[j]
+                candidate_2 = candidates[j]
                 # Preference list
                 preferences = []
-                # For each pair of voting
+                # For each pair of voting data
                 for freq, ballot in self.pairs:
-                    if candidate1 in ballot and candidate2 in ballot:
-                        candidate1_index = ballot.index(candidate1)
-                        candidate2_index = ballot.index(candidate2)
+                    # If both candidates are in the ballot
+                    if candidate_1 in ballot and candidate_2 in ballot:
+                        candidate_1_index = ballot.index(candidate_1)
+                        candidate_2_index = ballot.index(candidate_2)
 
                         pref = self.__preference(freq,
-                                                 candidate2_index,
-                                                 candidate1_index)
+                                                 candidate_2_index,
+                                                 candidate_1_index)
                         preferences.append(pref)  # save preference
                 # Computes the preference
                 preference = sum(preferences)
                 # Save preferences
                 # candidate1 VS candidate2
-                self.net_preference_graph[candidate1][candidate2] = preference
+                self.net_preference_graph[candidate_1][candidate_2] = preference
                 # candidate2 VS candidate1
-                self.net_preference_graph[candidate2][candidate1] = -preference
+                self.net_preference_graph[candidate_2][candidate_1] = -preference
 
     def __calc_votes_per_candidate(self):
         """Computes total votes per each candidate for each rank position"""
@@ -305,31 +300,9 @@ class Profile:
                    (voter's 3 ranked candidates) ... ]
         :return: VotingProfile, a set of (number of votes, candidates ranked)
         """
-        num_voters = len(choices)  # number of voters
-        if not isinstance(choices[0][0], tuple):  # it's not indexed
-            # INDEX CHOICES, i.e., name candidates
-            # For each classification, create
-            # [(candidate1, rank1), (candidate2, rank2)...]
-            choices = list(map(lambda x: list(enumerate(x)), choices))
-        # ORDER each classification in descending order
-        choices = list(
-            map(lambda x: sorted(x, key=lambda y: y[1], reverse=True), choices))
-        # GROUP choices with same ordering (same preference order)
-        # Empty dict for save pairs -> {'preference order': number of voters}
-        ballots = {}
-        # For each classification...
-        for i in range(num_voters):
-            key, _ = zip(*choices[i])  # get only candidates' names as key
-            key = tuple(key)  # cast to tuple to use as dict's key
-            # Counts the classifications with same ordering
-            ballots[key] = ballots.get(key, 0) + 1
-
-        # DATA FOR PROFILE
-        # Pairs -> [(ballot, number of votes)...]
-        pairs = list(ballots.items())
-        # Transform -> [(number of votes, ballot)...]
-        # Cast to set and return as a VotingProfile
-        return cls(pairs)
+        vote_counts = Counter(choices)
+        pairs = [(count, choice) for choice, count in vote_counts.items()]
+        return cls(set(pairs))
 
     def __str__(self):
         ballot_distribution = "Ballots:\n" + "\n".join(
