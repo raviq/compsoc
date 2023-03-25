@@ -33,7 +33,7 @@ class Profile:
         self.pairs = pairs
         # num_candidates might be passed when a file with voting data is parsed
         # otherwise get candidates from ballot of first pair
-        self.candidates = set(range(1, num_candidates + 1)) if num_candidates \
+        self.candidates = set(range(0, num_candidates)) if num_candidates \
             else set(list(pairs)[0][1])
         # Sum the frequencies of all the pairs
         self.total_votes = sum(pair[0] for pair in pairs)
