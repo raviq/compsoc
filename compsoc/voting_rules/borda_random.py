@@ -1,8 +1,9 @@
+"""
+Borda random
+"""
 import random
-from compsoc.decorators import rename
 
 
-@rename("Borda Random Gamma")
 def borda_random_gamma(profile, candidate: int) -> float:
     """
     Variation on Borda, with a decay (gamma).

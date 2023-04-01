@@ -1,10 +1,8 @@
 """
 Computes the Dowdall score for a candidate.
 """
-from compsoc.decorators import rename
 
 
-@rename("Dowdall")
 def dowdall_rule(profile, candidate: int) -> int:
     """
     Parameters: candidate (base candidate for scoring)

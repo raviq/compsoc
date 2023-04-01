@@ -1,10 +1,8 @@
 """
 Computes the Borda score for a candidate.
 """
-from compsoc.decorators import rename
 
 
-@rename("Borda")
 def borda_rule(profile, candidate: int) -> int:
     """
     Parameters: candidate (base candidate for scoring)

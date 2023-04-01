@@ -2,12 +2,10 @@
 Variation on Borda, with a decay (gamma).
 Author: Shunsuke O.
 """
-from compsoc.decorators import rename
 from typing import Callable
 
 
 def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
-    @rename(f"Borda Gamma ({gamma})")
     def borda_gamma(profile, candidate: int) -> float:
         """
         Variation on Borda, with a decay (gamma).

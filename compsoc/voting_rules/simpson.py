@@ -1,10 +1,8 @@
 """
 Computes the Simpson score for a candidate.
 """
-from compsoc.decorators import rename
 
 
-@rename("Simpson")
 def simpson_rule(profile, candidate: int) -> int:
     """
     Calculates the minimum pairwise score of a candidate using the Simpson rule.
