@@ -5,7 +5,14 @@ Computes the Dowdall score for a candidate.
 
 def dowdall_rule(profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Dowdall score for a candidate based on a profile.
+
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Dowdall score for the candidate.
+    :rtype: int
     """
     top_score = len(profile.candidates) - 1
     # Get pairwise scores

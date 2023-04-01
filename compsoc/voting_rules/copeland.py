@@ -6,7 +6,14 @@ import numpy as np
 
 def copeland_rule(profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Copeland score for a candidate based on a profile.
+
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Copeland score for the candidate.
+    :rtype: int
     """
     scores = []
     for m in profile.candidates:

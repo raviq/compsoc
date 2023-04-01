@@ -6,11 +6,26 @@ from typing import Callable
 
 
 def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
+    """
+    Returns a callable function for the Borda gamma method with the specified gamma.
+
+    :param gamma: The decay factor for Borda gamma, defaults to 0.5.
+    :type gamma: float, optional
+    :return: A callable function for the Borda gamma method.
+    :rtype: Callable[[int], float]
+    """
+
     def borda_gamma(profile, candidate: int) -> float:
         """
-        Variation on Borda, with a decay (gamma).
-        Author: Shunsuke O.
-        Parameters: candidate (base candidate for scoring)
+        Calculates the Borda gamma (decay) score for a candidate
+        based on a profile. Author: Shunsuke O.
+
+        :param profile: The voting profile.
+        :type profile: VotingProfile
+        :param candidate: The base candidate for scoring.
+        :type candidate: int
+        :return: The Borda gamma score for the candidate.
+        :rtype: float
         """
         scores = [pair[0] * (gamma ** pair[1].index(candidate))
                   for pair in profile.pairs]
