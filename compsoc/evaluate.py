@@ -57,8 +57,7 @@ def get_rule_utility(profile: Profile,
     :type topn: int
     :param verbose: Print additional information if True, defaults to False.
     :type verbose: bool, optional
-    :return: A dictionary containing the total utility for the top candidate and the total
-    utility for top n candidates.
+    :return: A dictionary containing the total utility for the top candidate and the total utility for top n candidates.
     :rtype: dict[str, float]
     """
     rule_name = rule.__name__
