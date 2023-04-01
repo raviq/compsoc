@@ -14,22 +14,32 @@ sys.setrecursionlimit(1000000)
 
 class Profile:
     """
-    VotingProfile is a set of tuples, {(no. of occurences, ballot),...},
-    wherein the ballot is defined as some ordering of the candidates.
-    For instance:
-        votes = Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
+    A class to represent a voting profile as a set of tuples, where each tuple
+    consists of the number of occurrences and a ballot (an ordering of the candidates).
+    For example, a Profile object with the following data: votes =
+    Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
     means 17 people like candidate 1 the most, then candidate 3 in the second
     position, then candidate 2 in the third position, and so on.
 
-    Properties:
-        pairs -- set of pairs e.g. (number of votes, ballot)
-        candidates -- set of candidates in ballots
-        total_votes -- total number of votes
-        net_preference_graph -- represents the preference net
-        votes_per_candidate -- total votes for each candidate
-    """
+    Attributes:
+        pairs (Set[Tuple[int, Tuple[int, ...]]]): A set of pairs (number of votes, ballot).
+        candidates (Set[int]): A set of candidates in ballots.
+        total_votes (int): The total number of votes.
+        net_preference_graph (Dict[int, Dict[int, int]]): Represents the net preference graph.
+        votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
+        per rank position.
+        """
 
     def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: None | int = None):
+        """
+        Initializes a Profile object with a set of pairs and an optional number of candidates.
+
+        :param pairs: A set of pairs, each containing the number of occurrences and a ballot.
+        :type pairs: Set[Tuple[int, Tuple[int, ...]]]
+        :param num_candidates: An optional integer representing the total number of candidates.
+        :type num_candidates: None | int, optional
+        """
+
         self.pairs = pairs
         # num_candidates might be passed when a file with voting data is parsed
         # otherwise get candidates from ballot of first pair
@@ -49,22 +59,28 @@ class Profile:
     # ---------------------------------------------
     def get_net_preference(self, candidate1, candidate2):
         """
-        Computes preference between 2 candidates according to
-        the Net Preference Graph and returns its answer
-        Arguments:
-        candidate1 -- candidate to be compared
-        candidate2 -- other candidate to be compared
+        Computes the preference between two candidates according to the net preference graph.
+
+        :param candidate1: The first candidate to be compared.
+        :type candidate1: int
+        :param candidate2: The second candidate to be compared.
+        :type candidate2: int
+        :return: The preference value of candidate1 over candidate2.
+        :rtype: int
         """
         # Get the preference of candidate1 over candidate2
         return self.net_preference_graph[candidate1][candidate2]
 
     def does_pareto_dominate(self, candidate1, candidate2):
         """
-        Returns True when candidate1 is preferred in all ballots.
-        False, otherwise.
-        :param candidate1: Candidate to be compared
-        :param candidate2: Other candidate
-        :return:
+        Checks if candidate1 is preferred over candidate2 in all ballots.
+
+        :param candidate1: The first candidate to be compared.
+        :type candidate1: int
+        :param candidate2: The second candidate to be compared.
+        :type candidate2: int
+        :return: True if candidate1 is preferred in all ballots, False otherwise.
+        :rtype: bool
         """
         # A boolean list as candidate1 preferred
         preferred = [
@@ -76,10 +92,13 @@ class Profile:
 
     def score(self, scorer) -> List[tuple[int, float]]:
         """
-        Returns a set of candidate scores according to some score function.
-        Arguments:
-        :param scorer: Score function (Borda, Copeland etc.)
-        :return: a sorted list of (candidate, score)
+        Returns a list of candidate scores according to a specified scoring function.
+
+        :param scorer: The scoring function (e.g., Borda, Copeland).
+        :type scorer: Callable
+        :return: A sorted list of tuples (candidate, score), ordered by candidate ID
+        in increasing order.
+        :rtype: List[Tuple[int, float]]
         """
         scores = [(candidate, scorer(self, candidate)) for candidate in
                   self.candidates]
@@ -91,9 +110,12 @@ class Profile:
 
     def ranking(self, scorer):
         """
-        Returns a set of candidate winners according to some score function.
-        :param scorer: The voting rule to use. (borda, copeland etc.)
-        :return: List of tuples, e.g. [(1,111), (2,108), (0,78)]
+        Returns a list of candidate rankings according to a specified scoring function.
+
+        :param scorer: The scoring function (e.g., Borda, Copeland).
+        :type scorer: Callable
+        :return: A list of tuples (candidate, score), ordered by score in descending order.
+        :rtype: List[Tuple[int, float]]
         """
         # A list of (candidate, score)
         scores = self.score(scorer)
@@ -103,9 +125,12 @@ class Profile:
 
     def winners(self, scorer):
         """
-        Returns a set of candidate winners according to some score function
-        Arguments:
-        scorer -- score function (ex.: borda, copeland)
+        Returns a set of candidate winners according to a given scoring function.
+
+        :param scorer: A scoring function (e.g., Borda, Copeland).
+        :type scorer: callable
+        :return: A set of winning candidates.
+        :rtype: set
         """
         ranking = self.ranking(scorer)  # get ranking
         best_score = ranking[0][1]  # get best score first tuple in ranking
@@ -119,12 +144,17 @@ class Profile:
     @staticmethod
     def __preference(num_votes, candidate_1_index, candidate_2_index) -> int:
         """
-        Computes the preference between 2 candidates and returns
-        the preference according to the number of votes.
-        :param num_votes: Number of votes
-        :param candidate_1_index: Index of first candidate
-        :param candidate_2_index: Index of second candidate
-        :return: The preference value
+        Computes the preference between two candidates and returns the preference
+        according to the number of votes.
+
+        :param num_votes: Number of votes.
+        :type num_votes: int
+        :param candidate_1_index: Index of the first candidate.
+        :type candidate_1_index: int
+        :param candidate_2_index: Index of the second candidate.
+        :type candidate_2_index: int
+        :return: The preference value.
+        :rtype: int
         """
         n = candidate_1_index - candidate_2_index
         # Exception: if n is equal to 0, preference is 0,
@@ -133,7 +163,7 @@ class Profile:
 
     def __calc_net_preference(self):
         """
-        Create a Net Preference Graph.
+        Create a Net Preference Graph for the voting profile.
         """
         candidates = list(self.candidates)
         num_candidates = len(candidates)
@@ -164,7 +194,9 @@ class Profile:
                 self.net_preference_graph[candidate_2][candidate_1] = -preference
 
     def __calc_votes_per_candidate(self):
-        """Computes total votes per each candidate for each rank position"""
+        """
+        Computes the total votes for each candidate for each rank position.
+        """
         # Initialize structure to save the scores
         self.votes_per_candidate = []
         # Number of candidate
@@ -178,7 +210,9 @@ class Profile:
                 self.votes_per_candidate[i][ballot[i]] += freq
 
     def __calc_path_preference(self):
-        """Computes paths' strengths for Schulze method."""
+        """
+        Computes paths' strengths for the Schulze method.
+        """
         # Create an iterable for candidates
         candidates = list(self.candidates)
         # Number of candidates
@@ -199,11 +233,14 @@ class Profile:
 
     def __calc_strength(self, candidate1, candidate2):
         """
-        The weakest link of the strongest path.
-        Arguments:
-            candidate1 -- origin candidate
-            candidate2 -- destiny candidate
-            (path from candidate1 to candidate2)
+        Computes the weakest link of the strongest path between two candidates.
+
+        :param candidate1: Origin candidate.
+        :type candidate1: int
+        :param candidate2: Destination candidate.
+        :type candidate2: int
+        :return: The weakest link of the strongest path.
+        :rtype: int
         """
         # Find possible paths between candidate1 and candidate2
         paths = self.__calc_paths(candidate1, candidate2)
@@ -216,11 +253,16 @@ class Profile:
 
     def __calc_paths(self, candidate1, candidate2, candidates=None):
         """
-        Computes the possible paths between candidate1 and candidate2.
-        Arguments:
-            candidate1 -- origin candidate
-            candidate2 -- destiny candidate
-            (path from candidate1 to candidate2)
+        Computes the possible paths between two candidates.
+
+        :param candidate1: Origin candidate.
+        :type candidate1: int
+        :param candidate2: Destination candidate.
+        :type candidate2: int
+        :param candidates: Set of candidates excluding the origin candidate, defaults to None.
+        :type candidates: set, optional
+        :return: A list of possible paths between candidate1 and candidate2.
+        :rtype: list
         """
         # Check if candidates exists
         if candidates is None:
@@ -249,8 +291,7 @@ class Profile:
 
     def _build_graph(self):
         """
-        Build graph for Kemeny-Young method.
-        An adaptation from:
+        Build a graph for the Kemeny-Young method. Adapted from
         http://vene.ro/blog/kemeny-young-optimal-rank-aggregation-in-python.html
         """
         n_candidates = len(self.candidates)
@@ -272,6 +313,14 @@ class Profile:
 
     @classmethod
     def parse_voting_data(cls, file_path):
+        """
+        Parses a voting data file and creates a Profile instance.
+
+        :param file_path: Path to the voting data file.
+        :type file_path: str
+        :return: A Profile instance.
+        :rtype: Profile
+        """
         if file_path[-3:] != "soi":
             raise EncodingWarning("The extension has to be .soi")
         pairs = []
@@ -294,11 +343,13 @@ class Profile:
     @classmethod
     def ballot_box(cls, choices):
         """
-        :param choices: a list of ranked candidates,
-            i.e, [ (voter's 1 ranked candidates),
-                   (voter's 2 ranked candidates),
-                   (voter's 3 ranked candidates) ... ]
-        :return: VotingProfile, a set of (number of votes, candidates ranked)
+        Creates a VotingProfile instance from a list of ranked candidates.
+
+        :param choices: A list of ranked candidates, i.e, [(voter's 1 ranked candidates),
+                       (voter's 2 ranked candidates), (voter's 3 ranked candidates), ...]
+        :type choices: list of tuples
+        :return: A VotingProfile instance with the set of (number of votes, candidates ranked).
+        :rtype: VotingProfile
         """
         vote_counts = Counter(choices)
         pairs = [(count, choice) for choice, count in vote_counts.items()]
