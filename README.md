@@ -8,6 +8,32 @@
 
 # Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+. start-badges
+
+.. list-table::
+    :stub-columns: 1
+
+    * - package
+      - | |version| |wheel| |supported-versions| |supported-implementations|
+
+.. |version| image:: https://img.shields.io/pypi/v/scml.svg
+    :alt: PyPI Package latest release
+    :target: https://pypi.org/project/scml
+
+.. |wheel| image:: https://img.shields.io/pypi/wheel/scml.svg
+    :alt: PyPI Wheel
+    :target: https://pypi.org/project/scml
+
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/scml.svg
+    :alt: Supported versions
+    :target: https://pypi.org/project/scml
+
+.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/scml.svg
+    :alt: Supported implementations
+    :target: https://pypi.org/project/scml
+
+.. end-badges
+
 ## Overview of the Competition
 
 The field of [computational social choice (COMSOC)](https://en.wikipedia.org/wiki/Computational_social_choice) combines ideas, techniques, and models from computer science and social choice theory for aggregating collective preferences. This thriving and multidisciplinary field of research has numerous applications to group decision-making, resource allocation, fair division, and election systems. One of the most well-studied problems in COMSOC focuses on designing voting mechanisms for selecting the winning candidates for an election. Paradoxes and impossibility results are commonly encountered when implementing voting rules in electoral systems. Researchers are therefore exploring alternatives to classical voting mechanisms by incorporating, for instance, principles and techniques from Machine Learning. Agent-based simulations can also tackle such challenges, as evidenced by their successful applications in negotiation research, supply chain management, and energy markets. In line with this vision, [The 1st Computational Social Choice Competition at IJCAI 2023 (COMPSOC 2023)](https://compsoc.algocratic.org/) capitalizes on the progress in agent and computational social choice research. to drive the development of inclusive, robust, and fair election systems.
