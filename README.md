@@ -16,6 +16,10 @@ The field of [computational social choice (COMSOC)](https://en.wikipedia.org/wik
 
 The Computational Social Choice Competition (COMPSOC) aims to advance the research in computational social choice by leveraging multiagent simulations and machine learning techniques. The competition will focus on the principled evaluation and analysis of voting rules in a competitive setting. The competitors will develop and submit the code of their voting rules, which will then be compared in a tournament based on social welfare and axiomatic satisfiability. The competition aims at providing valuable insights into the performances of voting mechanisms defined over parametrically generated voting problems, alternatives, and voters. COMPSOC will bring together researchers from the fields of computational social choice, social sciences, political sciences, multiagent systems, and machine learning and provide a unique benchmark for evaluating voting mechanisms in various synthetic (or real) problem domains. The competition also aims at advancing the field by providing a systematic approach to designing and assessing voting mechanisms in the absence of established theoretical results. This advancement will help bridge the gap between axiomatic and experimental analysis of voting systems, ultimately leading to improved explainability.
 
+## Registration
+
+To take part in the competition, you should register on the [COMPSOC page](https://compsoc.algocratic.org/).
+
 ## General Guidelines
 
 The flow of the competition is illustrated in the figure. In step *(1)*, the competitors implement their voting rules using this Python SDK. In step *(2)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(3)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(4)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
