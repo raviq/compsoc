@@ -126,6 +126,23 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 <img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 </p>
 
+## Installation
+
+```
+pip install compsoc
+```
+
+You can also install the in-development version from GitHub with:
+
+```
+pip install https://github.com/compsoc/archive/master.zip
+```
+TODO Link ^
+
+## Documentation
+
+TODO Link here
+
 ## Dependencies
 
 * Python3.9
