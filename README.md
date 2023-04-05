@@ -18,7 +18,7 @@ The Computational Social Choice Competition (COMPSOC) aims to advance the resear
 
 ## Registration
 
-To take part in the competition, you need to register from the main 
+To take part in the competition, you must register on the [COMPSOC main page](https://compsoc.algocratic.org/) under menu `COMPSOC 2023`.
 
 ## General Guidelines
 
