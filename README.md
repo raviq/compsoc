@@ -21,7 +21,7 @@ The Computational Social Choice Competition (COMPSOC) aims to advance the resear
 The flow of the competition is illustrated in the figure. In step *(1)*, the competitors implement their voting rules using this Python SDK. In step *(2)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(3)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(4)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
 
 <p align="center">
-<img src="./figures/misc/overview_.png" style="height:80%; width:80%"/>
+<img src="./figures/misc/overview_.png" style="height:90%; width:90%"/>
 </p>
 
 The top 3 winning competitors are the competitors with the voting rules that yield the highest social welfare for the multiagent voters (given the baseline ballots of the competition) while satisfying the properties mentioned above. Various sample codes of well-known voting rules will be provided to the participants to guide their implementations (including Borda, Copeland, Dowdall, etc.).
