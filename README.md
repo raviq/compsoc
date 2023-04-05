@@ -84,13 +84,9 @@ generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
 The main files of the package are:
 | File | Description |
 | ---- | --- |
-| [**run.py**](run.py) | This is the main entry point. Takes the number of
-candidates `num_candidates`, the number of voters `num_voters`, the number of trials to
-run `number_iterations`, and the model `voters_model` to generate the voters' population. |
-| [**models.py**](./models.py) | Defining the models to adopt when generating the popuations of the
-voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
-| [**profile.py**](compsoc/profile.py) | All voting rules are defined and extended in the `Profile`
-class. |
+| [**run.py**](run.py) | This is the main entry point. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, and the model `voters_model` to generate the voters' population. |
+| [**models.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
+| [**profile.py**](compsoc/profile.py) | All voting rules are defined and extended in the `Profile` class. |
 | [**utils.py**](compsoc/utils.py) | Rendering utils. |
 
 ### Usage
