@@ -6,33 +6,8 @@
   </a>
 </p>
 
-# Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+# Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
-.. start-badges
-
-.. list-table::
-    :stub-columns: 1
-
-    * - package
-      - | |version| |wheel| |supported-versions| |supported-implementations|
-
-.. |version| image:: https://img.shields.io/pypi/v/scml.svg
-    :alt: PyPI Package latest release
-    :target: https://pypi.org/project/scml
-
-.. |wheel| image:: https://img.shields.io/pypi/wheel/scml.svg
-    :alt: PyPI Wheel
-    :target: https://pypi.org/project/scml
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/scml.svg
-    :alt: Supported versions
-    :target: https://pypi.org/project/scml
-
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/scml.svg
-    :alt: Supported implementations
-    :target: https://pypi.org/project/scml
-
-.. end-badges
 
 ## Overview of the Competition
 
