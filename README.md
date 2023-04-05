@@ -8,7 +8,32 @@
 
 # Computational Social Choice Competition (COMPSOC) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## Description
+## Overview of the Competition
+
+The field of computational social choice (COMSOC) combines ideas, techniques, and models from computer science and social choice theory for aggregating collective preferences. This thriving and multidisciplinary field of research has numerous applications to group decision-making, resource allocation, fair division, and election systems. One of the most well-studied problems in COMSOC focuses on designing voting mechanisms for selecting the winning candidates for an election. Paradoxes and impossibility results are commonly encountered when implementing voting rules in electoral systems. Researchers are therefore exploring alternatives to classical voting mechanisms by incorporating, for instance, principles and techniques from Machine Learning. Agent-based simulations can also tackle such challenges, as evidenced by their successful applications in negotiation research, supply chain management, and energy markets. In line with this vision, *The 1st Computational Social Choice Competition at IJCAI 2023 (COMPSOC 2023)* capitalizes on the progress in agent research and computational social choice to drive the development of inclusive, robust, and fair election systems.
+
+## Goals of the Competition
+
+The Computational Social Choice Competition (COMPSOC) aims to advance the research in computational social choice by leveraging multiagent simulations and machine learning techniques. The competition will focus on the principled evaluation and analysis of voting rules in a competitive setting. The competitors will develop and submit the code of their voting rules, which will then be compared in a tournament based on social welfare and axiomatic satisfiability. The competition aims at providing valuable insights into the performances of voting mechanisms defined over parametrically generated voting problems, alternatives, and voters. COMPSOC will bring together researchers from the fields of computational social choice, social sciences, political sciences, multiagent systems, and machine learning and provide a unique benchmark for evaluating voting mechanisms in various synthetic (or real) problem domains. The competition also aims at advancing the field by providing a systematic approach to designing and assessing voting mechanisms in the absence of established theoretical results. This advancement will help bridge the gap between axiomatic and experimental analysis of voting systems, ultimately leading to improved explainability.
+
+## General Guidelines
+
+The flow of the competition is illustrated in the figure. In step *(1)*, the competitors implement their voting rules using this Python SDK. In step *(2)*, synthetic voting profiles will be parametrically generated using various state-of-the-art voter models. In step *(3)*, we will separately apply the competitors' voting rules to the generated baseline of profiles. In step *(4)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
+
+<p align="center">
+<img src="./figures/misc/Overview.png" style="height:80%; width:80%"/>
+</p>
+(update with Overview_)
+
+The top 3 winning competitors are the competitors with the voting rules that yield the highest social welfare for the multiagent voters (given the baseline ballots of the competition) while satisfying the properties mentioned above. Various sample codes of well-known voting rules will be provided to the participants to guide their implementations (including Borda, Copeland, Dowdall, etc.).
+
+In addition to submitting the Python code of their voting mechanisms, the participants are expected to submit a report describing their mechanism, implementation, and expected results. This will help disseminate the lessons learned from running the competition to the community and set the direction for future tournaments.
+
+## The COMPSOC SDK
+
+This repository is the official SDK for running COMPSOC competition. It contains a package called `compsoc` for the competition run in 2023.
+
+BREAK
 
 This is a Python toolkit for the benchmarking of the voting rules studied
 in [computational social choice theory](https://en.wikipedia.org/wiki/Computational_social_choice).
@@ -16,11 +41,8 @@ The question here is on how voting rules would aggregate the collective decision
 intelligent agents possessing parametric preferences and distributions. The toolkit allows you to
 programmatically define the [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) as
 well as the distributions of the voters, defined
-as [voter models](https://en.wikipedia.org/wiki/Voter_model). This is illustrated below.
+as [voter models](https://en.wikipedia.org/wiki/Voter_model).
 
-<p align="center">
-<img src="./figures/misc/Overview.png" style="height:80%; width:80%"/>
-</p>
 
 First, the competitors implement their voting rules using the Python SDK (1). Given the chosen
 domain and axioms of the competition, we generate the population of the voters using voter models
