@@ -83,7 +83,8 @@ generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
 
 ## Files
 
-The main files of the package are:
+The main files of the package SDK are:
+
 | File | Description |
 | ---- | --- |
 | [**run.py**](run.py) | This is the main entry point. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, and the model `voters_model` to generate the voters' population. |
