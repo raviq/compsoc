@@ -18,11 +18,11 @@ The Computational Social Choice Competition (COMPSOC) aims to advance the resear
 
 ## Registration
 
-To take part in the competition, you should register on the [COMPSOC page](https://compsoc.algocratic.org/).
+To take part in the competition, you should register on the main [COMPSOC page](https://compsoc.algocratic.org/).
 
 ## General Guidelines
 
-The flow of the competition is illustrated in the figure. In step *(1)*, the competitors implement their voting rules using this Python SDK. In step *(2)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(3)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(4)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
+The flow of the competition is illustrated in the figure. In step *(1)*, the competitors implement their voting rules using this Python SDK and then upload them to the main [COMPSOC page](https://compsoc.algocratic.org/). In step *(2)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(3)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(4)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
 
 <p align="center">
 <img src="./figures/misc/overview_.png" style="height:90%; width:90%"/>
