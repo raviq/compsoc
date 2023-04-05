@@ -142,11 +142,11 @@ You can also install the in-development version from GitHub with:
 ```
 pip install https://github.com/compsoc/archive/master.zip
 ```
-[TBA ^](TBA ^)
+TBA ^
 
 ## Documentation
 
-[TBA ^](TBA ^)
+TBA
 
 ## Dependencies
 
