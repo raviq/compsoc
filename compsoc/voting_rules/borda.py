@@ -1,13 +1,18 @@
 """
 Computes the Borda score for a candidate.
 """
-from compsoc.decorators import rename
 
 
-@rename("Borda")
 def borda_rule(profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Borda score for a candidate based on a profile.
+
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Borda score for the candidate.
+    :rtype: int
     """
     # Max score to be applied with borda count
     top_score = len(profile.candidates) - 1

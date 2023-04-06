@@ -2,13 +2,18 @@
 Computes the Copeland score for a candidate.
 """
 import numpy as np
-from compsoc.decorators import rename
 
 
-@rename("Copeland")
 def copeland_rule(profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Copeland score for a candidate based on a profile.
+
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Copeland score for the candidate.
+    :rtype: int
     """
     scores = []
     for m in profile.candidates:
