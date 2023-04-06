@@ -147,7 +147,7 @@ TBA ^
 
 ## Documentation
 
-TBA
+[https://raviq.github.io/compsoc/compsoc.html](https://raviq.github.io/compsoc/compsoc.html)
 
 ## Dependencies
 
