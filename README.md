@@ -134,15 +134,14 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 ## Installation
 
 ```
-??
+TBD
 ```
 
 You can also install the in-development version from GitHub with:
 
 ```
-pip install https://github.com/compsoc/archive/master.zip
+TBD
 ```
-TBA ^
 
 ## Documentation
 
