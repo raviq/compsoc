@@ -9,7 +9,8 @@ setup(
         'Pandas',
         'Numpy',
         'tqdm',
-        'Matplotlib'
+        'Matplotlib',
+        'scipy'
     ],
     url='https://github.com/raviq/compsoc',
     project_urls={
