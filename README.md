@@ -131,6 +131,33 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 <img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 </p>
 
+## Before uploading rules to the COMPSOC server
+
+Please make sure your code is compliant with the COMPSOC container `restricted_globals`. That is, you are only allowed to use these operators and libraries when developing :your rules
+
+```
+restricted_globals = {
+            "__builtins__": utility_builtins,
+            "np": np,  # Numpy
+            "len": len,
+            "range": range,
+            "sum": sum,
+            "min": min,
+            "max": max,
+            "float": float,
+            "int": int,
+            "random": random,
+            "itertools": itertools,
+            "typing": typing,
+            "collections": collections,
+            "_getiter_": default_guarded_getiter,
+            "_iter_unpack_sequence_": guarded_iter_unpack_sequence,  # List unpacking
+            "_apply_": _apply,  # Args kwargs
+            "_getitem_": default_guarded_getitem,  # Arrays
+            "_getattr_": default_guarded_getattr
+        }
+```
+        
 ## Installation
 
 ```
