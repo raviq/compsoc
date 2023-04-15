@@ -10,7 +10,7 @@
 
 ## Overview of the Competition
 
-The field of [computational social choice (COMSOC)](https://en.wikipedia.org/wiki/Computational_social_choice) combines ideas, techniques, and models from computer science and social choice theory for aggregating collective preferences. This thriving and multidisciplinary field of research has numerous applications to group decision-making, resource allocation, fair division, and election systems. One of the most well-studied problems in COMSOC focuses on designing voting mechanisms for selecting the winning candidates for an election. Paradoxes and impossibility results are commonly encountered when implementing voting rules in electoral systems. Researchers are therefore exploring alternatives to classical voting mechanisms by incorporating, for instance, principles and techniques from Machine Learning. Agent-based simulations can also tackle such challenges, as evidenced by their successful applications in negotiation research, supply chain management, and energy markets. In line with this vision, [The 1st Computational Social Choice Competition at IJCAI 2023 (COMPSOC 2023)](https://compsoc.algocratic.org/) capitalizes on the progress in agent and computational social choice research. to drive the development of inclusive, robust, and fair election systems.
+The field of [computational social choice (COMPSOC)](https://en.wikipedia.org/wiki/Computational_social_choice) combines ideas, techniques, and models from computer science and social choice theory for aggregating collective preferences. This thriving and multidisciplinary field of research has numerous applications to group decision-making, resource allocation, fair division, and election systems. One of the most well-studied problems in COMPSOC focuses on designing voting mechanisms for selecting the winning candidates for an election. Paradoxes and impossibility results are commonly encountered when implementing voting rules in electoral systems. Researchers are therefore exploring alternatives to classical voting mechanisms by incorporating, for instance, principles and techniques from Machine Learning. Agent-based simulations can also tackle such challenges, as evidenced by their successful applications in negotiation research, supply chain management, and energy markets. In line with this vision, [The 1st Computational Social Choice Competition at IJCAI 2023 (COMPSOC 2023)](https://compsoc.algocratic.org/) capitalizes on the progress in agent and computational social choice research. to drive the development of inclusive, robust, and fair election systems.
 
 ## Goals of the Competition
 
@@ -133,9 +133,32 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 
 ## Before uploading rules to the COMPSOC server
 
-Please make sure your code is compliant with the COMPSOC container `restricted_globals`. That is, you are only allowed to use these operators and libraries when developing :your rules
+### Allowed packages and built-ins
 
+Please make sure your code is compliant with the `restricted_globals`. For safety reasons, the available packages and features of the python language are restricted, and you are only allowed to use these operators and libraries when developing your rules.
+
+Instead of writing
+
+```python
+import Numpy as np
+
+def my_rule(profile, candidate: int):
+    x = np.sign(-1)
+    ...
 ```
+
+You can just use the library directly, e.g:
+
+
+```python
+def my_rule(profile, candidate: int):
+    x = np.sign(-1)
+    ...
+```
+
+See the dict below for reference to which packages and features are available:
+
+```python
 restricted_globals = {
             "__builtins__": utility_builtins,
             "np": np,  # Numpy
@@ -166,8 +189,8 @@ TBD
 
 You can also install the in-development version from GitHub with:
 
-```
-TBD
+```shell
+pip install git+https://github.com/raviq/compsoc.git
 ```
 
 ## Documentation
