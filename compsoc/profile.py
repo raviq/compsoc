@@ -96,8 +96,7 @@ class Profile:
 
         :param scorer: The scoring function (e.g., Borda, Copeland).
         :type scorer: Callable
-        :return: A sorted list of tuples (candidate, score), ordered by candidate ID
-        in increasing order.
+        :return: A sorted list of tuples (candidate, score), ordered by candidate ID in increasing order.
         :rtype: List[Tuple[int, float]]
         """
         scores = [(candidate, scorer(self, candidate)) for candidate in
