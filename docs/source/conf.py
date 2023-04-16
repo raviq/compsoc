@@ -49,7 +49,7 @@ pygments_style = 'sphinx'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_static_path = ['../../_static']
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
