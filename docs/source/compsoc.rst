@@ -1,14 +1,6 @@
 compsoc package
 ===============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   compsoc.voting_rules
-
 Submodules
 ----------
 
