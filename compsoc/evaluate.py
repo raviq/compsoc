@@ -23,8 +23,7 @@ def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tup
     :type vote: Tuple[int]
     :param topn: The number of top candidates to consider for utility calculation.
     :type topn: int
-    :return: A tuple containing utility for the top candidate and total utility for
-    top n candidates.
+    :return: A tuple containing utility for the top candidate and total utility for top n candidates.
     :rtype: tuple
     """
     # Gain, based on original vote (utility) and elected candidate
