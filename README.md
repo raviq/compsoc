@@ -183,10 +183,6 @@ restricted_globals = {
         
 ## Installation
 
-```
-TBD
-```
-
 You can also install the in-development version from GitHub with:
 
 ```shell
