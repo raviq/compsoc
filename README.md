@@ -181,13 +181,7 @@ restricted_globals = {
         
 ## Installation
 
-To use the compsoc package, you need to install it first. This can be done using pip:
-
-```shell
-pip install compsoc
-```
-
-Alternatively, you can also install the in-development version from GitHub with:
+To use the COMPSOC SDK, you can also install the in-development version from GitHub with:
 
 ```shell
 pip install git+https://github.com/raviq/compsoc.git
