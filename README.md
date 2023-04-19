@@ -67,26 +67,11 @@ different [ways](https://github.com/raviq/Genon).
 Another way to define the voter models is to assume that the votes follow particular distributions.
 In the following, we define the distribution of the votes according to 3 methods.
 
-
 | Distribution of the votes | Function in SDK |
 | ---- | --- |
-| Random distribution of the votes, implemented in | ```python generate_random_votes(number_voters, number_candidates) ``` |
-|  | |
-|  | |
-
-
-
-2. Gaussian distribution of the votes, implemented in
-
-```python
-generate_gaussian_votes(mu, stdv, number_voters, number_candidates)
-```
-
-3. Dirichlet-Multinomial distribution of the votes, implemented in
-
-```python
-generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
-```
+| Random distribution of the votes | ```python generate_random_votes(number_voters, number_candidates) ``` |
+| Gaussian distribution of the votes | ```python generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
+| Dirichlet-Multinomial distribution of the votes | ```python generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
 
 ## Files
 
