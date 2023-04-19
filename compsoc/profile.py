@@ -29,7 +29,7 @@ class Profile:
         per rank position.
         """
 
-     def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: None):# | int = None):
+    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: None):# | int = None):
         """
         Initializes a Profile object with a set of pairs and an optional number of candidates.
 
