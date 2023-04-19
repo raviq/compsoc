@@ -73,6 +73,15 @@ In the following, we define the distribution of the votes according to 3 methods
 | Gaussian | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
 | Dirichlet-Multinomial | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
 
+        
+## Installation
+
+To use the COMPSOC SDK, you can also install the in-development version from GitHub with:
+
+```shell
+pip install git+https://github.com/raviq/compsoc.git
+```
+
 ## Files
 
 The main files of the package SDK are:
@@ -80,9 +89,11 @@ The main files of the package SDK are:
 | File | Description |
 | ---- | --- |
 | [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, and the model `voters_model` to generate the voters' population. |
-| [**models.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
+| [**voter_model.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
 | [**profile.py**](compsoc/profile.py) | All voting rules are defined and extended in the `Profile` class. |
-| [**utils.py**](compsoc/utils.py) | Rendering utils. |
+| [**evaluate.py**](compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
+| [**plot.py**](compsoc/plot.py) | Rendering utils. |
+| [**utils.py**](compsoc/utils.py) | utils. |
 
 ### Usage
 
@@ -177,14 +188,6 @@ restricted_globals = {
             "_getitem_": default_guarded_getitem,  # Arrays
             "_getattr_": default_guarded_getattr
         }
-```
-        
-## Installation
-
-To use the COMPSOC SDK, you can also install the in-development version from GitHub with:
-
-```shell
-pip install git+https://github.com/raviq/compsoc.git
 ```
 
 ## Documentation
