@@ -42,7 +42,7 @@ def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tup
 
 
 def get_rule_utility(profile: Profile,
-                     rule: Callable[[int], int | float],
+                     rule: Callable[[int], int],# | float],
                      topn: int,
                      verbose=False):
     """
@@ -51,7 +51,7 @@ def get_rule_utility(profile: Profile,
     :param profile: The voting profile.
     :type profile: Profile
     :param rule: The voting rule function.
-    :type rule: Callable[[int], int | float]
+    :type rule: Callable[[int], int],# | float],
     :param topn: The number of top candidates to consider for utility calculation.
     :type topn: int
     :param verbose: Print additional information if True, defaults to False.
