@@ -76,7 +76,7 @@ In the following, we define the distribution of the votes according to 3 methods
         
 ## Installation
 
-To use the COMPSOC SDK, you can also install the in-development version from GitHub with:
+To use the COMPSOC SDK, you can install the in-development version from GitHub with:
 
 ```shell
 pip install git+https://github.com/raviq/compsoc.git
