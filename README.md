@@ -69,9 +69,9 @@ In the following, we define the distribution of the votes according to 3 methods
 
 | Distribution of the votes | Function in SDK |
 | ---- | --- |
-| Random distribution of the votes | ```python generate_random_votes(number_voters, number_candidates) ``` |
-| Gaussian distribution of the votes | ```python generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
-| Dirichlet-Multinomial distribution of the votes | ```python generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
+| Random distribution of the votes | ```generate_random_votes(number_voters, number_candidates) ``` |
+| Gaussian distribution of the votes | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
+| Dirichlet-Multinomial distribution of the votes | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
 
 ## Files
 
