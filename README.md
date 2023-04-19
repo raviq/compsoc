@@ -86,7 +86,15 @@ The main files of the package SDK are:
 
 ### Usage
 
-Run on the terminal the command
+To evaluate your rules using the command line, you need to import the right compsoc fuctions in ```run.py``` such as
+
+```
+python
+from compsoc.plot import plot_comparison_results
+from compsoc.evaluate import evaluate_voting_rules
+```
+
+and then run
 
 ```
 python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
