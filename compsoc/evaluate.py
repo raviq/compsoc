@@ -105,12 +105,17 @@ def evaluate_voting_rules(num_candidates: int,
     :rtype: dict[str, dict[str, float]]
     """
     profile = get_profile_from_model(num_candidates, num_voters, voters_model)
+    borda_rule.__name__ = "Borda"
+    copeland_rule.__name__ = "Copeland"
+    dowdall_rule.__name__ = "Dowdall"
+    simpson_rule.__name__ = "Simpson"
 
     rules = [borda_rule, copeland_rule, dowdall_rule, simpson_rule]
     # Adding some extra Borda variants, with decay parameter
-    borda_variants = [get_borda_gamma(gamma) for gamma in
-                      [1.0, 0.99, 0.75, 0.6, 0.25, 0.01]]
-    rules.extend(borda_variants)
+    for gamma in [1.0, 0.99, 0.75, 0.6, 0.25, 0.01]:
+        gamma_rule = get_borda_gamma(gamma)
+        gamma_rule.__name__ = f"Borda Gamma({gamma})"
+        rules.append(gamma_rule)
 
     result = {}
     for rule in rules:
