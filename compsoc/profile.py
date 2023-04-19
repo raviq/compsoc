@@ -5,7 +5,8 @@ Voting profiles
 import sys
 from collections import Counter
 from itertools import combinations
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Optional
+
 
 import numpy as np
 
@@ -28,8 +29,7 @@ class Profile:
         votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
         per rank position.
         """
-
-    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: None):# | int = None): #
+    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: Optional[int] = None):
         """
         Initializes a Profile object with a set of pairs and an optional number of candidates.
 
@@ -322,7 +322,7 @@ class Profile:
         if file_path[-3:] != "soi":
             raise EncodingWarning("The extension has to be .soi")
         pairs = []
-        num_candidates: int #| None = None
+        num_candidates = None
         with open(file_path, "r", encoding="utf-8") as f:
             for line in f.readlines():
                 if line[0] == "#":
