@@ -89,7 +89,7 @@ The main files of the package SDK are:
 Run on the terminal the command
 
 ```
-python3.9 run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
+python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
 ```
 
 ### Examples
