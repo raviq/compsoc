@@ -89,11 +89,11 @@ The main files of the package SDK are:
 | File | Description |
 | ---- | --- |
 | [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, and the model `voters_model` to generate the voters' population. |
-| [**voter_model.py**](./models.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
-| [**profile.py**](compsoc/profile.py) | All voting rules are defined and extended in the `Profile` class. |
-| [**evaluate.py**](compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
-| [**plot.py**](compsoc/plot.py) | Rendering utils. |
-| [**utils.py**](compsoc/utils.py) | utils. |
+| [**voter_model.py**](./compsoc/voter_model.py) | Defining the models to adopt when generating the popuations of the voters. There are currently Random, Gaussian, and Multinomial-Dirichlet models. |
+| [**profile.py**](./compsoc/profile.py) | All voting rules are defined and extended in the `Profile` class. |
+| [**evaluate.py**](./compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
+| [**plot.py**](./compsoc/plot.py) | Rendering utils. |
+| [**utils.py**](./compsoc/utils.py) | utils. |
 
 ### Usage
 
