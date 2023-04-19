@@ -97,7 +97,7 @@ The main files of the package SDK are:
 
 ### Usage
 
-For the local development and evaluation of your rules using the command line, you need to import compsoc in ```run.py``` such as
+For the local development of your rules, you need to import compsoc in ```run.py``` such as
 
 ```python
 from compsoc.plot import plot_comparison_results
@@ -110,7 +110,7 @@ and then call ```run.py``` with the right arguments
 python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
 ```
 
-The actual competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of the rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
+The actual competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
 
 
 ### Examples
