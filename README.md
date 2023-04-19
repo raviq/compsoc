@@ -32,6 +32,8 @@ The top 3 winning competitors are the competitors with the voting rules that yie
 
 In addition to submitting the Python code of their voting mechanisms, the participants are expected to submit a report describing their mechanism, implementation, and expected results. This will help disseminate the lessons learned from running the competition to the community and set the direction for future tournaments.
 
+The detailed guidelines could be found [here](https://compsoc.algocratic.org/guidelines).
+
 ## The COMPSOC SDK
 
 This repository contains the official SDK for developing the mechanisms to be submited to the COMPSOC competition. It contains a package called `compsoc` for the competition. The competitors will develop their `voting rules` and evaluate them using some `voter models`. See the examples below.
