@@ -98,7 +98,7 @@ To run 10 trials with `Dowdall`, `Simpson`, `Copeland`, and `Borda` rules for 5 
 voters with random votes, run the command:
 
 ```
-python3.9 run.py 5 100 20 2 "random"
+python run.py 5 100 20 2 "random"
 ```
 
 The visual result is generated in `figures/scores_random.png`
@@ -110,7 +110,7 @@ The visual result is generated in `figures/scores_random.png`
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
 ```
-python3.9 run.py 5 100 10 3 "multinomial_dirichlet"
+python run.py 5 100 10 3 "multinomial_dirichlet"
 ```
 
 The result is generated in `figures/scores_multinomial_dirichlet.png`
@@ -183,7 +183,7 @@ pip install git+https://github.com/raviq/compsoc.git
 
 ## Dependencies
 
-* Python3.9
+* Python 3.9
 * Numpy
 * Matplotlib
 * Pandas
