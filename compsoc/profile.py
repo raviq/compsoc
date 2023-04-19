@@ -12,7 +12,6 @@ import numpy as np
 
 sys.setrecursionlimit(1000000)
 
-
 class Profile:
     """
     A class to represent a voting profile as a set of tuples, where each tuple
@@ -30,7 +29,6 @@ class Profile:
         votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
         per rank position.
         """
-
     def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: Optional[int] = None):
         """
         Initializes a Profile object with a set of pairs and an optional number of candidates.
@@ -38,7 +36,7 @@ class Profile:
         :param pairs: A set of pairs, each containing the number of occurrences and a ballot.
         :type pairs: Set[Tuple[int, Tuple[int, ...]]]
         :param num_candidates: An optional integer representing the total number of candidates.
-        :type num_candidates: None | int, optional
+        :type num_candidates: None# | int, optional
         """
 
         self.pairs = pairs
