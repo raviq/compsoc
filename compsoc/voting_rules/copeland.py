@@ -2,9 +2,10 @@
 Computes the Copeland score for a candidate.
 """
 import numpy as np
+from compsoc.profile import Profile
 
 
-def copeland_rule(profile, candidate: int) -> int:
+def copeland_rule(profile: Profile, candidate: int) -> int:
     """
     Calculates the Copeland score for a candidate based on a profile.
 

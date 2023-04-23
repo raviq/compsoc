@@ -1,9 +1,10 @@
 """
 Computes the Simpson score for a candidate.
 """
+from compsoc.profile import Profile
 
 
-def simpson_rule(profile, candidate: int) -> int:
+def simpson_rule(profile: Profile, candidate: int) -> int:
     """
     Calculates the minimum pairwise score of a candidate using the Simpson rule.
 

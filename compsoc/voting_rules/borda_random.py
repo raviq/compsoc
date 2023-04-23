@@ -2,9 +2,10 @@
 Borda random
 """
 import random
+from compsoc.profile import Profile
 
 
-def borda_random_gamma(profile, candidate: int) -> float:
+def borda_random_gamma(profile: Profile, candidate: int) -> float:
     """
     Calculates the Borda random decay (gamma) score for a
     candidate based on a profile.
