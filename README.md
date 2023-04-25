@@ -146,12 +146,12 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 
 ### Allowed packages and built-ins
 
-Please make sure your code is compliant with the `restricted_globals`. For safety reasons, the available packages and features of the python language are restricted, and you are only allowed to use these operators and libraries when developing your rules.
+For safety reasons, the available packages and features of the python language are restricted, and you are only allowed to use these operators and libraries when developing your rules.
 
 Instead of writing
 
 ```python
-import Numpy as np
+import numpy as np
 
 def my_rule(profile, candidate: int):
     x = np.sign(-1)
@@ -167,29 +167,23 @@ def my_rule(profile, candidate: int):
     ...
 ```
 
-See the dict below for reference to which packages and features are available:
+The allowed libraries are listed below.
 
 ```python
-restricted_globals = {
-            "__builtins__": utility_builtins,
-            "np": np,  # Numpy
-            "len": len,
-            "range": range,
-            "sum": sum,
-            "min": min,
-            "max": max,
-            "float": float,
-            "int": int,
-            "random": random,
-            "itertools": itertools,
-            "typing": typing,
-            "collections": collections,
-            "_getiter_": default_guarded_getiter,
-            "_iter_unpack_sequence_": guarded_iter_unpack_sequence,  # List unpacking
-            "_apply_": _apply,  # Args kwargs
-            "_getitem_": default_guarded_getitem,  # Arrays
-            "_getattr_": default_guarded_getattr
-        }
+LIBRARIES = (
+    "numpy",
+    "math",
+    "scipy",
+    "random",
+    "collections",
+    "time",
+    "pandas",
+    "typing",
+    "itertools",
+    "operator",
+    "pprint",
+    "networkx"
+    )
 ```
 
 ## Documentation
