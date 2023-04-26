@@ -181,7 +181,6 @@ LIBRARIES = (
     "typing",
     "itertools",
     "operator",
-    "pprint",
     "networkx"
     )
 ```
