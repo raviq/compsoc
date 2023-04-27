@@ -3,6 +3,7 @@ Variation on Borda, with a decay (gamma).
 Author: Shunsuke O.
 """
 from typing import Callable
+from compsoc.profile import Profile
 
 
 def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
@@ -15,7 +16,7 @@ def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
     :rtype: Callable[[int], float]
     """
 
-    def borda_gamma(profile, candidate: int) -> float:
+    def borda_gamma(profile: Profile, candidate: int) -> float:
         """
         Calculates the Borda gamma (decay) score for a candidate
         based on a profile. Author: Shunsuke O.
