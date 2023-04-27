@@ -18,7 +18,7 @@ COMPSOC aims to advance research in computational social choice by leveraging mu
 
 ## Registration
 
-To take part in the competition, you must register on the [COMPSOC page](https://compsoc.algocratic.org/registration).
+To take part in the competition, you must register on the [COMPSOC registration page](https://compsoc.algocratic.org/registration).
 
 ## General Guidelines
 
