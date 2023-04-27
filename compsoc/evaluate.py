@@ -42,7 +42,7 @@ def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tup
 
 
 def get_rule_utility(profile: Profile,
-                     rule: Callable[[int], any],
+                     rule: Callable[[Profile, int], any],
                      topn: int,
                      verbose=False):
     """

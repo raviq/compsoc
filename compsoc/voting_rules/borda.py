@@ -1,9 +1,9 @@
 """
 Computes the Borda score for a candidate.
 """
+from compsoc.profile import Profile
 
-
-def borda_rule(profile, candidate: int) -> int:
+def borda_rule(profile: Profile, candidate: int) -> int:
     """
     Calculates the Borda score for a candidate based on a profile.
 

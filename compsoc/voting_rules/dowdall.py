@@ -1,9 +1,10 @@
 """
 Computes the Dowdall score for a candidate.
 """
+from compsoc.profile import Profile
 
 
-def dowdall_rule(profile, candidate: int) -> int:
+def dowdall_rule(profile: Profile, candidate: int) -> int:
     """
     Calculates the Dowdall score for a candidate based on a profile.
 
