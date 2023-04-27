@@ -164,7 +164,7 @@ LIBRARIES = (
     )
 ```
 
-For example, to import `numpy`, you can either do
+For example, to use `numpy`, you can either do
 
 ```python
 import numpy as np
