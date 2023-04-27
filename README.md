@@ -181,6 +181,21 @@ def my_rule(profile, candidate: int):
     x = numpy.sign(-1)
     ...
 ```
+## Testing your rules using POST request via cURL
+
+```shell
+curl -X POST "https://api.algocratic.org/execute_rule" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "code": "def example_function(profile, candidate):\n return 42",
+           "profile": [
+               {"frequency": 5, "ballot": [1, 2, 3]},
+               {"frequency": 6, "ballot": [3, 2, 1]},
+               {"frequency": 6, "ballot": [1, 3, 2]}
+           ],
+           "timeout": 60
+         }'          
+```
 
 ## Documentation
 
