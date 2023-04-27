@@ -181,7 +181,7 @@ def my_rule(profile, candidate: int):
     x = numpy.sign(-1)
     ...
 ```
-## Testing your rules using POST request via cURL
+## Testing your rules via cURL
 
 ```shell
 curl -X POST "https://api.algocratic.org/execute_rule" \
