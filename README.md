@@ -45,15 +45,28 @@ score. The obtained scores for all of the candidates could then be used to deter
 For instance, the `Borda` score is implemented in `profile.py` as following.
 
 ```python
-def borda_rule(candidate: int) -> int:
+"""
+Computes the Borda score for a candidate.
+"""
+from compsoc.profile import Profile
+
+def borda_rule(profile: Profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Borda score for a candidate based on a profile.
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Borda score for the candidate.
+    :rtype: int
     """
     # Max score to be applied with borda count
     top_score = len(profile.candidates) - 1
+
     # Get pairwise scores
-    scores = [n_votes * (top_score - ballot.index(candidate))
-              for n_votes, ballot in profile.pairs]
+    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
+              pair in profile.pairs]
+
     # Return the total score
     return sum(scores)
 ```
@@ -146,25 +159,15 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 
 ### Allowed packages and built-ins
 
-For safety reasons, the available packages and features of the Python programming language are restricted. You are only allowed to use the following libraries when developing your rules.
+For safety reasons, the available packages and features of the Python programming language are restricted. You are only allowed to use the following libraries when developing your rules, as well as built-in libraries:
 
-```python
-LIBRARIES = (
-    "numpy",
-    "math",
-    "scipy",
-    "random",
-    "collections",
-    "time",
-    "pandas",
-    "typing",
-    "itertools",
-    "operator",
-    "networkx"
-    )
-```
+* numpy==1.24.3
+* scipy==1.10.1
+* pandas==2.0.1
+* networkx==3.1
+* httpx==0.24.0
 
-For example, to use `numpy`, you can either do
+You import the libraries as usual, to use `numpy`, for example:
 
 ```python
 import numpy as np
@@ -174,28 +177,114 @@ def my_rule(profile, candidate: int):
     ...
 ```
 
-or 
+## Testing the utility of your rules against the api with curl or python:
 
-```python
-def my_rule(profile, candidate: int):
-    x = numpy.sign(-1)
-    ...
-```
-## Testing your rules via cURL
-
+Here is a call with curl, using a simple function, as well as profile-defining data:
 ```shell
 curl -X POST "https://api.algocratic.org/execute_rule" \
      -H "Content-Type: application/json" \
      -d '{
            "code": "def example_function(profile, candidate):\n return 42",
-           "profile": [
+           "pairs": [
                {"frequency": 5, "ballot": [1, 2, 3]},
                {"frequency": 6, "ballot": [3, 2, 1]},
                {"frequency": 6, "ballot": [1, 3, 2]}
            ],
+           "topn": 1,
            "timeout": 60
          }'          
 ```
+
+Output: `{"result":{"top":13.0,"topn":13.0}}`, which represents the rule utility.
+
+Here is an example in python, using the Borda rule as defined above:
+
+```python
+import requests
+
+url = "https://api.algocratic.org/execute_rule"
+
+code = """
+from compsoc.profile import Profile
+
+def borda_rule(profile: Profile, candidate: int) -> int:
+    \"\"\"
+    Calculates the Borda score for a candidate based on a profile.
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Borda score for the candidate.
+    :rtype: int
+    \"\"\"
+    # Max score to be applied with borda count
+    top_score = len(profile.candidates) - 1
+
+    # Get pairwise scores
+    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
+              pair in profile.pairs]
+
+    # Return the total score
+    return sum(scores)"""
+
+data = {
+    "code": code,
+    "pairs": [
+        {"frequency": 5, "ballot": [1, 2, 3]},
+        {"frequency": 6, "ballot": [3, 2, 1]},
+        {"frequency": 6, "ballot": [1, 3, 2]}
+    ],
+    "topn": 1,
+    "timeout": 60
+}
+
+response = requests.post(url, json=data)
+
+if response.status_code == 200:
+    print("Success!")
+    print(response.json())
+else:
+    print("Error!")
+    print(response.json())
+
+```
+
+Output: 
+```
+Success!
+{'result': {'top': 15.0, 'topn': 15.0}}
+```
+
+### API Schemas:
+
+Method: Post
+
+Schema:
+```python
+class Pair(BaseModel):
+    """
+    Schema for a pair of candidates.
+    :param frequency: The frequency of the pair
+    :param ballot: The ballot of the pair
+    """
+    frequency: int
+    ballot: List[int]
+
+
+class CodeInput(BaseModel):
+    """
+    Schema for the input of the execute_rule endpoint.
+    :param code: The user code
+    :param pairs: The list of pairs
+    :param topn: The top number of candidates to return
+    :param timeout: The timeout in seconds
+    """
+    code: str
+    pairs: List[Pair]
+    topn: int = 1
+    timeout: Optional[int] = 60
+```
+
 
 ## Documentation
 
