@@ -142,32 +142,11 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 <img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 </p>
 
-## Before uploading rules to the COMPSOC server
+## Before uploading your voting rules to the COMPSOC server
 
 ### Allowed packages and built-ins
 
-For safety reasons, the available packages and features of the python language are restricted, and you are only allowed to use these operators and libraries when developing your rules.
-
-Instead of writing
-
-```python
-import numpy as np
-
-def my_rule(profile, candidate: int):
-    x = np.sign(-1)
-    ...
-```
-
-You can just use the library directly, e.g:
-
-
-```python
-def my_rule(profile, candidate: int):
-    x = np.sign(-1)
-    ...
-```
-
-The allowed libraries are listed below.
+For safety reasons, the available packages and features of the Python programming language are restricted. You are only allowed to use the following libraries when developing your rules.
 
 ```python
 LIBRARIES = (
@@ -183,6 +162,24 @@ LIBRARIES = (
     "operator",
     "networkx"
     )
+```
+
+For example, to import `numpy`, you can either do
+
+```python
+import numpy as np
+
+def my_rule(profile, candidate: int):
+    x = np.sign(-1)
+    ...
+```
+
+or 
+
+```python
+def my_rule(profile, candidate: int):
+    x = numpy.sign(-1)
+    ...
 ```
 
 ## Documentation
