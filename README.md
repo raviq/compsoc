@@ -177,7 +177,7 @@ def my_rule(profile, candidate: int):
     ...
 ```
 
-## Testing the utility of your rules against the api with curl or python:
+## Testing the utility of your rules against the API with cURL or Python
 
 Here is a call with curl, using a simple function, as well as profile-defining data:
 ```shell
