@@ -179,7 +179,8 @@ def my_rule(profile, candidate: int):
 
 ## Testing the utility of your rules against the API with cURL or Python
 
-Here is a call with curl, using a simple function, as well as profile-defining data:
+Here is a call with cURL, using a simple function, as well as profile-defining data:
+
 ```shell
 curl -X POST "https://api.algocratic.org/execute_rule" \
      -H "Content-Type: application/json" \
