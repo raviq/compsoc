@@ -5,8 +5,6 @@ import unittest
 from itertools import permutations
 from typing import List, Tuple
 
-import numpy as np
-
 from compsoc.voter_model import (
     generate_gaussian_votes, generate_multinomial_dirichlet_votes, generate_random_votes, get_pairs_from_model)
 
