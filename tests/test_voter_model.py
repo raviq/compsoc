@@ -5,12 +5,10 @@ import unittest
 from itertools import permutations
 from typing import List, Tuple
 
+import numpy as np
+
 from compsoc.voter_model import (
-    generate_random_votes,
-    generate_gaussian_votes,
-    generate_multinomial_dirichlet_votes,
-    get_pairs_from_model,
-)
+    generate_gaussian_votes, generate_multinomial_dirichlet_votes, generate_random_votes, get_pairs_from_model)
 
 
 # Helper function to validate generated ballots
@@ -63,6 +61,36 @@ class TestVoterModel(unittest.TestCase):
         for model in ["random", "gaussian", "multinomial_dirichlet"]:
             pairs = get_pairs_from_model(num_candidates, num_voters, model)
             self.assertTrue(validate_ballots(pairs, num_voters, num_candidates))
+
+    def test_gaussian_votes_mu_stdv(self):
+        """
+        Test if mu and stdv kwargs affect the distribution of the Gaussian model.
+        """
+        num_voters = 1000
+        num_candidates = 4
+        mu, stdv = 2, 1
+
+        ballots_default = get_pairs_from_model(num_candidates, num_voters, "gaussian")
+        ballots_high_mu = get_pairs_from_model(num_candidates, num_voters, "gaussian", mu=mu + 1, stdv=stdv)
+
+        # Validate ballots
+        self.assertTrue(validate_ballots(ballots_default, num_voters, num_candidates))
+        self.assertTrue(validate_ballots(ballots_high_mu, num_voters, num_candidates))
+
+        self.assertTrue(ballots_default != ballots_high_mu)
+
+    def test_multinomial_dirichlet_votes_alpha(self):
+        """
+        Test if alpha_low and alpha_high kwargs affect the distribution of the Multinomial Dirichlet model.
+        """
+        num_voters = 1000
+        num_candidates = 4
+        alpha_low, alpha_high = 2, 3
+
+        ballots_default = get_pairs_from_model(num_candidates, num_voters, 'multinomial_dirichlet')
+        ballots_high_alpha = get_pairs_from_model(num_candidates, num_voters, 'multinomial_dirichlet', alpha_low=alpha_high, alpha_high=alpha_high)
+
+        self.assertTrue(ballots_default != ballots_high_alpha)
 
 
 if __name__ == "__main__":

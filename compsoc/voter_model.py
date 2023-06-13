@@ -121,7 +121,7 @@ def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str
         pairs = generate_random_votes(num_voters, num_candidates)
     return pairs
 
+
 if __name__ == "__main__":
     print(get_pairs_from_model(5, 10, "gaussian", 5))
     print(get_pairs_from_model(5, 10, "gaussian", 5, {"mu": 5, "stdv": 2}))
-
