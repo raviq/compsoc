@@ -18,7 +18,7 @@ COMPSOC aims to advance research in computational social choice by leveraging mu
 
 ## Registration
 
-To take part in the competition, you must register on the [COMPSOC main page](https://compsoc.algocratic.org/) under menu `COMPSOC 2023`.
+To take part in the competition, you must register on the [COMPSOC registration page](https://compsoc.algocratic.org/registration).
 
 ## General Guidelines
 
@@ -45,15 +45,28 @@ score. The obtained scores for all of the candidates could then be used to deter
 For instance, the `Borda` score is implemented in `profile.py` as following.
 
 ```python
-def borda_rule(candidate: int) -> int:
+"""
+Computes the Borda score for a candidate.
+"""
+from compsoc.profile import Profile
+
+def borda_rule(profile: Profile, candidate: int) -> int:
     """
-    Parameters: candidate (base candidate for scoring)
+    Calculates the Borda score for a candidate based on a profile.
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Borda score for the candidate.
+    :rtype: int
     """
     # Max score to be applied with borda count
     top_score = len(profile.candidates) - 1
+
     # Get pairwise scores
-    scores = [n_votes * (top_score - ballot.index(candidate))
-              for n_votes, ballot in profile.pairs]
+    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
+              pair in profile.pairs]
+
     # Return the total score
     return sum(scores)
 ```
@@ -142,55 +155,137 @@ The result is generated in `figures/scores_multinomial_dirichlet.png`
 <img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
 </p>
 
-## Before uploading rules to the COMPSOC server
+## Before uploading your voting rules to the COMPSOC server
 
 ### Allowed packages and built-ins
 
-Please make sure your code is compliant with the `restricted_globals`. For safety reasons, the available packages and features of the python language are restricted, and you are only allowed to use these operators and libraries when developing your rules.
+For safety reasons, the available packages and features of the Python programming language are restricted. You are only allowed to use the following libraries when developing your rules, as well as built-in libraries:
 
-Instead of writing
+* numpy==1.24.3
+* scipy==1.10.1
+* pandas==2.0.1
+* networkx==3.1
+* httpx==0.24.0
+
+You import the libraries as usual, to use `numpy`, for example:
 
 ```python
-import Numpy as np
+import numpy as np
 
 def my_rule(profile, candidate: int):
     x = np.sign(-1)
     ...
 ```
 
-You can just use the library directly, e.g:
+## Testing the utility of your rules against the API with cURL or Python
 
+Here is a call with cURL, using a simple function, as well as profile-defining data:
 
-```python
-def my_rule(profile, candidate: int):
-    x = np.sign(-1)
-    ...
+```shell
+curl -X POST "https://api.algocratic.org/execute_rule" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "code": "def example_function(profile, candidate):\n return 42",
+           "pairs": [
+               {"frequency": 5, "ballot": [1, 2, 3]},
+               {"frequency": 6, "ballot": [3, 2, 1]},
+               {"frequency": 6, "ballot": [1, 3, 2]}
+           ],
+           "topn": 1,
+           "timeout": 60
+         }'          
 ```
 
-See the dict below for reference to which packages and features are available:
+Output: `{"result":{"top":13.0,"topn":13.0}}`, which represents the rule utility.
+
+Here is an example in python, using the Borda rule as defined above:
 
 ```python
-restricted_globals = {
-            "__builtins__": utility_builtins,
-            "np": np,  # Numpy
-            "len": len,
-            "range": range,
-            "sum": sum,
-            "min": min,
-            "max": max,
-            "float": float,
-            "int": int,
-            "random": random,
-            "itertools": itertools,
-            "typing": typing,
-            "collections": collections,
-            "_getiter_": default_guarded_getiter,
-            "_iter_unpack_sequence_": guarded_iter_unpack_sequence,  # List unpacking
-            "_apply_": _apply,  # Args kwargs
-            "_getitem_": default_guarded_getitem,  # Arrays
-            "_getattr_": default_guarded_getattr
-        }
+import requests
+
+url = "https://api.algocratic.org/execute_rule"
+
+code = """
+from compsoc.profile import Profile
+
+def borda_rule(profile: Profile, candidate: int) -> int:
+    \"\"\"
+    Calculates the Borda score for a candidate based on a profile.
+    :param profile: The voting profile.
+    :type profile: VotingProfile
+    :param candidate: The base candidate for scoring.
+    :type candidate: int
+    :return: The Borda score for the candidate.
+    :rtype: int
+    \"\"\"
+    # Max score to be applied with borda count
+    top_score = len(profile.candidates) - 1
+
+    # Get pairwise scores
+    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
+              pair in profile.pairs]
+
+    # Return the total score
+    return sum(scores)"""
+
+data = {
+    "code": code,
+    "pairs": [
+        {"frequency": 5, "ballot": [1, 2, 3]},
+        {"frequency": 6, "ballot": [3, 2, 1]},
+        {"frequency": 6, "ballot": [1, 3, 2]}
+    ],
+    "topn": 1,
+    "timeout": 60
+}
+
+response = requests.post(url, json=data)
+
+if response.status_code == 200:
+    print("Success!")
+    print(response.json())
+else:
+    print("Error!")
+    print(response.json())
+
 ```
+
+Output: 
+```
+Success!
+{'result': {'top': 15.0, 'topn': 15.0}}
+```
+
+### API Schemas:
+
+Method: Post
+
+Schema:
+```python
+class Pair(BaseModel):
+    """
+    Schema for a pair of candidates.
+    :param frequency: The frequency of the pair
+    :param ballot: The ballot of the pair
+    """
+    frequency: int
+    ballot: List[int]
+
+
+class CodeInput(BaseModel):
+    """
+    Schema for the input of the execute_rule endpoint.
+    :param code: The user code
+    :param pairs: The list of pairs
+    :param topn: The top number of candidates to return
+    :param timeout: The timeout in seconds
+    """
+    code: str
+    pairs: List[Pair]
+    topn: int = 1
+    timeout: Optional[int] = 60
+```
+
 
 ## Documentation
 
