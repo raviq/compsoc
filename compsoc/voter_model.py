@@ -97,7 +97,7 @@ def get_profile_from_model(num_candidates: int, num_voters: int, voters_model: s
     return profile
 
 
-def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str):
+def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str, *args, **kwargs):
     """
     Generates a list of pairs (count, vote) from a model of voters.
     """
@@ -106,13 +106,22 @@ def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str
         # alpha = (1.1, 2.5, 3.8, 2.1, 1.3)
         # Random alphas might cause precision problems with the generation of P, when values are
         # small
-        alpha = tuple(np.random.rand(1, num_candidates)[0])
+        low = kwargs.get('alpha_low', 0)
+        high = kwargs.get('alpha_high', 1)
+        alpha = tuple(np.random.uniform(low, high, num_candidates))
         pairs = generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates)
     elif voters_model == 'gaussian':
-        mu, stdv = 2, 1  # Depends on 'num_voters'
+        print(kwargs)
+        mu = kwargs.get('mu', 2)
+        stdv = kwargs.get('stdv', 1)
         pairs = generate_gaussian_votes(mu, stdv, num_voters, num_candidates)
     elif voters_model == 'random':
         pairs = generate_random_votes(num_voters, num_candidates)
     else:
         pairs = generate_random_votes(num_voters, num_candidates)
     return pairs
+
+
+if __name__ == "__main__":
+    print(get_pairs_from_model(5, 10, "gaussian", 5))
+    print(get_pairs_from_model(5, 10, "gaussian", 5, {"mu": 5, "stdv": 2}))
