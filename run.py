@@ -34,6 +34,7 @@ def main():
     parser.add_argument("num_voters", type=int, help="Number of voters")
     parser.add_argument("num_iterations", type=int, help="Number of iterations")
     parser.add_argument("num_topn", type=int, help="Top N.")
+    parser.add_argument("distort_rate", type=float, help="Distort rate")
     parser.add_argument("voters_model", type=str,
                         choices=voters_model_distributions,
                         help=f"Model for the generation of voters: "
@@ -50,7 +51,21 @@ def main():
                                            args.voters_model,
                                            verbose=True)
     plot_comparison_results(args.voters_model, results, args.num_voters, args.num_candidates,
-                            args.num_topn, args.num_iterations, save_figure=True)
+                            args.num_topn, args.num_iterations, distort_rate=0.0, save_figure=True)
+    
+    if args.distort_rate == 0.0:
+        return
+
+    results2 = {}
+    for i in trange(args.num_iterations):
+        results2[i] = evaluate_voting_rules(args.num_candidates,
+                                           args.num_voters,
+                                           args.num_topn,
+                                           args.voters_model,
+                                           distort_rate=args.distort_rate,
+                                           verbose=True)
+    plot_comparison_results(args.voters_model, results2, args.num_voters, args.num_candidates,
+                            args.num_topn, args.num_iterations, distort_rate=args.distort_rate, save_figure=True)
 
 
 if __name__ == "__main__":

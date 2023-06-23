@@ -4,7 +4,7 @@ Evaluation functions
 from typing import List, Tuple, Callable
 
 from compsoc.profile import Profile
-from compsoc.voter_model import get_profile_from_model
+from compsoc.voter_model import get_profile_from_model, generate_distorted_from_normal_profile
 from compsoc.voting_rules.borda import borda_rule
 from compsoc.voting_rules.borda_gamma import get_borda_gamma
 from compsoc.voting_rules.copeland import copeland_rule
@@ -29,14 +29,14 @@ def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tup
     # Gain, based on original vote (utility) and elected candidate
     # Given a particular vote structure (ranking), return its utility
     # knowing the elected candidate
-    num_candidates = len(vote)
-    utility_increments = [(num_candidates - i) / (num_candidates * 1.0) for i in
-                          range(num_candidates)]
+    num_candidates = len(elected)
+    utility_increments = [(num_candidates - i) / (num_candidates * 1.0) for i in range(num_candidates)]
+    
     my_best = vote[0]  # utility for the top only
     utility_for_top = utility_increments[elected.index(my_best)]
     # Utility for my top n candidate
     total_utility = 0.0
-    for i in range(topn):
+    for i in range(min(topn, len(vote))):
         total_utility += utility_increments[elected.index(vote[i])]
     return utility_for_top, total_utility
 
@@ -86,6 +86,7 @@ def evaluate_voting_rules(num_candidates: int,
                           num_voters: int,
                           topn: int,
                           voters_model: str,
+                          distort_rate: int = 0.0,
                           verbose: bool = False
                           ) -> dict[str, dict[str, float]]:
     """
@@ -105,6 +106,8 @@ def evaluate_voting_rules(num_candidates: int,
     :rtype: dict[str, dict[str, float]]
     """
     profile = get_profile_from_model(num_candidates, num_voters, voters_model)
+    profile = generate_distorted_from_normal_profile(profile, distort_rate)
+    print(profile.pairs)
     borda_rule.__name__ = "Borda"
     copeland_rule.__name__ = "Copeland"
     dowdall_rule.__name__ = "Dowdall"

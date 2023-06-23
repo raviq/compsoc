@@ -28,7 +28,7 @@ def get_borda_gamma(gamma: float = 0.5) -> Callable[[int], float]:
         :return: The Borda gamma score for the candidate.
         :rtype: float
         """
-        scores = [pair[0] * (gamma ** pair[1].index(candidate))
+        scores = [pair[0] * (gamma ** pair[1].index(candidate) if candidate in pair[1] else 0.0)
                   for pair in profile.pairs]
         return sum(scores)
 
