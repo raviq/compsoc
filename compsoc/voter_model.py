@@ -118,7 +118,7 @@ def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str
     elif voters_model == 'random':
         pairs = generate_random_votes(num_voters, num_candidates)
     else:
-        pairs = generate_random_votes(num_voters, num_candidates)
+        raise ValueError(f'Unknown model: {voters_model}')
     return pairs
 
 
