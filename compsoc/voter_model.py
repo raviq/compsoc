@@ -141,18 +141,15 @@ def generate_distorted_from_normal_profile(origin_profile: Profile, distort_rate
         votes.add(result[1])
 
     pairs = set()
-    
+
     for vote in votes:
         num = 0
         for result in results:
             if result[1] == vote:
                 num += result[0]
         pairs.add((num, vote))
-    
 
-    
     return Profile(pairs, num_candidates, True)
-
 
 
 if __name__ == "__main__":
