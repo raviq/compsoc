@@ -7,10 +7,10 @@ from collections import Counter
 from itertools import combinations
 from typing import List, Tuple, Set, Optional
 
-
 import numpy as np
 
 sys.setrecursionlimit(1000000)
+
 
 class Profile:
     """
@@ -29,6 +29,7 @@ class Profile:
         votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
         per rank position.
         """
+
     def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: Optional[int] = None, distorted: bool = False):
         """
         Initializes a Profile object with a set of pairs and an optional number of candidates.
@@ -50,7 +51,7 @@ class Profile:
         else:
             self.candidates = set(range(0, num_candidates)) if num_candidates \
                 else set(list(pairs)[0][1])
-        
+
         # Sum the frequencies of all the pairs
         self.total_votes = sum(pair[0] for pair in pairs)
         # Create a Net Preference Graph
@@ -218,8 +219,7 @@ class Profile:
                 if i not in ballot:
                     continue
                 self.votes_per_candidate[i][list(ballot).index(i)] += freq
-                #self.votes_per_candidate[i][ballot[i]] += freq
-
+                # self.votes_per_candidate[i][ballot[i]] += freq
 
     def __calc_path_preference(self):
         """
@@ -366,6 +366,38 @@ class Profile:
         vote_counts = Counter(choices)
         pairs = [(count, choice) for choice, count in vote_counts.items()]
         return cls(set(pairs))
+
+    def distort(self, rate: float):
+        """
+        distort profile to generate a distorted profile, rate is from 0. to 1.
+        0 means no ditortion at all, and 1 means all ballots only keeps the first candidate.
+        """
+        num_candidates = len(self.candidates)
+        num_to_remain = round(num_candidates * (1 - rate))
+        if num_to_remain == 0:
+            num_to_remain += 1
+
+        # Cut the ballots
+        self.pairs = set((pair[0], pair[1][:num_to_remain]) for pair in self.pairs)
+
+        # Calculate the occurence of each ballot again
+        result_dict = {}
+        for pair in self.pairs:
+            if pair[1] not in result_dict:
+                result_dict[pair[1]] = pair[0]
+            else:
+                result_dict[pair[1]] += pair[0]
+
+        self.pairs = set((value, key) for key, value in result_dict.items())
+
+        # Create a Net Preference Graph
+        self.__calc_net_preference()
+
+        # Set votes_per_candidate for Plurality
+        self.__calc_votes_per_candidate()
+
+        # Initialize a Path Preference Graph
+        self.path_preference_graph = {candidate: {} for candidate in self.candidates}
 
     def __str__(self):
         ballot_distribution = "Ballots:\n" + "\n".join(
