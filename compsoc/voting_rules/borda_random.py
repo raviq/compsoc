@@ -19,6 +19,6 @@ def borda_random_gamma(profile: Profile, candidate: int) -> float:
     :rtype: float
     """
     gamma = random.random()
-    scores = [pair[0] * (gamma ** pair[1].index(candidate))
+    scores = [pair[0] * (gamma ** pair[1].index(candidate) if candidate in pair[1] else 0.0)
               for pair in profile.pairs]
     return sum(scores)

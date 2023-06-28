@@ -18,7 +18,7 @@ def dowdall_rule(profile: Profile, candidate: int) -> int:
     top_score = len(profile.candidates) - 1
     # Get pairwise scores
     scores = [pair[0] * ((top_score - pair[1].index(candidate)) / (
-            pair[1].index(candidate) + 1))
+            pair[1].index(candidate) + 1)) if candidate in pair[1] else 0.0
               for pair in profile.pairs]
     # Return the total score
     return sum(scores)

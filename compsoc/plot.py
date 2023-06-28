@@ -13,7 +13,7 @@ use("Agg")  # Use non-interactive backend for mpl
 
 def plot_comparison_results(voter_model: str, results: dict, num_voters: int, num_candidates: int,
                             num_topn: int,
-                            number_iterations: int, save_figure: bool = False):
+                            number_iterations: int, distort_rate = 0.0 , save_figure: bool = False):
     """
     Plot the mean scores for all voting rules.
 
@@ -73,10 +73,10 @@ def plot_comparison_results(voter_model: str, results: dict, num_voters: int, nu
     axes[1].grid(color="gray", linestyle="dashed", linewidth=0.1)
     fig.suptitle(
         f"{num_voters} voters voting for {num_candidates} {voter_model}-candidates\n "
-        f"{number_iterations} iterations")
+        f"{number_iterations} iterations" + (f" distort rate:{distort_rate}" if distort_rate != 0.0 else ""))
     if save_figure:
         plt.savefig(
-            f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}.png",
+            f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}_{distort_rate if distort_rate != 0.0 else None}.png",
             format="png", dpi=500)
 
     # Instantiate tmp file

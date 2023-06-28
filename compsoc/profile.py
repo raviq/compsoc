@@ -7,10 +7,10 @@ from collections import Counter
 from itertools import combinations
 from typing import List, Tuple, Set, Optional
 
-
 import numpy as np
 
 sys.setrecursionlimit(1000000)
+
 
 class Profile:
     """
@@ -29,7 +29,8 @@ class Profile:
         votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
         per rank position.
         """
-    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: Optional[int] = None):
+
+    def __init__(self, pairs: Set[Tuple[int, Tuple[int, ...]]], num_candidates: Optional[int] = None, distorted: bool = False):
         """
         Initializes a Profile object with a set of pairs and an optional number of candidates.
 
@@ -42,8 +43,15 @@ class Profile:
         self.pairs = pairs
         # num_candidates might be passed when a file with voting data is parsed
         # otherwise get candidates from ballot of first pair
-        self.candidates = set(range(0, num_candidates)) if num_candidates \
-            else set(list(pairs)[0][1])
+
+        if distorted:
+            if num_candidates is None:
+                raise Exception("for distorted profile, you must specify the number of candidates")
+            self.candidates = set(range(0, num_candidates))
+        else:
+            self.candidates = set(range(0, num_candidates)) if num_candidates \
+                else set(list(pairs)[0][1])
+
         # Sum the frequencies of all the pairs
         self.total_votes = sum(pair[0] for pair in pairs)
         # Create a Net Preference Graph
@@ -70,7 +78,7 @@ class Profile:
         # Get the preference of candidate1 over candidate2
         return self.net_preference_graph[candidate1][candidate2]
 
-    def does_pareto_dominate(self, candidate1, candidate2):
+    def does_pareto_dominate(self, candidate1, candidate2) -> bool:
         """
         Checks if candidate1 is preferred over candidate2 in all ballots.
 
@@ -82,11 +90,13 @@ class Profile:
         :rtype: bool
         """
         # A boolean list as candidate1 preferred
-        preferred = [
-            pair[1].index(candidate1) < pair[1].index(candidate2) for
-            pair in
-            self.pairs]
-        # Apply AND on all elements in list
+        preferred = []
+        for pair in self.pairs:
+            if (candidate1 in pair[1]) and (candidate2 in pair[1]):
+                preferred.append(pair[1].index(candidate1) < pair[1].index(candidate2))
+
+        if len(preferred) == 0:
+            return True
         return all(preferred)
 
     def score(self, scorer) -> List[tuple[int, float]]:
@@ -106,7 +116,7 @@ class Profile:
 
         return scores
 
-    def ranking(self, scorer):
+    def ranking(self, scorer) -> List[tuple[int, float]]:
         """
         Returns a list of candidate rankings according to a specified scoring function.
 
@@ -185,7 +195,7 @@ class Profile:
                         preferences.append(pref)  # save preference
                 # Computes the preference
                 preference = sum(preferences)
-                # Save preferences
+                # Save preferencess
                 # candidate1 VS candidate2
                 self.net_preference_graph[candidate_1][candidate_2] = preference
                 # candidate2 VS candidate1
@@ -205,7 +215,11 @@ class Profile:
                 {candidate: 0 for candidate in self.candidates})
             # For each ballot's candidate, add votes
             for freq, ballot in self.pairs:
-                self.votes_per_candidate[i][ballot[i]] += freq
+                # for distorted ballots
+                if i not in ballot:
+                    continue
+                self.votes_per_candidate[i][list(ballot).index(i)] += freq
+                # self.votes_per_candidate[i][ballot[i]] += freq
 
     def __calc_path_preference(self):
         """
@@ -352,6 +366,38 @@ class Profile:
         vote_counts = Counter(choices)
         pairs = [(count, choice) for choice, count in vote_counts.items()]
         return cls(set(pairs))
+
+    def distort(self, rate: float):
+        """
+        distort profile to generate a distorted profile, rate is from 0. to 1.
+        0 means no ditortion at all, and 1 means all ballots only keeps the first candidate.
+        """
+        num_candidates = len(self.candidates)
+        num_to_remain = round(num_candidates * (1 - rate))
+        if num_to_remain == 0:
+            num_to_remain += 1
+
+        # Cut the ballots
+        self.pairs = set((pair[0], pair[1][:num_to_remain]) for pair in self.pairs)
+
+        # Calculate the occurence of each ballot again
+        result_dict = {}
+        for pair in self.pairs:
+            if pair[1] not in result_dict:
+                result_dict[pair[1]] = pair[0]
+            else:
+                result_dict[pair[1]] += pair[0]
+
+        self.pairs = set((value, key) for key, value in result_dict.items())
+
+        # Create a Net Preference Graph
+        self.__calc_net_preference()
+
+        # Set votes_per_candidate for Plurality
+        self.__calc_votes_per_candidate()
+
+        # Initialize a Path Preference Graph
+        self.path_preference_graph = {candidate: {} for candidate in self.candidates}
 
     def __str__(self):
         ballot_distribution = "Ballots:\n" + "\n".join(
