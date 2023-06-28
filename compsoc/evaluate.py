@@ -86,7 +86,7 @@ def evaluate_voting_rules(num_candidates: int,
                           num_voters: int,
                           topn: int,
                           voters_model: str,
-                          distort_rate: int = 0.0,
+                          distortion_rate: float = 0.0,
                           verbose: bool = False
                           ) -> dict[str, dict[str, float]]:
     """
@@ -100,14 +100,18 @@ def evaluate_voting_rules(num_candidates: int,
     :type topn: int
     :param voters_model: The model used to generate the voter profiles.
     :type voters_model: str
+    :param distortion_rate: The distortion rate, defaults to 0.0.
+    :type distortion_rate: int, optional
     :param verbose: Print additional information if True, defaults to False.
     :type verbose: bool, optional
     :return: A dictionary containing the results for each voting rule.
     :rtype: dict[str, dict[str, float]]
+
     """
     profile = get_profile_from_model(num_candidates, num_voters, voters_model)
-    profile = generate_distorted_from_normal_profile(profile, distort_rate)
-    print(profile.pairs)
+    profile.distort(distortion_rate)
+    if verbose:
+        print(profile.pairs)
     borda_rule.__name__ = "Borda"
     copeland_rule.__name__ = "Copeland"
     dowdall_rule.__name__ = "Dowdall"
