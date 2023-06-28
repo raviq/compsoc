@@ -17,18 +17,19 @@ from compsoc.voting_rules.borda_gamma import get_borda_gamma
 from compsoc.voting_rules.copeland import copeland_rule
 from compsoc.voting_rules.dowdall import dowdall_rule
 from compsoc.voting_rules.simpson import simpson_rule
-from compsoc.evaluate import get_rule_utility,voter_subjective_utility_for_elected_candidate
+from compsoc.evaluate import get_rule_utility, voter_subjective_utility_for_elected_candidate
 from compsoc.plot import plot_comparison_results
 
 # Your rule is implemented here:
 from borda_alpha import get_borda_alpha
 
+
 def evaluate_my_voting_rule(num_candidates: int,
-                          num_voters: int,
-                          topn: int,
-                          voters_model: str,
-                          verbose: bool = False
-                          ) -> dict[str, dict[str, float]]:
+                            num_voters: int,
+                            topn: int,
+                            voters_model: str,
+                            verbose: bool = False
+                            ) -> dict[str, dict[str, float]]:
     """
     Evaluates various voting rules and returns a dictionary with the results.
 
@@ -51,9 +52,9 @@ def evaluate_my_voting_rule(num_candidates: int,
     dowdall_rule.__name__ = "Dowdall"
     simpson_rule.__name__ = "Simpson"
 
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
     # Rules to test against
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
     # Adding classic rules
     rules = [borda_rule, copeland_rule, dowdall_rule, simpson_rule]
     # Adding some extra Borda variants, with decay parameter
@@ -62,9 +63,9 @@ def evaluate_my_voting_rule(num_candidates: int,
         gamma_rule.__name__ = f"Borda $\\gamma$({gamma})"
         rules.append(gamma_rule)
 
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
     # Finally, adding your rule, example, similar to Borda gamma.
-    #----------------------------------------------------------------`
+    # ----------------------------------------------------------------`
     for alpha in [0.3, 0.2, 0.1]:
         alpha_rule = get_borda_alpha(alpha)
         alpha_rule.__name__ = f"Borda $\\alpha$({alpha})"
@@ -75,6 +76,7 @@ def evaluate_my_voting_rule(num_candidates: int,
     for rule in rules:
         result[rule.__name__] = get_rule_utility(profile, rule, topn, verbose)
     return result
+
 
 def main():
     # Import voter models names from models.py.
@@ -89,7 +91,7 @@ def main():
             voters_model_distributions.append(match.group(1))
     if not voters_model_distributions:
         raise Exception(f"No voter models found in {voter_model_folder}.")
-    
+
     # Loading arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("num_candidates", type=int, help="Number of candidates")
@@ -106,11 +108,11 @@ def main():
     # Results
     results = {}
     for i in trange(args.num_iterations):
-        results[i] = evaluate_my_voting_rule(   args.num_candidates,
-                                                args.num_voters,
-                                                args.num_topn,
-                                                args.voters_model,
-                                           verbose=True)
+        results[i] = evaluate_my_voting_rule(args.num_candidates,
+                                             args.num_voters,
+                                             args.num_topn,
+                                             args.voters_model,
+                                             verbose=True)
     plot_comparison_results(args.voters_model, results, args.num_voters, args.num_candidates,
                             args.num_topn, args.num_iterations, save_figure=True)
 
