@@ -140,7 +140,7 @@ python run.py 5 100 20 2 "random"
 The visual result is generated in `figures/scores_random.png`
 
 <p align="center">
-<img src="./figures/scores_5_100_random_20.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_random_20_0.5.png" style="height:60%; width:60%"/>
 </p>
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
