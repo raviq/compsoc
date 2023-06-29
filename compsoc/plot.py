@@ -72,8 +72,8 @@ def plot_comparison_results(voter_model: str, results: dict, num_voters: int, nu
     axes[1].set_title(f"Top{num_topn} mean")
     axes[1].grid(color="gray", linestyle="dashed", linewidth=0.1)
     fig.suptitle(
-        f"{num_voters} voters voting for {num_candidates} candidates, {number_iterations} iterations,\n"
-        (f"Profiles are  {voter_model} with distortion ratio {distortion_ratio}" if distortion_ratio != 0.0 else ""))
+        f"{num_voters} voters voting for {num_candidates} candidates, {number_iterations} iterations,\n" +
+        (f"Profiles are {voter_model} with distortion ratio {distortion_ratio}" if distortion_ratio != 0.0 else ""))
     if save_figure:
         plt.savefig(
             f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}_{distortion_ratio if distortion_ratio != 0.0 else None}.png",
