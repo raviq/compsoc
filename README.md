@@ -14,7 +14,7 @@ The field of [computational social choice (COMPSOC)](https://en.wikipedia.org/wi
 
 ## Goals of the Competition
 
-COMPSOC aims to advance research in computational social choice by leveraging multiagent simulations and machine learning techniques. The competition will focus on the principled evaluation and analysis of voting rules in a competitive setting. The competitors will develop and submit the code of their voting rules, which will then be compared in a tournament based on social welfare and axiomatic satisfiability (anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition). The competition aims at providing valuable insights into the performances of voting mechanisms defined over parametrically generated voting problems, alternatives, and voters. COMPSOC will bring together researchers from computational social choice, social sciences, political sciences, multiagent systems, and machine learning and provide a unique benchmark for evaluating voting mechanisms in various synthetic (or real) problem domains. The competition also aims to advance the field by providing a systematic approach to designing and assessing voting mechanisms in the absence of established theoretical results. This advancement will help bridge the gap between axiomatic and experimental analysis of voting systems, ultimately leading to improved explainability.
+COMPSOC aims to advance research in computational social choice by leveraging multiagent simulations and machine learning techniques. The competition will focus on the principled evaluation and analysis of voting rules in a competitive setting. The competitors will develop and submit the code of their voting rules, which will then be compared in a tournament based on social welfare and axiomatic satisfiability (anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition). The competition aims at providing valuable insights into the performances of voting mechanisms defined over parametrically generated voting problems, alternatives, and voters. COMPSOC will bring together researchers from computational social choice, social sciences, political sciences, multiagent systems, and machine learning and provide a unique benchmark for evaluating voting mechanisms in various synthetic (or real) problem domains. The competition also aims to advance the field by providing a systematic approach to designing and assessing voting mechanisms without established theoretical results. This advancement will help bridge the gap between axiomatic and experimental analysis of voting systems, ultimately leading to improved explainability.
 
 ## Registration
 
@@ -22,7 +22,7 @@ To participate in the competition, you must register on the [COMPSOC registratio
 
 ## General Guidelines
 
-The flow of the competition is illustrated in the figure. In step *(1)*, the competitors register on the [COMPSOC main page](https://compsoc.algocratic.org/) under menu `COMPSOC 2023` to be allowed to their accounts. In step *(2)*, the competitors implement their voting rules using this Python SDK and then upload them to the site. In step *(3)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(4)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(5)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
+The flow of the competition is illustrated in the figure. In step *(1)*, the competitors register on the [COMPSOC main page](https://compsoc.algocratic.org/) under the menu `COMPSOC 2023` to be allowed to access their accounts. In step *(2)*, the competitors implement their voting rules using this Python SDK and then upload them to the site. In step *(3)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(4)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(5)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
 
 <p align="center">
 <img src="./figures/misc/overview_.png" style="height:90%; width:90%"/>
@@ -30,19 +30,19 @@ The flow of the competition is illustrated in the figure. In step *(1)*, the com
 
 The top 3 winning competitors are the competitors with the voting rules that yield the highest social welfare for the multiagent voters (given the baseline ballots of the competition) while satisfying the properties mentioned above. Various sample codes of well-known voting rules will be provided to the participants to guide their implementations (including Borda, Copeland, Dowdall, etc.).
 
-In addition to submitting the Python code of their voting mechanisms, the participants are expected to submit a report describing their mechanism, implementation, and expected results. This will help disseminate the lessons learned from running the competition to the community and set the direction for future tournaments.
+In addition to submitting the Python code of their voting mechanisms, the participants must submit a report describing their mechanism, implementation, and expected results. This will help disseminate the lessons learned from running the competition to the community and set the direction for future tournaments.
 
-The detailed guidelines could be found [here](https://compsoc.algocratic.org/guidelines).
+The detailed guidelines can be found [here](https://compsoc.algocratic.org/guidelines).
 
 ## The COMPSOC SDK
 
-This repository contains the official SDK for developing the mechanisms to be submited to the COMPSOC competition. It contains a package called `compsoc` for the competition. The competitors will develop their `voting rules` and evaluate them using some `voter models`. See the examples below.
+This repository contains the official SDK for developing the mechanisms to be submitted to the COMPSOC competition. It contains a package called `compsoc` for the competition. The competitors will develop their `voting rules` and evaluate them using some `voter models`. See the examples below.
 
 ### Voting rules
 
 The voting rules are defined in terms of scores. That is, the rule takes a candidate and returns its
-score. The obtained scores for all of the candidates could then be used to determine the winner(s).
-For instance, the `Borda` score is implemented in `profile.py` as following.
+score. The obtained scores for all candidates could then determine the winner(s).
+For instance, the `Borda` score is implemented in `profile.py`.
 
 ```python
 """
@@ -76,7 +76,7 @@ Other scores could be re-defined in `profile.py`.
 
 ### Voter Models
 
-In general, voters rank the candidates according to preferences that are often defined as
+In general, voters rank the candidates according to preferences, often defined as
 permutations over the set of candidates. Such preferences could be defined in
 different [ways](https://github.com/raviq/Genon).
 
@@ -88,6 +88,8 @@ In the following, we define the distribution of the votes according to 3 methods
 | Random | ```generate_random_votes(number_voters, number_candidates) ``` |
 | Gaussian | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
 | Dirichlet-Multinomial | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
+
+Note that profiles, or ballots, could be distorted in various ways. For now, we will adopt a method to remove the `distortion_rate %` of each vote where `distortion_rate` is in the range `[0, 1[`. For example, `distortion_rate=0.2` means that `20%` of the vote will be removed.
         
 ## Installation
 
@@ -108,7 +110,7 @@ The main files of the package SDK are:
 | [**evaluate.py**](./compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
 | [**plot.py**](./compsoc/plot.py) | Rendering utils. |
 | [**utils.py**](./compsoc/utils.py) | utils. |
-| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distortion_rate` in [0, 1], and the model `voters_model` to generate the population of voters. |
+| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distortion_rate` in [0, 1[, and the model `voters_model` to generate the population of voters. |
 
 ### Usage
 
