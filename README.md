@@ -88,7 +88,6 @@ In the following, we define the distribution of the votes according to 3 methods
 | Random | ```generate_random_votes(number_voters, number_candidates) ``` |
 | Gaussian | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
 | Dirichlet-Multinomial | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
-
         
 ## Installation
 
@@ -109,7 +108,7 @@ The main files of the package SDK are:
 | [**evaluate.py**](./compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
 | [**plot.py**](./compsoc/plot.py) | Rendering utils. |
 | [**utils.py**](./compsoc/utils.py) | utils. |
-| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distort_rate`, and the model `voters_model` to generate the population of voters. |
+| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distortion_rate` in [0, 1], and the model `voters_model` to generate the population of voters. |
 
 ### Usage
 
@@ -123,25 +122,24 @@ from compsoc.evaluate import evaluate_voting_rules
 and then call ```run.py``` with the right arguments
 
 ```
-python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distort_rate {gaussian,multinomial_dirichlet,random}
+python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distortion_rate {gaussian,multinomial_dirichlet,random}
 ```
 
 The competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
 
-
 ### Examples
 
 To run 10 trials with `Dowdall`, `Simpson`, `Copeland`, and `Borda` rules for 5 candidates and 100
-voters with random votes, run the command:
+voters with distorted random ballots, run the command:
 
 ```
-python run.py 5 100 20 2 "random"
+python run.py 5 100 10 2 0.4 "random"
 ```
 
 The visual result is generated in `figures/scores_random.png`
 
 <p align="center">
-<img src="./figures/scores_5_100_random_20_0.5.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_random_10_0.4.png" style="height:60%; width:60%"/>
 </p>
 
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
