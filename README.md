@@ -89,7 +89,7 @@ In the following, we define the distribution of the votes according to 3 methods
 | Gaussian | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
 | Dirichlet-Multinomial | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
 
-Note that profiles, or ballots, could be distorted in various ways. For now, we will adopt a method to remove the `distortion_rate %` of each vote where `distortion_rate` is in the range `[0, 1[`. For example, `distortion_rate=0.2` means that `20%` of the vote will be removed.
+Note that profiles, or ballots, could be distorted in various ways. We will now adopt a method that removes a subset of each vote using some `distortion_ratio` defined in the range `[0, 1[`. For example, `distortion_ratio=0.2` means that `20%` of the vote will be removed.
         
 ## Installation
 
@@ -110,7 +110,7 @@ The main files of the package SDK are:
 | [**evaluate.py**](./compsoc/evaluate.py) | Evaluation functions for calculation of subjective utilities of the voters given a mechanism. |
 | [**plot.py**](./compsoc/plot.py) | Rendering utils. |
 | [**utils.py**](./compsoc/utils.py) | utils. |
-| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distortion_rate` in [0, 1[, and the model `voters_model` to generate the population of voters. |
+| [**run.py**](run.py) | This is the main entry point for the evaluation of the rules. Takes the number of candidates `num_candidates`, the number of voters `num_voters`, the number of trials to run `number_iterations`, the distortion `distortion_ratio` in [0, 1[, and the model `voters_model` to generate the population of voters. |
 
 ### Usage
 
@@ -124,7 +124,7 @@ from compsoc.evaluate import evaluate_voting_rules
 and then call ```run.py``` with the right arguments
 
 ```
-python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distortion_rate {gaussian,multinomial_dirichlet,random}
+python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distortion_ratio {gaussian,multinomial_dirichlet,random}
 ```
 
 The competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
