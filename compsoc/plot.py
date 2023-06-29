@@ -73,7 +73,7 @@ def plot_comparison_results(voter_model: str, results: dict, num_voters: int, nu
     axes[1].grid(color="gray", linestyle="dashed", linewidth=0.1)
     fig.suptitle(
         f"{num_voters} voters voting for {num_candidates} {voter_model}-candidates\n "
-        f"{number_iterations} iterations" + (f" distort rate:{distortion_ratio}" if distortion_ratio != 0.0 else ""))
+        f"{number_iterations} iterations" + (f" distortion ration:{distortion_ratio}" if distortion_ratio != 0.0 else ""))
     if save_figure:
         plt.savefig(
             f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}_{distortion_ratio if distortion_ratio != 0.0 else None}.png",
