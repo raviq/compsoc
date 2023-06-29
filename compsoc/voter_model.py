@@ -122,13 +122,13 @@ def get_pairs_from_model(num_candidates: int, num_voters: int, voters_model: str
     return pairs
 
 
-def generate_distorted_from_normal_profile(origin_profile: Profile, distort_rate: float) -> Profile:
+def generate_distorted_from_normal_profile(origin_profile: Profile, distortion_ratio: float) -> Profile:
     """
-    distort a normal profile to generate a distorted profile, distort_rate is from 0. to 1.
+    distort a normal profile to generate a distorted profile, distortion_ratio is from 0. to 1.
     0 mesns no ditortion at all, and 1 means all ballots only keeps the first candidate.
     """
     num_candidates = len(origin_profile.candidates)
-    num_to_remain = round(num_candidates * (1 - distort_rate))
+    num_to_remain = round(num_candidates * (1 - distortion_ratio))
     if num_to_remain == 0:
         num_to_remain += 1
     ballots = origin_profile.pairs.copy()
