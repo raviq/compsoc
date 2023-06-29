@@ -25,8 +25,5 @@ def borda_rule(profile: Profile, candidate: int) -> int:
         if candidate in pair[1]:
             scores += pair[0] * (top_score - pair[1].index(candidate))
     
-    #scores = [pair[0] * (top_score - pair[1].index(candidate)) for pair in profile.pairs]
-
-    # Return the total score
-    #return sum(scores)
+    # return the total score
     return scores
