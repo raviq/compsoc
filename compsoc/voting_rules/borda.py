@@ -20,7 +20,8 @@ def borda_rule(profile: Profile, candidate: int) -> int:
     # Get pairwise scores
     scores = 0
     for pair in profile.pairs:
-        # add score only if the candidate applears in the ballots
+        # Adds score only if the candidate appears in the ballots. 
+        # Supports the case when the ballots are distorted.
         if candidate in pair[1]:
             scores += pair[0] * (top_score - pair[1].index(candidate))
     
