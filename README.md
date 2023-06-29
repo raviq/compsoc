@@ -62,13 +62,14 @@ def borda_rule(profile: Profile, candidate: int) -> int:
     """
     # Max score to be applied with borda count
     top_score = len(profile.candidates) - 1
-
     # Get pairwise scores
-    scores = [pair[0] * (top_score - pair[1].index(candidate)) for
-              pair in profile.pairs]
-
-    # Return the total score
-    return sum(scores)
+    scores = 0
+    for pair in profile.pairs:
+        # Adds score only if the candidate appears in the ballots. 
+        # Supports the case when the ballots are distorted.
+        if candidate in pair[1]:
+            scores += pair[0] * (top_score - pair[1].index(candidate))  
+    return scores
 ```
 
 Other scores could be re-defined in `profile.py`.
