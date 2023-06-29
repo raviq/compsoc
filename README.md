@@ -123,10 +123,10 @@ from compsoc.evaluate import evaluate_voting_rules
 and then call ```run.py``` with the right arguments
 
 ```
-python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
+python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distort_rate {gaussian,multinomial_dirichlet,random}
 ```
 
-The actual competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
+The competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
 
 
 ### Examples
