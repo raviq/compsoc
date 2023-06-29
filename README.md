@@ -89,7 +89,7 @@ In the following, we define the distribution of the votes according to 3 methods
 | Gaussian | ```generate_gaussian_votes(mu, stdv, number_voters, number_candidates) ``` |
 | Dirichlet-Multinomial | ```generate_multinomial_dirichlet_votes(alpha, num_voters, num_candidates) ```|
 
-Note that profiles, or ballots, could be distorted in various ways. We will now adopt a method that removes a subset of each vote using some `distortion_ratio` defined in the range `[0, 1[`. For example, `distortion_ratio=0.2` means that `20%` of the vote will be removed.
+Note that profiles, or ballots, could be "distorted". We will now adopt a method that removes a subset of each vote using some `distortion_ratio` defined in the range `[0, 1[`. For example, `distortion_ratio=0.2` means that `20%` of a vote will be cut out.
         
 ## Installation
 
