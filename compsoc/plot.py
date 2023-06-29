@@ -1,6 +1,7 @@
 """
-Plot
+Plotting the scores
 """
+
 import numpy as np
 import pandas as pd
 from matplotlib import pylab as plt
@@ -10,7 +11,6 @@ from io import BytesIO
 
 use("Agg")  # Use non-interactive backend for mpl
 
-
 def plot_comparison_results(voter_model: str, results: dict, num_voters: int, num_candidates: int,
                             num_topn: int,
                             number_iterations: int, distortion_ratio = 0.0 , save_figure: bool = False):
@@ -19,7 +19,7 @@ def plot_comparison_results(voter_model: str, results: dict, num_voters: int, nu
 
     :param voter_model: The generative model to use.
     :type voter_model: str
-    :param results: The voting rule result data to be plotted. Key is index of iteration.
+    :param results: The voting rule result data to be plotted. Key is the index of iteration.
     :type results: dict
     :param num_voters: The number of voters in the model.
     :type num_voters: int
@@ -72,8 +72,8 @@ def plot_comparison_results(voter_model: str, results: dict, num_voters: int, nu
     axes[1].set_title(f"Top{num_topn} mean")
     axes[1].grid(color="gray", linestyle="dashed", linewidth=0.1)
     fig.suptitle(
-        f"{num_voters} voters voting for {num_candidates} candidates\n"
-        f"{number_iterations} iterations, " + (f", profiles are  {voter_model} with distortion ratio {distortion_ratio}" if distortion_ratio != 0.0 else ""))
+        f"{num_voters} voters voting for {num_candidates} candidates, {number_iterations} iterations,\n"
+        (f"Profiles are  {voter_model} with distortion ratio {distortion_ratio}" if distortion_ratio != 0.0 else ""))
     if save_figure:
         plt.savefig(
             f"figures/scores_{num_candidates}_{num_voters}_{voter_model}_{number_iterations}_{distortion_ratio if distortion_ratio != 0.0 else None}.png",
