@@ -367,13 +367,13 @@ class Profile:
         pairs = [(count, choice) for choice, count in vote_counts.items()]
         return cls(set(pairs))
 
-    def distort(self, rate: float):
+    def distort(self, ratio: float):
         """
-        distort profile to generate a distorted profile, rate is from 0. to 1.
-        0 means no ditortion at all, and 1 means all ballots only keeps the first candidate.
+        Alters a profile to generate an incomplete or "distorted" profile, the ratio must be in [0., 1.[
+        ratio=0 means no distortion at all, and ratio=1 indicates all ballots only keep the first candidate (just a convention)
         """
         num_candidates = len(self.candidates)
-        num_to_remain = round(num_candidates * (1 - rate))
+        num_to_remain = round(num_candidates * (1 - ratio))
         if num_to_remain == 0:
             num_to_remain += 1
 
