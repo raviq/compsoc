@@ -145,13 +145,13 @@ The visual result is generated in `figures/scores_random.png`
 Similarly, for a Multinomial-Dirichlet distribution of the votes, run the following command:
 
 ```
-python run.py 5 100 10 3 "multinomial_dirichlet"
+python run.py 5 100 10 3 0.9 "multinomial_dirichlet"
 ```
 
 The result is generated in `figures/scores_multinomial_dirichlet.png`
 
 <p align="center">
-<img src="./figures/scores_5_100_multinomial_dirichlet_10.png" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_multinomial_dirichlet_10_0.9" style="height:60%; width:60%"/>
 </p>
 
 ## Before uploading your voting rules to the COMPSOC server
