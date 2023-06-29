@@ -136,7 +136,7 @@ voters with distorted random ballots, run the command:
 python run.py 5 100 10 2 0.4 "random"
 ```
 
-The visual result is generated in `figures/scores_random.png`
+The visual result is generated in `figures/scores_5_100_random_10_0.4.png`
 
 <p align="center">
 <img src="./figures/scores_5_100_random_10_0.4.png" style="height:60%; width:60%"/>
@@ -148,10 +148,10 @@ Similarly, for a Multinomial-Dirichlet distribution of the votes, run the follow
 python run.py 5 100 10 3 0.9 "multinomial_dirichlet"
 ```
 
-The result is generated in `figures/scores_multinomial_dirichlet.png`
+The result is generated in `figures/scores_5_100_multinomial_dirichlet_10_0.9.png`
 
 <p align="center">
-<img src="./figures/scores_5_100_multinomial_dirichlet_10_0.9" style="height:60%; width:60%"/>
+<img src="./figures/scores_5_100_multinomial_dirichlet_10_0.9.png" style="height:60%; width:60%"/>
 </p>
 
 ## Before uploading your voting rules to the COMPSOC server
