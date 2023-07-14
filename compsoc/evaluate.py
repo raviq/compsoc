@@ -3,6 +3,8 @@ Evaluation functions
 """
 from typing import List, Tuple, Callable
 
+from itertools import permutations
+
 from compsoc.profile import Profile
 from compsoc.voter_model import get_profile_from_model, generate_distorted_from_normal_profile
 from compsoc.voting_rules.borda import borda_rule
@@ -44,7 +46,7 @@ def voter_subjective_utility_for_elected_candidate(elected: List[int], vote: Tup
 def get_rule_utility(profile: Profile,
                      rule: Callable[[Profile, int], any],
                      topn: int,
-                     verbose=False):
+                     verbose=True):
     """
     Calculates the total utility and "top n" utility for a given rule.
 
@@ -128,3 +130,73 @@ def evaluate_voting_rules(num_candidates: int,
     for rule in rules:
         result[rule.__name__] = get_rule_utility(profile, rule, topn, verbose)
     return result
+
+def get_rule_utility_normalized(profile: Profile, rule: Callable[[Profile, int], any], topn: int, verbose=False):
+    utility = get_rule_utility(profile, rule, topn, verbose)
+    top1u = utility['top']; topnu = utility['topn']
+    num_vote = profile.total_votes
+    num_candidate = len(profile.candidates)
+    norm_top1u = (top1u / num_vote) * 100.0
+    utility_increments = [(num_candidate - i) / (num_candidate * 1.0) for i in range(num_candidate)]
+    norm_factor = max(topn, len(list(profile.pairs)[0][1])) / sum(utility_increments[0:max(topn, len(list(profile.pairs)[0][1]))])
+    norm_topnu = (((topnu / num_vote) * 100.0) * norm_factor) / max(topn, len(list(profile.pairs)[0][1]))
+    return {"top": norm_top1u, "topn": norm_topnu}
+
+def get_rule_utility_normalized2(profile: Profile, rule: Callable[[Profile, int], any], topn: int, verbose=False):
+    borda_utility = get_rule_utility(profile, borda_rule, topn, verbose)
+    utility = get_rule_utility(profile, rule, topn, verbose)
+    top = 100 * utility['top']/borda_utility['top']
+    topn = 100 * utility['topn']/borda_utility['topn']
+
+    return {"top": top, "topn": topn}
+    
+
+
+'''
+def get_rule_utility_normalized(profile: Profile, rule: Callable[[Profile, int], any], topn: int):
+    rule_name = rule.__name__
+    ranking = profile.ranking(rule)
+
+    elected_candidates = [c[0] for c in ranking]
+
+    total_u, total_u_n = 0., 0.
+    for pair in profile.pairs:
+
+        u, u_n = voter_subjective_utility_for_elected_candidate(elected_candidates, pair[1], topn=topn)
+
+        total_u += pair[0] * u
+        total_u_n += pair[0] * u_n
+
+    max_total_u = total_u
+    max_total_u_n = total_u_n
+    min_total_u = total_u
+    min_total_u_n = total_u_n
+
+    candidates = list(range(len(profile.candidates)))
+    permu_list = list(permutations(candidates))
+
+    for i in permu_list:
+        t = list(i)
+        ttotal_u, ttotal_u_n = 0., 0.
+
+        for pair in profile.pairs:
+
+            u, u_n = voter_subjective_utility_for_elected_candidate(t, pair[1], topn=topn)
+            ttotal_u += pair[0] * u
+            ttotal_u_n += pair[0] * u_n
+        
+        if ttotal_u > max_total_u:
+            max_total_u = ttotal_u
+        if ttotal_u_n > max_total_u_n:
+            max_total_u_n = ttotal_u_n
+        if ttotal_u < min_total_u:
+            min_total_u = ttotal_u
+        if ttotal_u_n < min_total_u_n:
+            min_total_u_n = ttotal_u_n
+    
+    total_u = ((total_u - min_total_u)/(max_total_u - min_total_u))*200.0 - 100
+    total_u_n = ((total_u_n - min_total_u_n)/(max_total_u_n - min_total_u_n))*200.0 - 100
+    return {"top": total_u, "topn": total_u_n}
+
+'''
+
