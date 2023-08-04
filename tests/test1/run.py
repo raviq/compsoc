@@ -66,6 +66,4 @@ def main():
                             args.num_topn, args.num_iterations, distortion_ratio=args.distortion_ratio, save_figure=True)
 
 
-if __name__ == "__main__":
-    p = get_profile_from_model(num_candidates=10, num_voters=00, voters_model='gaussian', verbose=False)
-    print (p)
+main()
