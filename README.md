@@ -302,7 +302,7 @@ class CodeInput(BaseModel):
 
 ## Citation
 
-> Hadfi, Rafik & Ito, Takayuki. (2023). Computational Social Choice Competition: Overview. 10.11517/pjsai.JSAI2023.0_2F6GS501. 
+Hadfi, Rafik & Ito, Takayuki. (2023). Computational Social Choice Competition: Overview. DOI: 10.11517/pjsai.JSAI2023.0_2F6GS501 ([PDF](./compsoc/docs/source/compsoc2023JSAI.pdf))
 
 ## Licence & Copyright
 
