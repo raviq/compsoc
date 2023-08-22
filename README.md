@@ -300,6 +300,10 @@ class CodeInput(BaseModel):
 * Pandas
 * [Tqdm](https://github.com/tqdm/tqdm)
 
+## Citation
+
+> Hadfi, Rafik & Ito, Takayuki. (2023). Computational Social Choice Competition: Overview. 10.11517/pjsai.JSAI2023.0_2F6GS501. 
+
 ## Licence & Copyright
 
 This software was developed in the hope that it would be of some use to the AI research community,
