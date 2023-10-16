@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>compsoc.profile &mdash; COMPSOC Toolkit 0.3.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            COMPSOC Toolkit
+          </a>
+              <div class="version">
+                0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html"> Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html"> Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compsoc.html"> Compsoc Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compsoc.voting_rules.html"> Voting Rules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COMPSOC Toolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">compsoc.profile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for compsoc.profile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Voting profiles</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">setrecursionlimit</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Profile">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile">[docs]</a>
+<span class="k">class</span> <span class="nc">Profile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to represent a voting profile as a set of tuples, where each tuple</span>
+<span class="sd">    consists of the number of occurrences and a ballot (an ordering of the candidates).</span>
+<span class="sd">    For example, a Profile object with the following data: votes =</span>
+<span class="sd">    Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})</span>
+<span class="sd">    means 17 people like candidate 1 the most, then candidate 3 in the second</span>
+<span class="sd">    position, then candidate 2 in the third position, and so on.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        pairs (Set[Tuple[int, Tuple[int, ...]]]): A set of pairs (number of votes, ballot).</span>
+<span class="sd">        candidates (Set[int]): A set of candidates in ballots.</span>
+<span class="sd">        total_votes (int): The total number of votes.</span>
+<span class="sd">        net_preference_graph (Dict[int, Dict[int, int]]): Represents the net preference graph.</span>
+<span class="sd">        votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate</span>
+<span class="sd">        per rank position.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pairs</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]],</span> <span class="n">num_candidates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distorted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a Profile object with a set of pairs and an optional number of candidates.</span>
+
+<span class="sd">        :param pairs: A set of pairs, each containing the number of occurrences and a ballot.</span>
+<span class="sd">        :type pairs: Set[Tuple[int, Tuple[int, ...]]]</span>
+<span class="sd">        :param num_candidates: An optional integer representing the total number of candidates.</span>
+<span class="sd">        :type num_candidates: None# | int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span> <span class="o">=</span> <span class="n">pairs</span>
+        <span class="c1"># num_candidates might be passed when a file with voting data is parsed</span>
+        <span class="c1"># otherwise get candidates from ballot of first pair</span>
+
+        <span class="k">if</span> <span class="n">distorted</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num_candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;for distorted profile, you must specify the number of candidates&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_candidates</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_candidates</span><span class="p">))</span> <span class="k">if</span> <span class="n">num_candidates</span> \
+                <span class="k">else</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pairs</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Sum the frequencies of all the pairs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_votes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">)</span>
+        <span class="c1"># Create a Net Preference Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_net_preference</span><span class="p">()</span>
+        <span class="c1"># Set votes_per_candidate for Plurality</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_votes_per_candidate</span><span class="p">()</span>
+        <span class="c1"># Initialize a Path Preference Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_preference_graph</span> <span class="o">=</span> <span class="p">{</span><span class="n">candidate</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">}</span>
+
+    <span class="c1"># ---------------------------------------------</span>
+    <span class="c1"># Comparison routines</span>
+    <span class="c1"># ---------------------------------------------</span>
+<div class="viewcode-block" id="Profile.get_net_preference">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.get_net_preference">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_net_preference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the preference between two candidates according to the net preference graph.</span>
+
+<span class="sd">        :param candidate1: The first candidate to be compared.</span>
+<span class="sd">        :type candidate1: int</span>
+<span class="sd">        :param candidate2: The second candidate to be compared.</span>
+<span class="sd">        :type candidate2: int</span>
+<span class="sd">        :return: The preference value of candidate1 over candidate2.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the preference of candidate1 over candidate2</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span><span class="p">[</span><span class="n">candidate1</span><span class="p">][</span><span class="n">candidate2</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Profile.does_pareto_dominate">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.does_pareto_dominate">[docs]</a>
+    <span class="k">def</span> <span class="nf">does_pareto_dominate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if candidate1 is preferred over candidate2 in all ballots.</span>
+
+<span class="sd">        :param candidate1: The first candidate to be compared.</span>
+<span class="sd">        :type candidate1: int</span>
+<span class="sd">        :param candidate2: The second candidate to be compared.</span>
+<span class="sd">        :type candidate2: int</span>
+<span class="sd">        :return: True if candidate1 is preferred in all ballots, False otherwise.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># A boolean list as candidate1 preferred</span>
+        <span class="n">preferred</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">candidate1</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">candidate2</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">preferred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">candidate1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">candidate2</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">preferred</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">preferred</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Profile.score">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.score">[docs]</a>
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of candidate scores according to a specified scoring function.</span>
+
+<span class="sd">        :param scorer: The scoring function (e.g., Borda, Copeland).</span>
+<span class="sd">        :type scorer: Callable</span>
+<span class="sd">        :return: A sorted list of tuples (candidate, score), ordered by candidate ID in increasing order.</span>
+<span class="sd">        :rtype: List[Tuple[int, float]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="p">[(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">scorer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidate</span><span class="p">))</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">]</span>
+
+        <span class="c1"># Sorted by candidate id in increasing order</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">scores</span></div>
+
+
+<div class="viewcode-block" id="Profile.ranking">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.ranking">[docs]</a>
+    <span class="k">def</span> <span class="nf">ranking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of candidate rankings according to a specified scoring function.</span>
+
+<span class="sd">        :param scorer: The scoring function (e.g., Borda, Copeland).</span>
+<span class="sd">        :type scorer: Callable</span>
+<span class="sd">        :return: A list of tuples (candidate, score), ordered by score in descending order.</span>
+<span class="sd">        :rtype: List[Tuple[int, float]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># A list of (candidate, score)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Ranking is the score list ordered by score in descending order</span>
+        <span class="k">return</span> <span class="n">scores</span></div>
+
+
+<div class="viewcode-block" id="Profile.winners">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.winners">[docs]</a>
+    <span class="k">def</span> <span class="nf">winners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a set of candidate winners according to a given scoring function.</span>
+
+<span class="sd">        :param scorer: A scoring function (e.g., Borda, Copeland).</span>
+<span class="sd">        :type scorer: callable</span>
+<span class="sd">        :return: A set of winning candidates.</span>
+<span class="sd">        :rtype: set</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ranking</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranking</span><span class="p">(</span><span class="n">scorer</span><span class="p">)</span>  <span class="c1"># get ranking</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="n">ranking</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># get best score first tuple in ranking</span>
+        <span class="c1"># Filter ranking to get all best score</span>
+        <span class="n">bests</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">ranking</span><span class="p">))</span>
+        <span class="c1"># Get only the candidates</span>
+        <span class="n">winners</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">bests</span><span class="p">)</span>
+        <span class="c1"># Return a set of winners</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">winners</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__preference</span><span class="p">(</span><span class="n">num_votes</span><span class="p">,</span> <span class="n">candidate_1_index</span><span class="p">,</span> <span class="n">candidate_2_index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the preference between two candidates and returns the preference</span>
+<span class="sd">        according to the number of votes.</span>
+
+<span class="sd">        :param num_votes: Number of votes.</span>
+<span class="sd">        :type num_votes: int</span>
+<span class="sd">        :param candidate_1_index: Index of the first candidate.</span>
+<span class="sd">        :type candidate_1_index: int</span>
+<span class="sd">        :param candidate_2_index: Index of the second candidate.</span>
+<span class="sd">        :type candidate_2_index: int</span>
+<span class="sd">        :return: The preference value.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">candidate_1_index</span> <span class="o">-</span> <span class="n">candidate_2_index</span>
+        <span class="c1"># Exception: if n is equal to 0, preference is 0,</span>
+        <span class="c1"># otherwise preference is num_votes * sign(n)</span>
+        <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">num_votes</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__calc_net_preference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Net Preference Graph for the voting profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="n">num_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span> <span class="o">=</span> <span class="p">{</span><span class="n">candidate</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_candidates</span><span class="p">):</span>
+            <span class="n">candidate_1</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_candidates</span><span class="p">):</span>
+                <span class="n">candidate_2</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="c1"># Preference list</span>
+                <span class="n">preferences</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1"># For each pair of voting data</span>
+                <span class="k">for</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ballot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">:</span>
+                    <span class="c1"># If both candidates are in the ballot</span>
+                    <span class="k">if</span> <span class="n">candidate_1</span> <span class="ow">in</span> <span class="n">ballot</span> <span class="ow">and</span> <span class="n">candidate_2</span> <span class="ow">in</span> <span class="n">ballot</span><span class="p">:</span>
+                        <span class="n">candidate_1_index</span> <span class="o">=</span> <span class="n">ballot</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">candidate_1</span><span class="p">)</span>
+                        <span class="n">candidate_2_index</span> <span class="o">=</span> <span class="n">ballot</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">candidate_2</span><span class="p">)</span>
+
+                        <span class="n">pref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__preference</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span>
+                                                 <span class="n">candidate_2_index</span><span class="p">,</span>
+                                                 <span class="n">candidate_1_index</span><span class="p">)</span>
+                        <span class="n">preferences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pref</span><span class="p">)</span>  <span class="c1"># save preference</span>
+                <span class="c1"># Computes the preference</span>
+                <span class="n">preference</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">preferences</span><span class="p">)</span>
+                <span class="c1"># Save preferencess</span>
+                <span class="c1"># candidate1 VS candidate2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span><span class="p">[</span><span class="n">candidate_1</span><span class="p">][</span><span class="n">candidate_2</span><span class="p">]</span> <span class="o">=</span> <span class="n">preference</span>
+                <span class="c1"># candidate2 VS candidate1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span><span class="p">[</span><span class="n">candidate_2</span><span class="p">][</span><span class="n">candidate_1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">preference</span>
+
+    <span class="k">def</span> <span class="nf">__calc_votes_per_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the total votes for each candidate for each rank position.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize structure to save the scores</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">votes_per_candidate</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Number of candidate</span>
+        <span class="n">n_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="c1"># For each candidate</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_candidates</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">votes_per_candidate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">candidate</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">})</span>
+            <span class="c1"># For each ballot&#39;s candidate, add votes</span>
+            <span class="k">for</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ballot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">:</span>
+                <span class="c1"># for distorted ballots</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ballot</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">votes_per_candidate</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">ballot</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">freq</span>
+                <span class="c1"># self.votes_per_candidate[i][ballot[i]] += freq</span>
+
+    <span class="k">def</span> <span class="nf">__calc_path_preference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes paths&#39; strengths for the Schulze method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create an iterable for candidates</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="c1"># Number of candidates</span>
+        <span class="n">n_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_candidates</span><span class="p">):</span>
+            <span class="c1"># Get candidate1</span>
+            <span class="n">candidate1</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">):</span>
+                <span class="c1"># Get candidate2</span>
+                <span class="n">candidate2</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="c1"># Get strengths of candidate1 VS candidate2</span>
+                <span class="n">strength1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_strength</span><span class="p">(</span><span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">)</span>
+                <span class="c1"># Get strengths of candidate2 VS candidate1</span>
+                <span class="n">strength2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_strength</span><span class="p">(</span><span class="n">candidate2</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">)</span>
+                <span class="c1"># Save strengths</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path_preference_graph</span><span class="p">[</span><span class="n">candidate1</span><span class="p">][</span><span class="n">candidate2</span><span class="p">]</span> <span class="o">=</span> <span class="n">strength1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path_preference_graph</span><span class="p">[</span><span class="n">candidate2</span><span class="p">][</span><span class="n">candidate1</span><span class="p">]</span> <span class="o">=</span> <span class="n">strength2</span>
+
+    <span class="k">def</span> <span class="nf">__calc_strength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the weakest link of the strongest path between two candidates.</span>
+
+<span class="sd">        :param candidate1: Origin candidate.</span>
+<span class="sd">        :type candidate1: int</span>
+<span class="sd">        :param candidate2: Destination candidate.</span>
+<span class="sd">        :type candidate2: int</span>
+<span class="sd">        :return: The weakest link of the strongest path.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Find possible paths between candidate1 and candidate2</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_paths</span><span class="p">(</span><span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">)</span>
+
+        <span class="c1"># Get strength for each path (weakest link)</span>
+        <span class="n">strength</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="n">paths</span><span class="p">))</span>
+
+        <span class="c1"># Return the strongest strength</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">strength</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__calc_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">,</span> <span class="n">candidates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the possible paths between two candidates.</span>
+
+<span class="sd">        :param candidate1: Origin candidate.</span>
+<span class="sd">        :type candidate1: int</span>
+<span class="sd">        :param candidate2: Destination candidate.</span>
+<span class="sd">        :type candidate2: int</span>
+<span class="sd">        :param candidates: Set of candidates excluding the origin candidate, defaults to None.</span>
+<span class="sd">        :type candidates: set, optional</span>
+<span class="sd">        :return: A list of possible paths between candidate1 and candidate2.</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if candidates exists</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span> <span class="o">-</span> <span class="p">{</span><span class="n">candidate1</span><span class="p">}</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of possible paths</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of weights</span>
+        <span class="c1"># For each candidate that is not candidate1...</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="c1"># Get preference of candidate1 over candidate</span>
+            <span class="n">preference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span><span class="p">[</span><span class="n">candidate1</span><span class="p">][</span><span class="n">candidate</span><span class="p">]</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">preference</span><span class="p">)</span>  <span class="c1"># save current weigth</span>
+            <span class="c1"># End of path</span>
+            <span class="k">if</span> <span class="n">candidate</span> <span class="o">==</span> <span class="n">candidate2</span><span class="p">:</span>
+                <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>  <span class="c1"># add to possible paths</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># start a new path</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># path isn&#39;t over</span>
+                <span class="n">new_candidates</span> <span class="o">=</span> <span class="n">candidates</span> <span class="o">-</span> <span class="p">{</span><span class="n">candidate</span><span class="p">}</span>
+                <span class="n">subpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_paths</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">,</span>
+                                            <span class="n">new_candidates</span><span class="p">)</span>
+                <span class="c1"># For each subpath (list of weights),</span>
+                <span class="c1"># concatenate with current path and save it</span>
+                <span class="k">for</span> <span class="n">weights</span> <span class="ow">in</span> <span class="n">subpath</span><span class="p">:</span>
+                    <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="c1"># Return a list of possible paths between candidate1 and candidate2</span>
+        <span class="k">return</span> <span class="n">paths</span>
+
+    <span class="k">def</span> <span class="nf">_build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a graph for the Kemeny-Young method. Adapted from</span>
+<span class="sd">        http://vene.ro/blog/kemeny-young-optimal-rank-aggregation-in-python.html</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">freq</span><span class="p">,</span> <span class="n">ballot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
+                <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ballot</span><span class="p">))</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ranks</span><span class="p">)</span>
+        <span class="n">edge_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_candidates</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_candidates</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">preference</span> <span class="o">=</span> <span class="n">ranks</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">ranks</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">h_ij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">preference</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># prefers i to j</span>
+            <span class="n">h_ji</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">preference</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># prefers j to i</span>
+            <span class="k">if</span> <span class="n">h_ij</span> <span class="o">&gt;</span> <span class="n">h_ji</span><span class="p">:</span>
+                <span class="n">edge_weights</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_ij</span> <span class="o">-</span> <span class="n">h_ji</span>
+            <span class="k">elif</span> <span class="n">h_ij</span> <span class="o">&lt;</span> <span class="n">h_ji</span><span class="p">:</span>
+                <span class="n">edge_weights</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_ji</span> <span class="o">-</span> <span class="n">h_ij</span>
+        <span class="k">return</span> <span class="n">edge_weights</span>
+
+<div class="viewcode-block" id="Profile.parse_voting_data">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.parse_voting_data">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_voting_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parses a voting data file and creates a Profile instance.</span>
+
+<span class="sd">        :param file_path: Path to the voting data file.</span>
+<span class="sd">        :type file_path: str</span>
+<span class="sd">        :return: A Profile instance.</span>
+<span class="sd">        :rtype: Profile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">file_path</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">!=</span> <span class="s2">&quot;soi&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">EncodingWarning</span><span class="p">(</span><span class="s2">&quot;The extension has to be .soi&quot;</span><span class="p">)</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_candidates</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;NUMBER ALTERNATIVES&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                        <span class="c1"># Parse lines like: &quot;# NUMBER ALTERNATIVES: 379&quot;</span>
+                        <span class="n">num_candidates</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">num_voters</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+                    <span class="n">ballot</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span>
+                    <span class="n">pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_voters</span><span class="p">,</span> <span class="n">ballot</span><span class="p">)</span>
+                    <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No votes found in file&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">num_candidates</span><span class="o">=</span><span class="n">num_candidates</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Profile.ballot_box">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.ballot_box">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">ballot_box</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a VotingProfile instance from a list of ranked candidates.</span>
+
+<span class="sd">        :param choices: A list of ranked candidates, i.e, [(voter&#39;s 1 ranked candidates),</span>
+<span class="sd">                       (voter&#39;s 2 ranked candidates), (voter&#39;s 3 ranked candidates), ...]</span>
+<span class="sd">        :type choices: list of tuples</span>
+<span class="sd">        :return: A VotingProfile instance with the set of (number of votes, candidates ranked).</span>
+<span class="sd">        :rtype: VotingProfile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vote_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">count</span><span class="p">,</span> <span class="n">choice</span><span class="p">)</span> <span class="k">for</span> <span class="n">choice</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">vote_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pairs</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Profile.distort">
+<a class="viewcode-back" href="../../compsoc.html#compsoc.profile.Profile.distort">[docs]</a>
+    <span class="k">def</span> <span class="nf">distort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alters a profile to generate an incomplete or &quot;distorted&quot; profile, the ratio must be in [0., 1.[</span>
+<span class="sd">        ratio=0 means no distortion at all, and ratio=1 indicates all ballots only keep the first candidate (just a convention)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="n">num_to_remain</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">num_candidates</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">num_to_remain</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">num_to_remain</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Cut the ballots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">num_to_remain</span><span class="p">])</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the occurence of each ballot again</span>
+        <span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="p">:</span>
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result_dict</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="c1"># Create a Net Preference Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_net_preference</span><span class="p">()</span>
+
+        <span class="c1"># Set votes_per_candidate for Plurality</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_votes_per_candidate</span><span class="p">()</span>
+
+        <span class="c1"># Initialize a Path Preference Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_preference_graph</span> <span class="o">=</span> <span class="p">{</span><span class="n">candidate</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ballot_distribution</span> <span class="o">=</span> <span class="s2">&quot;Ballots:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> instances of ballot </span><span class="si">{</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">pairs</span><span class="p">])</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="s2">&quot;Candidates:</span><span class="se">\n\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">candidates</span><span class="p">)</span>
+        <span class="n">total_votes</span> <span class="o">=</span> <span class="s2">&quot;Total number of votes:</span><span class="se">\n\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_votes</span><span class="p">)</span>
+        <span class="n">pref_graph</span> <span class="o">=</span> <span class="s2">&quot;Preference graph:</span><span class="se">\n\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net_preference_graph</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">ballot_distribution</span><span class="p">,</span> <span class="n">candidates</span><span class="p">,</span> <span class="n">total_votes</span><span class="p">,</span> <span class="n">pref_graph</span><span class="p">])</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rafik.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>compsoc.voting_rules package &mdash; COMPSOC Toolkit 0.3.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="compsoc package" href="compsoc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            COMPSOC Toolkit
+          </a>
+              <div class="version">
+                0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html"> Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"> Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compsoc.html"> Compsoc Package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"> Voting Rules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.borda">compsoc.voting_rules.borda module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.borda.borda_rule"><code class="docutils literal notranslate"><span class="pre">borda_rule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.borda_gamma">compsoc.voting_rules.borda_gamma module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.borda_gamma.get_borda_gamma"><code class="docutils literal notranslate"><span class="pre">get_borda_gamma()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.borda_random">compsoc.voting_rules.borda_random module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.borda_random.borda_random_gamma"><code class="docutils literal notranslate"><span class="pre">borda_random_gamma()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.copeland">compsoc.voting_rules.copeland module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.copeland.copeland_rule"><code class="docutils literal notranslate"><span class="pre">copeland_rule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.dowdall">compsoc.voting_rules.dowdall module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.dowdall.dowdall_rule"><code class="docutils literal notranslate"><span class="pre">dowdall_rule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules.simpson">compsoc.voting_rules.simpson module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voting_rules.simpson.simpson_rule"><code class="docutils literal notranslate"><span class="pre">simpson_rule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voting_rules">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COMPSOC Toolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">compsoc.voting_rules package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/compsoc.voting_rules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compsoc-voting-rules-package">
+<h1>compsoc.voting_rules package<a class="headerlink" href="#compsoc-voting-rules-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-compsoc.voting_rules.borda">
+<span id="compsoc-voting-rules-borda-module"></span><h2>compsoc.voting_rules.borda module<a class="headerlink" href="#module-compsoc.voting_rules.borda" title="Link to this heading"></a></h2>
+<p>Computes the Borda score for a candidate.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.borda.borda_rule">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.borda.</span></span><span class="sig-name descname"><span class="pre">borda_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="compsoc.html#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/borda.html#borda_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.borda.borda_rule" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Borda score for a candidate based on a profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<em>VotingProfile</em>) – The voting profile.</p></li>
+<li><p><strong>candidate</strong> (<em>int</em>) – The base candidate for scoring.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Borda score for the candidate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules.borda_gamma">
+<span id="compsoc-voting-rules-borda-gamma-module"></span><h2>compsoc.voting_rules.borda_gamma module<a class="headerlink" href="#module-compsoc.voting_rules.borda_gamma" title="Link to this heading"></a></h2>
+<p>Variation on Borda, with a decay (gamma).
+Author: Shunsuke O.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.borda_gamma.get_borda_gamma">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.borda_gamma.</span></span><span class="sig-name descname"><span class="pre">get_borda_gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/borda_gamma.html#get_borda_gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.borda_gamma.get_borda_gamma" title="Link to this definition"></a></dt>
+<dd><p>Returns a callable function for the Borda gamma method with the specified gamma.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gamma</strong> (<em>float</em><em>, </em><em>optional</em>) – The decay factor for Borda gamma, defaults to 0.5.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable function for the Borda gamma method.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callable[[int], float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules.borda_random">
+<span id="compsoc-voting-rules-borda-random-module"></span><h2>compsoc.voting_rules.borda_random module<a class="headerlink" href="#module-compsoc.voting_rules.borda_random" title="Link to this heading"></a></h2>
+<p>Borda random</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.borda_random.borda_random_gamma">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.borda_random.</span></span><span class="sig-name descname"><span class="pre">borda_random_gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="compsoc.html#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/borda_random.html#borda_random_gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.borda_random.borda_random_gamma" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Borda random decay (gamma) score for a
+candidate based on a profile.
+Author: Shunsuke O.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<em>VotingProfile</em>) – The voting profile.</p></li>
+<li><p><strong>candidate</strong> (<em>int</em>) – The base candidate for scoring.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Borda random gamma score for the candidate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules.copeland">
+<span id="compsoc-voting-rules-copeland-module"></span><h2>compsoc.voting_rules.copeland module<a class="headerlink" href="#module-compsoc.voting_rules.copeland" title="Link to this heading"></a></h2>
+<p>Computes the Copeland score for a candidate.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.copeland.copeland_rule">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.copeland.</span></span><span class="sig-name descname"><span class="pre">copeland_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="compsoc.html#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/copeland.html#copeland_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.copeland.copeland_rule" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Copeland score for a candidate based on a profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<em>VotingProfile</em>) – The voting profile.</p></li>
+<li><p><strong>candidate</strong> (<em>int</em>) – The base candidate for scoring.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Copeland score for the candidate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules.dowdall">
+<span id="compsoc-voting-rules-dowdall-module"></span><h2>compsoc.voting_rules.dowdall module<a class="headerlink" href="#module-compsoc.voting_rules.dowdall" title="Link to this heading"></a></h2>
+<p>Computes the Dowdall score for a candidate.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.dowdall.dowdall_rule">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.dowdall.</span></span><span class="sig-name descname"><span class="pre">dowdall_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="compsoc.html#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/dowdall.html#dowdall_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.dowdall.dowdall_rule" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Dowdall score for a candidate based on a profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<em>VotingProfile</em>) – The voting profile.</p></li>
+<li><p><strong>candidate</strong> (<em>int</em>) – The base candidate for scoring.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Dowdall score for the candidate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules.simpson">
+<span id="compsoc-voting-rules-simpson-module"></span><h2>compsoc.voting_rules.simpson module<a class="headerlink" href="#module-compsoc.voting_rules.simpson" title="Link to this heading"></a></h2>
+<p>Computes the Simpson score for a candidate.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voting_rules.simpson.simpson_rule">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voting_rules.simpson.</span></span><span class="sig-name descname"><span class="pre">simpson_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="compsoc.html#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/compsoc/voting_rules/simpson.html#simpson_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voting_rules.simpson.simpson_rule" title="Link to this definition"></a></dt>
+<dd><p>Calculates the minimum pairwise score of a candidate using the Simpson rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<em>VotingProfile</em>) – The voting profile.</p></li>
+<li><p><strong>candidate</strong> (<em>int</em>) – The base candidate for scoring.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The minimum pairwise score of the candidate among all other candidates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voting_rules">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-compsoc.voting_rules" title="Link to this heading"></a></h2>
+<p>init</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="compsoc.html" class="btn btn-neutral float-left" title="compsoc package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rafik.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

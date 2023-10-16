@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>compsoc package &mdash; COMPSOC Toolkit 0.3.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="compsoc.voting_rules package" href="compsoc.voting_rules.html" />
+    <link rel="prev" title="Installation and Usage" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            COMPSOC Toolkit
+          </a>
+              <div class="version">
+                0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html"> Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"> Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"> Compsoc Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.evaluate">compsoc.evaluate module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.evaluate.evaluate_voting_rules"><code class="docutils literal notranslate"><span class="pre">evaluate_voting_rules()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.evaluate.get_rule_utility"><code class="docutils literal notranslate"><span class="pre">get_rule_utility()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.evaluate.voter_subjective_utility_for_elected_candidate"><code class="docutils literal notranslate"><span class="pre">voter_subjective_utility_for_elected_candidate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.plot">compsoc.plot module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.plot.plot_comparison_results"><code class="docutils literal notranslate"><span class="pre">plot_comparison_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.profile">compsoc.profile module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.profile.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.ballot_box"><code class="docutils literal notranslate"><span class="pre">Profile.ballot_box()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.distort"><code class="docutils literal notranslate"><span class="pre">Profile.distort()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.does_pareto_dominate"><code class="docutils literal notranslate"><span class="pre">Profile.does_pareto_dominate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.get_net_preference"><code class="docutils literal notranslate"><span class="pre">Profile.get_net_preference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.parse_voting_data"><code class="docutils literal notranslate"><span class="pre">Profile.parse_voting_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.ranking"><code class="docutils literal notranslate"><span class="pre">Profile.ranking()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.score"><code class="docutils literal notranslate"><span class="pre">Profile.score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compsoc.profile.Profile.winners"><code class="docutils literal notranslate"><span class="pre">Profile.winners()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.utils">compsoc.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.utils.int_list_to_str"><code class="docutils literal notranslate"><span class="pre">int_list_to_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.utils.str_list_to_in"><code class="docutils literal notranslate"><span class="pre">str_list_to_in()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc.voter_model">compsoc.voter_model module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.generate_distorted_from_normal_profile"><code class="docutils literal notranslate"><span class="pre">generate_distorted_from_normal_profile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.generate_gaussian_votes"><code class="docutils literal notranslate"><span class="pre">generate_gaussian_votes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.generate_multinomial_dirichlet_votes"><code class="docutils literal notranslate"><span class="pre">generate_multinomial_dirichlet_votes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.generate_random_votes"><code class="docutils literal notranslate"><span class="pre">generate_random_votes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.get_pairs_from_model"><code class="docutils literal notranslate"><span class="pre">get_pairs_from_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compsoc.voter_model.get_profile_from_model"><code class="docutils literal notranslate"><span class="pre">get_profile_from_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-compsoc">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compsoc.voting_rules.html"> Voting Rules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COMPSOC Toolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">compsoc package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/compsoc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compsoc-package">
+<h1>compsoc package<a class="headerlink" href="#compsoc-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-compsoc.evaluate">
+<span id="compsoc-evaluate-module"></span><h2>compsoc.evaluate module<a class="headerlink" href="#module-compsoc.evaluate" title="Link to this heading"></a></h2>
+<p>Evaluation functions</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.evaluate.evaluate_voting_rules">
+<span class="sig-prename descclassname"><span class="pre">compsoc.evaluate.</span></span><span class="sig-name descname"><span class="pre">evaluate_voting_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voters_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/evaluate.html#evaluate_voting_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.evaluate.evaluate_voting_rules" title="Link to this definition"></a></dt>
+<dd><p>Evaluates various voting rules and returns a dictionary with the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_candidates</strong> (<em>int</em>) – The number of candidates.</p></li>
+<li><p><strong>num_voters</strong> (<em>int</em>) – The number of voters.</p></li>
+<li><p><strong>topn</strong> (<em>int</em>) – The number of top candidates to consider for utility calculation.</p></li>
+<li><p><strong>voters_model</strong> (<em>str</em>) – The model used to generate the voter profiles.</p></li>
+<li><p><strong>distortion_ratio</strong> (<em>int</em><em>, </em><em>optional</em>) – The distortion rate, defaults to 0.0.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print additional information if True, defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the results for each voting rule.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, dict[str, float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.evaluate.get_rule_utility">
+<span class="sig-prename descclassname"><span class="pre">compsoc.evaluate.</span></span><span class="sig-name descname"><span class="pre">get_rule_utility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/evaluate.html#get_rule_utility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.evaluate.get_rule_utility" title="Link to this definition"></a></dt>
+<dd><p>Calculates the total utility and “top n” utility for a given rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><em>Profile</em></a>) – The voting profile.</p></li>
+<li><p><strong>rule</strong> (<em>Callable</em><em>[</em><em>[</em><em>int</em><em>]</em><em>, </em><em>int</em><em>]</em><em>,</em><em>#</em><em> | </em><em>float</em><em>]</em><em>,</em>) – The voting rule function.</p></li>
+<li><p><strong>topn</strong> (<em>int</em>) – The number of top candidates to consider for utility calculation.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print additional information if True, defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the total utility for the top candidate and the total utility for top n candidates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.evaluate.voter_subjective_utility_for_elected_candidate">
+<span class="sig-prename descclassname"><span class="pre">compsoc.evaluate.</span></span><span class="sig-name descname"><span class="pre">voter_subjective_utility_for_elected_candidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vote</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/compsoc/evaluate.html#voter_subjective_utility_for_elected_candidate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.evaluate.voter_subjective_utility_for_elected_candidate" title="Link to this definition"></a></dt>
+<dd><p>Calculates the subjective utility of an individual voter for an elected candidate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elected</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – List of elected candidates.</p></li>
+<li><p><strong>vote</strong> (<em>Tuple</em><em>[</em><em>int</em><em>]</em>) – A tuple containing a voter’s ranked candidates.</p></li>
+<li><p><strong>topn</strong> (<em>int</em>) – The number of top candidates to consider for utility calculation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing utility for the top candidate and total utility for top n candidates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.plot">
+<span id="compsoc-plot-module"></span><h2>compsoc.plot module<a class="headerlink" href="#module-compsoc.plot" title="Link to this heading"></a></h2>
+<p>Plotting the scores</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.plot.plot_comparison_results">
+<span class="sig-prename descclassname"><span class="pre">compsoc.plot.</span></span><span class="sig-name descname"><span class="pre">plot_comparison_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">voter_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_topn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_figure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/plot.html#plot_comparison_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.plot.plot_comparison_results" title="Link to this definition"></a></dt>
+<dd><p>Plot the mean scores for all voting rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voter_model</strong> (<em>str</em>) – The generative model to use.</p></li>
+<li><p><strong>results</strong> (<em>dict</em>) – The voting rule result data to be plotted. Key is the index of iteration.</p></li>
+<li><p><strong>num_voters</strong> (<em>int</em>) – The number of voters in the model.</p></li>
+<li><p><strong>num_candidates</strong> (<em>int</em>) – The number of candidates in the model.</p></li>
+<li><p><strong>num_topn</strong> (<em>int</em>) – The number of top candidates to consider.</p></li>
+<li><p><strong>number_iterations</strong> (<em>int</em>) – The number of iterations for the simulation.</p></li>
+<li><p><strong>save_figure</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, saves the figure as a png file, defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Base64 encoded string representation of the plot image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.profile">
+<span id="compsoc-profile-module"></span><h2>compsoc.profile module<a class="headerlink" href="#module-compsoc.profile" title="Link to this heading"></a></h2>
+<p>Voting profiles</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="compsoc.profile.Profile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compsoc.profile.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distorted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to represent a voting profile as a set of tuples, where each tuple
+consists of the number of occurrences and a ballot (an ordering of the candidates).
+For example, a Profile object with the following data: votes =
+Profile({(17, (1,3,2,0)), (40, (3,0,1,2)), (52, (1,0,2,3))})
+means 17 people like candidate 1 the most, then candidate 3 in the second
+position, then candidate 2 in the third position, and so on.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>pairs (Set[Tuple[int, Tuple[int, …]]]): A set of pairs (number of votes, ballot).
+candidates (Set[int]): A set of candidates in ballots.
+total_votes (int): The total number of votes.
+net_preference_graph (Dict[int, Dict[int, int]]): Represents the net preference graph.
+votes_per_candidate (List[Dict[int, int]]): The total votes for each candidate
+per rank position.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.ballot_box">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ballot_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.ballot_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.ballot_box" title="Link to this definition"></a></dt>
+<dd><p>Creates a VotingProfile instance from a list of ranked candidates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>choices</strong> (<em>list</em><em> of </em><em>tuples</em>) – A list of ranked candidates, i.e, [(voter’s 1 ranked candidates),
+(voter’s 2 ranked candidates), (voter’s 3 ranked candidates), …]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A VotingProfile instance with the set of (number of votes, candidates ranked).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>VotingProfile</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.distort">
+<span class="sig-name descname"><span class="pre">distort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.distort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.distort" title="Link to this definition"></a></dt>
+<dd><p>Alters a profile to generate an incomplete or “distorted” profile, the ratio must be in [0., 1.[
+ratio=0 means no distortion at all, and ratio=1 indicates all ballots only keep the first candidate (just a convention)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.does_pareto_dominate">
+<span class="sig-name descname"><span class="pre">does_pareto_dominate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidate1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.does_pareto_dominate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.does_pareto_dominate" title="Link to this definition"></a></dt>
+<dd><p>Checks if candidate1 is preferred over candidate2 in all ballots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>candidate1</strong> (<em>int</em>) – The first candidate to be compared.</p></li>
+<li><p><strong>candidate2</strong> (<em>int</em>) – The second candidate to be compared.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if candidate1 is preferred in all ballots, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.get_net_preference">
+<span class="sig-name descname"><span class="pre">get_net_preference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidate1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidate2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.get_net_preference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.get_net_preference" title="Link to this definition"></a></dt>
+<dd><p>Computes the preference between two candidates according to the net preference graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>candidate1</strong> (<em>int</em>) – The first candidate to be compared.</p></li>
+<li><p><strong>candidate2</strong> (<em>int</em>) – The second candidate to be compared.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The preference value of candidate1 over candidate2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.parse_voting_data">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_voting_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.parse_voting_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.parse_voting_data" title="Link to this definition"></a></dt>
+<dd><p>Parses a voting data file and creates a Profile instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Path to the voting data file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Profile instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile">Profile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.ranking">
+<span class="sig-name descname"><span class="pre">ranking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.ranking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.ranking" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of candidate rankings according to a specified scoring function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scorer</strong> (<em>Callable</em>) – The scoring function (e.g., Borda, Copeland).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples (candidate, score), ordered by score in descending order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[int, float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.score">
+<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.score" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of candidate scores according to a specified scoring function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scorer</strong> (<em>Callable</em>) – The scoring function (e.g., Borda, Copeland).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sorted list of tuples (candidate, score), ordered by candidate ID in increasing order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[int, float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="compsoc.profile.Profile.winners">
+<span class="sig-name descname"><span class="pre">winners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/profile.html#Profile.winners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.profile.Profile.winners" title="Link to this definition"></a></dt>
+<dd><p>Returns a set of candidate winners according to a given scoring function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scorer</strong> (<em>callable</em>) – A scoring function (e.g., Borda, Copeland).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A set of winning candidates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-compsoc.utils">
+<span id="compsoc-utils-module"></span><h2>compsoc.utils module<a class="headerlink" href="#module-compsoc.utils" title="Link to this heading"></a></h2>
+<p>This module contains utility functions for the compsoc website.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.utils.int_list_to_str">
+<span class="sig-prename descclassname"><span class="pre">compsoc.utils.</span></span><span class="sig-name descname"><span class="pre">int_list_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">int_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/compsoc/utils.html#int_list_to_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.utils.int_list_to_str" title="Link to this definition"></a></dt>
+<dd><p>Converts a list of integers to a comma-separated string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>int_list</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – A list of integers.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A comma-separated string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.utils.str_list_to_in">
+<span class="sig-prename descclassname"><span class="pre">compsoc.utils.</span></span><span class="sig-name descname"><span class="pre">str_list_to_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/utils.html#str_list_to_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.utils.str_list_to_in" title="Link to this definition"></a></dt>
+<dd><p>Converts a comma-separated string to a list of integers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>str_list</strong> (<em>str</em>) – A comma-separated string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of integers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-compsoc.voter_model">
+<span id="compsoc-voter-model-module"></span><h2>compsoc.voter_model module<a class="headerlink" href="#module-compsoc.voter_model" title="Link to this heading"></a></h2>
+<p>Voter models
+Definition of the ballots of the voters according to different generative models.
+Results are probabilistic distributions over votes.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.generate_distorted_from_normal_profile">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">generate_distorted_from_normal_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin_profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></span><a class="reference internal" href="_modules/compsoc/voter_model.html#generate_distorted_from_normal_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.generate_distorted_from_normal_profile" title="Link to this definition"></a></dt>
+<dd><p>distort a normal profile to generate a distorted profile, distortion_ratio is from 0. to 1.
+0 mesns no ditortion at all, and 1 means all ballots only keeps the first candidate.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.generate_gaussian_votes">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">generate_gaussian_votes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/voter_model.html#generate_gaussian_votes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.generate_gaussian_votes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.generate_multinomial_dirichlet_votes">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">generate_multinomial_dirichlet_votes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/voter_model.html#generate_multinomial_dirichlet_votes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.generate_multinomial_dirichlet_votes" title="Link to this definition"></a></dt>
+<dd><p>Generates a list of pairs (count, vote) from a Dirichlet Multinomia model of voters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.generate_random_votes">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">generate_random_votes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/compsoc/voter_model.html#generate_random_votes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.generate_random_votes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.get_pairs_from_model">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">get_pairs_from_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voters_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/compsoc/voter_model.html#get_pairs_from_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.get_pairs_from_model" title="Link to this definition"></a></dt>
+<dd><p>Generates a list of pairs (count, vote) from a model of voters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="compsoc.voter_model.get_profile_from_model">
+<span class="sig-prename descclassname"><span class="pre">compsoc.voter_model.</span></span><span class="sig-name descname"><span class="pre">get_profile_from_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_voters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voters_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#compsoc.profile.Profile" title="compsoc.profile.Profile"><span class="pre">Profile</span></a></span></span><a class="reference internal" href="_modules/compsoc/voter_model.html#get_profile_from_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#compsoc.voter_model.get_profile_from_model" title="Link to this definition"></a></dt>
+<dd><p>Generates a profile from a model of voters.</p>
+</dd></dl>
+
+</section>
+<section id="module-compsoc">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-compsoc" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation and Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="compsoc.voting_rules.html" class="btn btn-neutral float-right" title="compsoc.voting_rules package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rafik.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
