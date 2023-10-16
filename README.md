@@ -302,7 +302,7 @@ class CodeInput(BaseModel):
 
 ## Citation
 
-> Rafik Hadfi and Takayuki Ito. Computational Social Choice Competition: Overview. The 37th Annual Conference of the Japanese Society for Artificial Intelligence (2023) ([PDF](./docs/source/compsoc2023JSAI.pdf))
+> Rafik Hadfi and Takayuki Ito. Computational Social Choice Competition: Overview. The 37th Annual Conference of the Japanese Society for Artificial Intelligence (2023) 
 
 > @article{compsoc2023jsai, <br>
   title={Computational Social Choice Competition},<br>
