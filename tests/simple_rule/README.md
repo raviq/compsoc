@@ -1,7 +1,7 @@
 To run:
 
 ```
-python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
+python tournament.py  [-h] [-v] num_candidates num_voters num_iterations num_topn voters_model
 ```
 
 Example:
