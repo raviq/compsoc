@@ -22,7 +22,7 @@ To participate in the competition, you must register on the [COMPSOC registratio
 
 ## General Guidelines
 
-The flow of the competition is illustrated in the figure. In step *(1)*, the competitors register on the [COMPSOC main page](https://compsoc.algocratic.org/) under the menu `COMPSOC 2023` to be allowed to access their accounts. In step *(2)*, the competitors implement their voting rules using this Python SDK and then upload them to the site. In step *(3)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(4)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(5)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
+The flow of the competition is illustrated in the figure. In step *(1)*, the competitors register on the [COMPSOC main page](https://compsoc.algocratic.org/) under the menu `COMPSOC 20XX` to be allowed to access their accounts. In step *(2)*, the competitors implement their voting rules using this Python SDK and then upload them to the site. In step *(3)*, synthetic voting profiles will be parametrically generated using various state-of-the-art [voter models](https://en.wikipedia.org/wiki/Voter_model). In step *(4)*, we will separately apply the competitors' [voter rules](https://en.wikipedia.org/wiki/Social_choice_theory) to the generated baseline of profiles. In step *(5)*, the optimal voting rules will be selected based on social welfare and how well they satisfy anonymity, neutrality, monotonicity, Pareto optimality, unanimity, and non-imposition.
 
 <p align="center">
 <img src="./figures/misc/overview_.png" style="height:90%; width:90%"/>
@@ -127,7 +127,7 @@ and then call ```run.py``` with the right arguments
 python run.py [-h] [-v] num_candidates num_voters num_iterations num_topn distortion_ratio {gaussian,multinomial_dirichlet,random}
 ```
 
-The competition will run on the [COMPSOC 2023 server](https://compsoc2023.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2023.algocratic.org/competition/public).
+The competition will run on the [COMPSOC server](https://compsoc2024.algocratic.org/). You will have to register and then upload the code of your rules. All results will be displayed on the [public result page](https://compsoc2024.algocratic.org/competition/public).
 
 ### Examples
 
@@ -325,4 +325,4 @@ details.
 
 If you find this code to be of any use, please let me know. I would also welcome any feedback.
 
-Copyright (c) 2023 Rafik Hadfi, rafik [dot] hadfi [at] gmail [dot] com
+Copyright (c) 2024 Rafik Hadfi, rafik [dot] hadfi [at] gmail [dot] com
