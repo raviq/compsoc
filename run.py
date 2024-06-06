@@ -53,7 +53,7 @@ def main():
     plot_comparison_results(args.voters_model, results, args.num_voters, args.num_candidates,
                             args.num_topn, args.num_iterations, distortion_ratio=0.0, save_figure=True)
     
-    if args.distort_rate == 0.0:
+    if args.distortion_ratio == 0.0:
         return
 
     results2 = {}
@@ -62,7 +62,7 @@ def main():
                                            args.num_voters,
                                            args.num_topn,
                                            args.voters_model,
-                                           distortion_ratio=args.distort_rate,
+                                           distortion_ratio=args.distortion_ratio,
                                            verbose=True)
     plot_comparison_results(args.voters_model, results2, args.num_voters, args.num_candidates,
                             args.num_topn, args.num_iterations, distortion_ratio=args.distortion_ratio, save_figure=True)
