@@ -60,6 +60,7 @@ class Profile:
         self.__calc_votes_per_candidate()
         # Initialize a Path Preference Graph
         self.path_preference_graph = {candidate: {} for candidate in self.candidates}
+        self.__calc_path_preference()
 
     # ---------------------------------------------
     # Comparison routines
@@ -223,25 +224,42 @@ class Profile:
 
     def __calc_path_preference(self):
         """
-        Computes paths' strengths for the Schulze method.
+        Computes paths' strengths for the Schulze method, using the Floyd-Warshall algorithm.
         """
         # Create an iterable for candidates
         candidates = list(self.candidates)
-        # Number of candidates
-        n_candidates = len(candidates)
-        for i in range(n_candidates):
+
+        """
+        Implementation of Floyd-Warshall algorithm to find the widest path (maximum capacity path) between all pairs of nodes.
+    
+        :param graph: A 2D list or matrix representing the graph where graph[i][j] is the capacity of the edge from node i to node j.
+        :return: A 2D list where the element at [i][j] represents the maximum capacity of the widest path from node i to node j.
+        """
+        # Number of vertices in the graph
+        n = len(self.candidates)
+    
+        # Initialize the distance matrix with the input graph capacities
+        # Also handle the case where there is no direct edge between nodes by initializing to 0 (or any negative value)
+
+        widest_paths = [[0 if i != j and self.net_preference_graph[candidates[i]][candidates[j]] == 0 else self.net_preference_graph[candidates[i]][candidates[j]] for j in range(n)] for i in range(n)]
+    
+        # Apply Floyd-Warshall algorithm to find the widest paths
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    # Update the widest path to be the maximum capacity path through an intermediate node k
+                    widest_paths[i][j] = max(widest_paths[i][j], min(widest_paths[i][k], widest_paths[k][j]))
+        for i in range(n):
             # Get candidate1
             candidate1 = candidates[i]
-            for j in range(i + 1, n_candidates):
+            for j in range(i + 1, n):
                 # Get candidate2
                 candidate2 = candidates[j]
                 # Get strengths of candidate1 VS candidate2
-                strength1 = self.__calc_strength(candidate1, candidate2)
-                # Get strengths of candidate2 VS candidate1
-                strength2 = self.__calc_strength(candidate2, candidate1)
                 # Save strengths
-                self.path_preference_graph[candidate1][candidate2] = strength1
-                self.path_preference_graph[candidate2][candidate1] = strength2
+                self.path_preference_graph[candidate1][candidate2] = widest_paths[i][j]
+                self.path_preference_graph[candidate2][candidate1] = widest_paths[j][i]
+
 
     def __calc_strength(self, candidate1, candidate2):
         """
