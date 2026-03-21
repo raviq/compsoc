@@ -307,7 +307,6 @@ class Profile:
             # End of path
             if candidate == candidate2:
                 paths.append(path)  # add to possible paths
-                path = []  # start a new path
             else:  # path isn't over
                 new_candidates = candidates - {candidate}
                 subpath = self.__calc_paths(candidate, candidate2,
@@ -316,6 +315,7 @@ class Profile:
                 # concatenate with current path and save it
                 for weights in subpath:
                     paths.append(path + weights)
+            path = []  # start a new path
         # Return a list of possible paths between candidate1 and candidate2
         return paths
 
