@@ -65,5 +65,4 @@ def main():
     plot_comparison_results(args.voters_model, results2, args.num_voters, args.num_candidates,
                             args.num_topn, args.num_iterations, distortion_ratio=args.distortion_ratio, save_figure=True)
 
-
 main()
